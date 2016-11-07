@@ -1,0 +1,12 @@
+C:\Users\joeca\Documents\VS Projects\ChartER\ChartER\ChartER\bin\Debug\ChartER.exe.config
+C:\Users\joeca\Documents\VS Projects\ChartER\ChartER\ChartER\obj\Debug\ChartER.csprojResolveAssemblyReference.cache
+C:\Users\joeca\Documents\VS Projects\ChartER\ChartER\ChartER\obj\Debug\ChartER.Properties.Resources.resources
+C:\Users\joeca\Documents\VS Projects\ChartER\ChartER\ChartER\obj\Debug\ChartER.csproj.GenerateResource.Cache
+C:\Users\joeca\Documents\VS Projects\ChartER\ChartER\ChartER\bin\Debug\ChartER.exe
+C:\Users\joeca\Documents\VS Projects\ChartER\ChartER\ChartER\bin\Debug\ChartER.pdb
+C:\Users\joeca\Documents\VS Projects\ChartER\ChartER\ChartER\bin\Debug\ERObjects.dll
+C:\Users\joeca\Documents\VS Projects\ChartER\ChartER\ChartER\bin\Debug\ERObjects.pdb
+C:\Users\joeca\Documents\VS Projects\ChartER\ChartER\ChartER\obj\Debug\ChartER.exe
+C:\Users\joeca\Documents\VS Projects\ChartER\ChartER\ChartER\obj\Debug\ChartER.pdb
+C:\Users\joeca\Documents\VS Projects\ChartER\ChartER\ChartER\obj\Debug\ChartER.frmMain.resources
+C:\Users\joeca\Documents\VS Projects\ChartER\ChartER\ChartER\obj\Debug\ChartER.frmEntity.resources
