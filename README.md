@@ -24,5 +24,4 @@ Create an application that implements the following features:
  * _Main menu: Add copy/paste; add a relatioship; edit a relationship; and show the entity editor_
  * _Toolbar : duplicate the options in the main menu_
  
- feel free to add whatever you idealize and to check up the feature you 've workedAdd a readme file to help to show the progress in the project
-Add some ideas 
+ feel free to add whatever you idealize and to check up the feature you 've worked
