@@ -153,10 +153,10 @@ namespace ChartER
             ent3.AddAttribute(new ERObjects.Attribute("Year", new Font("Arial", 10)));
             myChart.AddEntity(ent3);
 
-            Link l = new Link(ent1.Attributes[3], ent2.Attributes[0]);
+            Link l = new Link(ent1.Attributes[3], ent2.Attributes[0], Relationship.Many2One);
             myChart.AddLink(l);
 
-            l = new Link(ent1.Attributes[1], ent3.Attributes[0]);
+            l = new Link(ent1.Attributes[1], ent3.Attributes[0], Relationship.One2One);
             myChart.AddLink(l);
             this.Invalidate(true);
         }

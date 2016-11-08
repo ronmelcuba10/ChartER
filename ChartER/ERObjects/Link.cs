@@ -1,25 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing.Drawing2D;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace ERObjects
 {
+    public enum Relationship
+    {
+        One2One = 0,
+        One2Many = 1,
+        Many2One = 2,
+        Many2Many = 3
+    }
+
+    public enum StubType
+    {
+        One = 0,
+        Many = 1
+    }
+
     public enum LinkLocation
     {
         Left,
         Right
-    };
+    }
 
     public enum LinkPen
     {
         Solid,
         Dotted,
         Dashed
-    };
+    }
 
     public class Link
     {
@@ -29,34 +39,48 @@ namespace ERObjects
         public LinkPen PenStyle { get; set; }
         public Stub SourceStub { get; set; }
         public Stub DestStub { get; set; }
+        public Relationship Relationship { get; set; }
+        public Font Font { get; set; }
+
 
         public Link()
-        { }
-
-        /* Creates a Link object between two attributes */
-        public Link(Attribute a, Attribute b, Color linkColor, LinkPen penStyle) 
         {
-            this.Source = a;
-            this.Destination = b;
-            this.LinkColor = linkColor;
-            this.PenStyle = penStyle;
-
-            this.SourceStub = new Stub(this.Source, LinkLocation.Right, this.LinkColor);
-            this.DestStub = new Stub(this.Destination, LinkLocation.Left, this.LinkColor);
         }
 
+        /* Creates a Link object between two attributes */
+
+        public Link(Attribute a, Attribute b, Relationship aRel, Color linkColor, LinkPen penStyle, Font font)
+        {
+            Source = a;
+            Destination = b;
+            LinkColor = linkColor;
+            PenStyle = penStyle;
+            Relationship = aRel;
+            Font = font;
+
+            SourceStub = new Stub(Source, ( aRel.GetHashCode() > 1 ? StubType.Many : StubType.One ) , 
+                                    LinkLocation.Right, LinkColor, font);
+
+            DestStub = new Stub(Destination, ( aRel.GetHashCode()%2 == 0 ? StubType.One : StubType.Many) , 
+                                    LinkLocation.Left, LinkColor, font);
+        }
+
+
         /* Creates Link objects between two attributes with default color and pentype */
-        public Link(Attribute a, Attribute b) : this(a, b, Color.Red, LinkPen.Dashed)
-        { }
-        
+
+        public Link(Attribute a, Attribute b, Relationship c) : 
+            this(a, b, c, Color.Red , LinkPen.Dashed, new Font("Arial",12)) // using default a font may be changed later
+        {
+        }
+
         /* Draws the link on the passed graphics context */
+
         public void Draw(Graphics g)
         {
-            if (this.Source != null && this.Destination != null)
-            {
-                using (Pen linkPen = new Pen(this.LinkColor))
+            if ((Source != null) && (Destination != null))
+                using (var linkPen = new Pen(LinkColor))
                 {
-                    switch (this.PenStyle)
+                    switch (PenStyle)
                     {
                         case LinkPen.Solid:
                             linkPen.DashStyle = DashStyle.Solid;
@@ -73,49 +97,56 @@ namespace ERObjects
                     }
 
                     /* Place the stub on the correct side of the attribute depending
-                     * on where it is in relateion to its partner attribute */
+                     * on where it is in relation to its partner attribute */
                     if (Source.Rect.Left == Destination.Rect.Left)
                     {
                         SourceStub.LinkLoc = LinkLocation.Left;
                         DestStub.LinkLoc = LinkLocation.Left;
-
-                    } else if (Source.Rect.Left < Destination.Rect.Right / 2)
+                    }
+                    else if (Source.Rect.Left < Destination.Rect.Right/2)
                     {
                         SourceStub.LinkLoc = LinkLocation.Right;
                         DestStub.LinkLoc = LinkLocation.Left;
-                    } else if (Source.Rect.Left > Destination.Rect.Right / 2)
+                    }
+                    else if (Source.Rect.Left > Destination.Rect.Right/2)
                     {
                         SourceStub.LinkLoc = LinkLocation.Left;
                         DestStub.LinkLoc = LinkLocation.Right;
                     }
 
-                    this.SourceStub.Draw(g);
-                    this.DestStub.Draw(g);
+                    SourceStub.Draw(g);
+                    DestStub.Draw(g);
 
-                    g.DrawLine(linkPen, this.SourceStub.EndPoint, this.DestStub.EndPoint);
+                    g.DrawLine(linkPen, SourceStub.EndPoint, DestStub.EndPoint);
                 }
-            }
-
         }
 
         /* The little straight line extending from the attribute */
+
         public class Stub
         {
             public PointF EndPoint { get; set; }
             public float StubLen { get; set; }
             public LinkLocation LinkLoc { get; set; }
             public Color StubColor { get; set; }
+            public StubType StubType { get; set; }
+            public Font Font { get; set; }
+
             private PointF startPoint;
-            private Attribute Attribute;
+            private readonly Attribute Attribute;
 
             public Stub()
-            { }
-            public Stub (Attribute attrib, LinkLocation linkLoc, Color col):this()
             {
-                this.StubLen = 5f;
-                this.StubColor = col;
-                this.Attribute = attrib;
-                this.LinkLoc = linkLoc;
+            }
+
+            public Stub(Attribute attrib, StubType stubtype,LinkLocation linkLoc, Color col, Font font) : this()
+            {
+                StubLen = 5f;
+                StubColor = col;
+                StubType = stubtype;
+                Attribute = attrib;
+                LinkLoc = linkLoc;
+                Font = font;
             }
 
             /* Draw the stub to the passed graphics context
@@ -125,18 +156,33 @@ namespace ERObjects
 
             public void Draw(Graphics g)
             {
-                this.startPoint = new PointF(
-                        this.LinkLoc == LinkLocation.Right ? Attribute.Rect.Right : Attribute.Rect.Left,
-                        Attribute.Rect.Top + Attribute.Rect.Height / 2);
-                this.EndPoint = new PointF(
-                        this.LinkLoc == LinkLocation.Left ? Attribute.Rect.Left - StubLen : Attribute.Rect.Right + StubLen,
-                        Attribute.Rect.Top + Attribute.Rect.Height / 2);
+                startPoint = new PointF(
+                    LinkLoc == LinkLocation.Right ? Attribute.Rect.Right : Attribute.Rect.Left,
+                    Attribute.Rect.Top + Attribute.Rect.Height/2);
+                EndPoint = new PointF(
+                    LinkLoc == LinkLocation.Left ? Attribute.Rect.Left - StubLen : Attribute.Rect.Right + StubLen,
+                    Attribute.Rect.Top + Attribute.Rect.Height/2);
 
-                using (Pen stubPen = new Pen(this.StubColor))
+                using (var stubPen = new Pen(StubColor))
                 {
-                    g.DrawLine(stubPen, this.startPoint, this.EndPoint);
+                    if (StubType == StubType.One)
+                    {
+                        var Size = new Size(0, 5);
+                        g.DrawLine(stubPen, startPoint, EndPoint);
+                        g.DrawString("1", Font, new SolidBrush(StubColor), PointF.Add(EndPoint, Size));
+                    }
+                    else
+                    {
+                        var Size = new Size(0, 5);
+                        g.DrawString("M", Font,new SolidBrush(StubColor),PointF.Add(EndPoint,new Size(-12,5)));
+                        var Point1 = PointF.Add(startPoint, Size);
+                        var Point2 = PointF.Subtract(startPoint, Size);
+                        g.DrawLine(stubPen, EndPoint, Point1);
+                        g.DrawLine(stubPen, Point1, Point2);
+                        g.DrawLine(stubPen, EndPoint, Point2);
+                    }
                 }
             }
         }
-    }  
+    }
 }
