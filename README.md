@@ -6,6 +6,7 @@ Create an application that implements the following features:
  * Tooltips
  * Help information
  * ✔ Data binding
+ * Save and open (Serialize)
  * Threading
  * Document printing and serialization
  * Drag and drop
