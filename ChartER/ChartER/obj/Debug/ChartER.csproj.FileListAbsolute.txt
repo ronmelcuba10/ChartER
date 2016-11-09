@@ -22,3 +22,4 @@ C:\Users\Ronny\OneDrive\Visual Studio 2015\Projects\Homework 9\ChartER\ChartER\C
 C:\Users\Ronny\OneDrive\Visual Studio 2015\Projects\Homework 9\ChartER\ChartER\ChartER\obj\Debug\ChartER.frmMain.resources
 C:\Users\Ronny\OneDrive\Visual Studio 2015\Projects\Homework 9\ChartER\ChartER\ChartER\obj\Debug\ChartER.Properties.Resources.resources
 C:\Users\Ronny\OneDrive\Visual Studio 2015\Projects\Homework 9\ChartER\ChartER\ChartER\obj\Debug\ChartER.csproj.GenerateResource.Cache
+C:\Users\Ronny\OneDrive\Visual Studio 2015\Projects\Homework 9\ChartER\ChartER\ChartER\obj\Debug\ChartER.frmNewEntity.resources

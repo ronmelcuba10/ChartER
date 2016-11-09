@@ -48,9 +48,7 @@ namespace ChartER
         {
             Graphics g = e.Graphics;
             myChart.Draw(g);
-            this.SelectEntity(g, selectedEntity);
-
- 
+            selectedEntity?.Select(g);
         }
 
         /* Handle mouse down
@@ -84,9 +82,11 @@ namespace ChartER
          */
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (mousePoint == Point.Empty)
-                return;
-            MouseMoveObject(selectedEntity, e.Location);
+            var tempEnt = myChart.FindEntity(e.Location);
+            if (tempEnt != null) myChart.Highlighted(tempEnt);
+            else myChart.ClearHighLighted();
+
+            if (mousePoint != Point.Empty) MouseMoveObject(selectedEntity, e.Location);
 
             this.Invalidate(true);
 
@@ -111,7 +111,6 @@ namespace ChartER
         }
         private void Form1_Move(object sender, EventArgs e)
         {
-
         }
 
         /* Handle mouse up
@@ -212,17 +211,13 @@ namespace ChartER
             this.Invalidate(true);
         }
 
-
-        /* Highlight currently selected Entity */
-        public void SelectEntity(Graphics g, Entity e)
+        private void tsbNewEntity_Click(object sender, EventArgs e)
         {
-            if (e == null)
-                return;
-
-            this.selectedRect = new Rectangle(e.Location, e.Size);
-            using (Pen selectionPen = new Pen(this.selectedColor, 5f))
-                g.DrawRectangle(selectionPen, this.selectedRect);
+            using (var ne = new frmNewEntity())
+            {
+                if(ne.ShowDialog() == DialogResult.OK )
+                    myChart.AddEntity(ne.Entity());
+            }
         }
-
     }
 }

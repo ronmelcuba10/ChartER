@@ -1,144 +1,155 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
-using System.Drawing.Drawing2D;
 using System.Drawing;
-using System.Windows.Forms;
+using System.Linq;
 
 namespace ERObjects
 {
-    
     public class Entity
     {
         public event EventHandler HandleChange;
-        public String Name { get; set; }
+        public string Name { get; set; }
         public Point Location { get; set; }
         public Size Size { get; set; }
         public Font Font { get; set; }
         public Color BackColor { get; set; }
         public Color NameColor { get; set; }
         public Color FrameColor { get; set; }
-        public BindingList<Attribute> Attributes
-        {
-            get { return this.attributes; }
-        }
+        public Color SelectedColor { get; set; }
+        public bool isHighlighted { get; set; }
+
+        public BindingList<Attribute> Attributes { get; }
 
         private RectangleF nameRect = Rectangle.Empty;
 
-        BindingList<Attribute> attributes;
-
         public Entity()
         {
-            attributes = new BindingList<Attribute>();
-            attributes.ListChanged += AttribsChanged;
-
+            Attributes = new BindingList<Attribute>();
+            Attributes.ListChanged += AttribsChanged;
         }
 
         private void AttribsChanged(object sender, ListChangedEventArgs e)
         {
             if (HandleChange != null)
-            {
                 HandleChange(sender, e);
-
-            }
         }
 
-        public Entity(String name, Point location, Size size, Font font, Color back, Color nameC, Color frame) : this()
+        public Entity(string name, Point location, Size size, Font font, Color back, Color nameC, Color frame) : this()
         {
-            this.Name = name;
-            this.Location = location;
-            this.Size = size;
-            this.Font = font;
-            this.BackColor = back;
-            this.NameColor = nameC;
-            this.FrameColor = frame;
+            Name = name;
+            Location = location;
+            Size = size;
+            Font = font;
+            BackColor = back;
+            NameColor = nameC;
+            FrameColor = frame;
+            SelectedColor = Color.Red;
+            isHighlighted = false;
         }
 
-        public Entity(String name, Point location, Size size, Font font) : this(name, location, size, font, Color.White, Color.Black, Color.Black)
-        { }
+        public Entity(string name, Point location, Size size, Font font) :
+            this(name, location, size, font,
+                Color.White, Color.Black, Color.Black)
+        {
+        }
+
+        public Entity(string name) :
+            this(name,
+                new Point(10, 10),
+                new Size(200, 200),
+                new Font("Arial", 12),
+                Color.White,
+                Color.Black,
+                Color.Black)
+        {
+        }
 
 
         public bool Inside(Point location)
         {
-            Rectangle r = new Rectangle(this.Location, this.Size);
+            var r = new Rectangle(Location, Size);
             return r.Contains(location);
         }
 
         /* Returns true if the attribute list contains the 
          * passed Attribute
          */
+
         public bool HasAttribute(Attribute a)
         {
-            return attributes.Contains(a);
+            return Attributes.Contains(a);
         }
 
         public void Draw(Graphics g)
         {
-
-            using (Brush textBrush = new SolidBrush(this.NameColor))
-            using (Pen framePen = new Pen(this.FrameColor))
-            using (Brush backBrush = new SolidBrush(this.BackColor))
+            using (Brush textBrush = new SolidBrush(NameColor))
             {
-                /* Background */
-                //g.FillRectangle(backBrush, new Rectangle(this.Location, this.Size));
+                using (var framePen = new Pen(FrameColor))
+                {
+                    using (Brush backBrush = new SolidBrush(BackColor))
+                    {
+                        /* Background */
+                        //g.FillRectangle(backBrush, new Rectangle(this.Location, this.Size));
 
-                /* Draw Title */
-                DrawName(g, textBrush, framePen, backBrush);
+                        /* Draw Title */
+                        DrawName(g, textBrush, framePen, backBrush);
 
-                /* Draw Attributes in the order they are found
+                        /* Draw Attributes in the order they are found
                  * in the attributes list.
                  * We use the factor variable to keep track of where we
                  * are in the list, passed to the DrawAttrib method,
                  * so it can draw strings one under the other based
                  * on Font.GetHeight().
                  */
-                int factor = 0;
-                foreach (Attribute a in attributes)
-                {
-                    DrawAttrib(g, a, factor, backBrush);
-                    factor++;
+                        var factor = 0;
+                        foreach (var a in Attributes)
+                        {
+                            DrawAttrib(g, a, factor, backBrush);
+                            factor++;
+                        }
+
+                        var lastAttribute = Attributes.Last();
+                        /* Resize based on number of attributes */
+                        Size = new Size(Size.Width, (int) lastAttribute.Rect.Bottom - Location.Y);
+
+                        /* Draw Frame */
+                        g.DrawRectangle(framePen, new Rectangle(Location, Size));
+                    }
                 }
-
-                Attribute lastAttribute = attributes.Last();
-                /* Resize based on number of attributes */
-                this.Size = new Size(this.Size.Width, (int)(lastAttribute.Rect.Bottom) - this.Location.Y);
-
-                /* Draw Frame */
-                g.DrawRectangle(framePen, new Rectangle(this.Location, this.Size));
-
             }
         }
 
         /* Draws the entity's name */
+
         private void DrawName(Graphics g, Brush textBrush, Pen framePen, Brush backBrush)
         {
+            var titleSize = new SizeF(Size.Width, Font.GetHeight());
 
-            SizeF titleSize = new SizeF(this.Size.Width, this.Font.GetHeight());
+            nameRect = new RectangleF(Location, titleSize);
 
-            nameRect = new RectangleF(this.Location, titleSize);
-
-            StringFormat titleStringFormat = new StringFormat(StringFormatFlags.NoWrap);
+            var titleStringFormat = new StringFormat(StringFormatFlags.NoWrap);
             titleStringFormat.Trimming = StringTrimming.EllipsisCharacter;
             titleStringFormat.Alignment = StringAlignment.Center;
             titleStringFormat.LineAlignment = StringAlignment.Center;
-              
-            g.FillRectangle(backBrush, nameRect.X, nameRect.Y, nameRect.Width, nameRect.Height);
+
+            g.FillRectangle(isHighlighted ? Brushes.Aquamarine : backBrush,
+                nameRect.X, nameRect.Y, nameRect.Width, nameRect.Height);
             g.DrawRectangle(framePen, nameRect.X, nameRect.Y, nameRect.Width, nameRect.Height);
-            g.DrawString(this.Name, this.Font, textBrush, nameRect, titleStringFormat);
+            g.DrawString(Name, Font, textBrush, nameRect, titleStringFormat);
         }
 
         /* Draws the attributes in this entity, positioning them
          * based on the value passed in the factor parameter.
          */
+
         private void DrawAttrib(Graphics g, Attribute a, int factor, Brush backBrush)
         {
-            using (Brush textBrush = new SolidBrush(a.TextColor)) {
-                SizeF attribSize = new SizeF(this.Size.Width, a.Font.GetHeight());
-                a.Rect = new RectangleF(this.Location.X, nameRect.Bottom + (factor * a.Font.GetHeight()), attribSize.Width, attribSize.Height);
-                StringFormat attribFormat = new StringFormat(StringFormatFlags.NoWrap);
+            using (Brush textBrush = new SolidBrush(a.TextColor))
+            {
+                var attribSize = new SizeF(Size.Width, a.Font.GetHeight());
+                a.Rect = new RectangleF(Location.X, nameRect.Bottom + factor*a.Font.GetHeight(), attribSize.Width,
+                    attribSize.Height);
+                var attribFormat = new StringFormat(StringFormatFlags.NoWrap);
                 attribFormat.Trimming = StringTrimming.EllipsisCharacter;
                 attribFormat.Alignment = StringAlignment.Near;
                 attribFormat.LineAlignment = StringAlignment.Center;
@@ -149,8 +160,25 @@ namespace ERObjects
 
         public void AddAttribute(Attribute a)
         {
-            attributes.Add(a);
+            Attributes.Add(a);
         }
-        
+
+        public void Highlight()
+        {
+            isHighlighted = true;
+        }
+
+        public void Select(Graphics g)
+        {
+            using (var selectionPen = new Pen(SelectedColor, 5f))
+            {
+                g.DrawRectangle(selectionPen, new Rectangle(Location, Size));
+            }
+        }
+
+        public void ClearHighLight()
+        {
+            isHighlighted = false;
+        }
     }
 }

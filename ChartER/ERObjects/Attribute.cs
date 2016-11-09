@@ -19,8 +19,9 @@ namespace ERObjects
          * add new attributes to entities via the attributes
          * bindinglist!
          */
-        public Attribute()
+        public Attribute( string name)
         {
+            this.Name = name;
             this.Font = new Font("Arial", 10);
             this.TextColor = Color.Black;
         }
