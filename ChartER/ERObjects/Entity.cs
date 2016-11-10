@@ -5,7 +5,8 @@ using System.Linq;
 
 namespace ERObjects
 {
-    public class Entity
+    [Serializable]
+    public class Entity : Element
     {
         public event EventHandler HandleChange;
         public string Name { get; set; }
@@ -15,12 +16,11 @@ namespace ERObjects
         public Color BackColor { get; set; }
         public Color NameColor { get; set; }
         public Color FrameColor { get; set; }
-        public Color SelectedColor { get; set; }
-        public bool isHighlighted { get; set; }
+        
 
         public BindingList<Attribute> Attributes { get; }
 
-        private RectangleF nameRect = Rectangle.Empty;
+        private RectangleF _nameRect = Rectangle.Empty;
 
         public Entity()
         {
@@ -30,8 +30,7 @@ namespace ERObjects
 
         private void AttribsChanged(object sender, ListChangedEventArgs e)
         {
-            if (HandleChange != null)
-                HandleChange(sender, e);
+            HandleChange?.Invoke(sender, e);
         }
 
         public Entity(string name, Point location, Size size, Font font, Color back, Color nameC, Color frame) : this()
@@ -44,7 +43,7 @@ namespace ERObjects
             NameColor = nameC;
             FrameColor = frame;
             SelectedColor = Color.Red;
-            isHighlighted = false;
+            IsHighlighted = false;
         }
 
         public Entity(string name, Point location, Size size, Font font) :
@@ -65,7 +64,7 @@ namespace ERObjects
         }
 
 
-        public bool Inside(Point location)
+        public override bool Inside(Point location)
         {
             var r = new Rectangle(Location, Size);
             return r.Contains(location);
@@ -80,7 +79,7 @@ namespace ERObjects
             return Attributes.Contains(a);
         }
 
-        public void Draw(Graphics g)
+        public override void Draw(Graphics g)
         {
             using (Brush textBrush = new SolidBrush(NameColor))
             {
@@ -95,18 +94,19 @@ namespace ERObjects
                         DrawName(g, textBrush, framePen, backBrush);
 
                         /* Draw Attributes in the order they are found
-                 * in the attributes list.
-                 * We use the factor variable to keep track of where we
-                 * are in the list, passed to the DrawAttrib method,
-                 * so it can draw strings one under the other based
-                 * on Font.GetHeight().
-                 */
+                         * in the attributes list.
+                         * We use the factor variable to keep track of where we
+                         * are in the list, passed to the DrawAttrib method,
+                         * so it can draw strings one under the other based
+                         * on Font.GetHeight().
+                         */
                         var factor = 0;
-                        foreach (var a in Attributes)
+                        Attributes.ToList().ForEach( attribute =>
                         {
-                            DrawAttrib(g, a, factor, backBrush);
+                            DrawAttrib(g, attribute, factor, backBrush);
                             factor++;
-                        }
+                        });
+                        
 
                         var lastAttribute = Attributes.Last();
                         /* Resize based on number of attributes */
@@ -125,17 +125,17 @@ namespace ERObjects
         {
             var titleSize = new SizeF(Size.Width, Font.GetHeight());
 
-            nameRect = new RectangleF(Location, titleSize);
+            _nameRect = new RectangleF(Location, titleSize);
 
             var titleStringFormat = new StringFormat(StringFormatFlags.NoWrap);
             titleStringFormat.Trimming = StringTrimming.EllipsisCharacter;
             titleStringFormat.Alignment = StringAlignment.Center;
             titleStringFormat.LineAlignment = StringAlignment.Center;
 
-            g.FillRectangle(isHighlighted ? Brushes.Aquamarine : backBrush,
-                nameRect.X, nameRect.Y, nameRect.Width, nameRect.Height);
-            g.DrawRectangle(framePen, nameRect.X, nameRect.Y, nameRect.Width, nameRect.Height);
-            g.DrawString(Name, Font, textBrush, nameRect, titleStringFormat);
+            g.FillRectangle(IsHighlighted ? Brushes.Aquamarine : backBrush,
+                _nameRect.X, _nameRect.Y, _nameRect.Width, _nameRect.Height);
+            g.DrawRectangle(framePen, _nameRect.X, _nameRect.Y, _nameRect.Width, _nameRect.Height);
+            g.DrawString(Name, Font, textBrush, _nameRect, titleStringFormat);
         }
 
         /* Draws the attributes in this entity, positioning them
@@ -147,7 +147,7 @@ namespace ERObjects
             using (Brush textBrush = new SolidBrush(a.TextColor))
             {
                 var attribSize = new SizeF(Size.Width, a.Font.GetHeight());
-                a.Rect = new RectangleF(Location.X, nameRect.Bottom + factor*a.Font.GetHeight(), attribSize.Width,
+                a.Rect = new RectangleF(Location.X, _nameRect.Bottom + factor*a.Font.GetHeight(), attribSize.Width,
                     attribSize.Height);
                 var attribFormat = new StringFormat(StringFormatFlags.NoWrap);
                 attribFormat.Trimming = StringTrimming.EllipsisCharacter;
@@ -163,12 +163,7 @@ namespace ERObjects
             Attributes.Add(a);
         }
 
-        public void Highlight()
-        {
-            isHighlighted = true;
-        }
-
-        public void Select(Graphics g)
+        public override void Select(Graphics g)
         {
             using (var selectionPen = new Pen(SelectedColor, 5f))
             {
@@ -176,9 +171,6 @@ namespace ERObjects
             }
         }
 
-        public void ClearHighLight()
-        {
-            isHighlighted = false;
-        }
+       
     }
 }

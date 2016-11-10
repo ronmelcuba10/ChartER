@@ -8,6 +8,7 @@ using System.Drawing;
 
 namespace ERObjects
 {
+    [Serializable]
     public class Attribute
     {
         public string Name { get; set; }
@@ -35,8 +36,6 @@ namespace ERObjects
 
         public Attribute (String name, Font font) :this(name, font, Color.Black)
         {
-            
         }
-                
     }
 }

@@ -31,12 +31,12 @@
             this.lblEntityName = new System.Windows.Forms.Label();
             this.tbxEntityName = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lbxAttributes = new System.Windows.Forms.ListBox();
+            this.btnAddAttribute = new System.Windows.Forms.Button();
+            this.tbxAttributeName = new System.Windows.Forms.TextBox();
+            this.lblAttributeName = new System.Windows.Forms.Label();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.lblAttributeName = new System.Windows.Forms.Label();
-            this.tbxAttributeName = new System.Windows.Forms.TextBox();
-            this.btnAddAttribute = new System.Windows.Forms.Button();
-            this.lbxAttributes = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -74,6 +74,42 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Attributes";
             // 
+            // lbxAttributes
+            // 
+            this.lbxAttributes.FormattingEnabled = true;
+            this.lbxAttributes.Location = new System.Drawing.Point(22, 63);
+            this.lbxAttributes.Name = "lbxAttributes";
+            this.lbxAttributes.Size = new System.Drawing.Size(230, 108);
+            this.lbxAttributes.TabIndex = 5;
+            // 
+            // btnAddAttribute
+            // 
+            this.btnAddAttribute.Location = new System.Drawing.Point(229, 22);
+            this.btnAddAttribute.Name = "btnAddAttribute";
+            this.btnAddAttribute.Size = new System.Drawing.Size(23, 23);
+            this.btnAddAttribute.TabIndex = 4;
+            this.btnAddAttribute.Text = "+";
+            this.btnAddAttribute.UseVisualStyleBackColor = true;
+            this.btnAddAttribute.Click += new System.EventHandler(this.btnAddAttribute_Click);
+            // 
+            // tbxAttributeName
+            // 
+            this.tbxAttributeName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbxAttributeName.Location = new System.Drawing.Point(60, 24);
+            this.tbxAttributeName.Name = "tbxAttributeName";
+            this.tbxAttributeName.Size = new System.Drawing.Size(163, 20);
+            this.tbxAttributeName.TabIndex = 3;
+            // 
+            // lblAttributeName
+            // 
+            this.lblAttributeName.AutoSize = true;
+            this.lblAttributeName.Location = new System.Drawing.Point(19, 27);
+            this.lblAttributeName.Name = "lblAttributeName";
+            this.lblAttributeName.Size = new System.Drawing.Size(35, 13);
+            this.lblAttributeName.TabIndex = 2;
+            this.lblAttributeName.Text = "Name";
+            // 
             // btnOk
             // 
             this.btnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
@@ -96,42 +132,6 @@
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // lblAttributeName
-            // 
-            this.lblAttributeName.AutoSize = true;
-            this.lblAttributeName.Location = new System.Drawing.Point(19, 27);
-            this.lblAttributeName.Name = "lblAttributeName";
-            this.lblAttributeName.Size = new System.Drawing.Size(35, 13);
-            this.lblAttributeName.TabIndex = 2;
-            this.lblAttributeName.Text = "Name";
-            // 
-            // tbxAttributeName
-            // 
-            this.tbxAttributeName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxAttributeName.Location = new System.Drawing.Point(60, 24);
-            this.tbxAttributeName.Name = "tbxAttributeName";
-            this.tbxAttributeName.Size = new System.Drawing.Size(163, 20);
-            this.tbxAttributeName.TabIndex = 3;
-            // 
-            // btnAddAttribute
-            // 
-            this.btnAddAttribute.Location = new System.Drawing.Point(229, 22);
-            this.btnAddAttribute.Name = "btnAddAttribute";
-            this.btnAddAttribute.Size = new System.Drawing.Size(23, 23);
-            this.btnAddAttribute.TabIndex = 4;
-            this.btnAddAttribute.Text = "+";
-            this.btnAddAttribute.UseVisualStyleBackColor = true;
-            this.btnAddAttribute.Click += new System.EventHandler(this.btnAddAttribute_Click);
-            // 
-            // lbxAttributes
-            // 
-            this.lbxAttributes.FormattingEnabled = true;
-            this.lbxAttributes.Location = new System.Drawing.Point(22, 63);
-            this.lbxAttributes.Name = "lbxAttributes";
-            this.lbxAttributes.Size = new System.Drawing.Size(230, 108);
-            this.lbxAttributes.TabIndex = 5;
-            // 
             // frmNewEntity
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -142,6 +142,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.tbxEntityName);
             this.Controls.Add(this.lblEntityName);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "frmNewEntity";
             this.Text = "New Entity";
             this.groupBox1.ResumeLayout(false);

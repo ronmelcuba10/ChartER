@@ -3,22 +3,27 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ERObjects
 {
+    [Serializable]
     public class Chart
     {
         public event EventHandler EntityChanged;
-
         public BindingList<Entity> Entities { get; }
-
         public BindingList<Link> Links { get; }
-
+        public bool Changed { get; set; }
+        public string FileName { get; set; }
+        
         public Chart()
         {
             Entities = new BindingList<Entity>();
             Links = new BindingList<Link>();
+            Changed = false;
 
             Entities.ListChanged += HandleChange;
             Links.ListChanged += HandleChange;
@@ -28,28 +33,27 @@ namespace ERObjects
 
         public void HandleChange(object sender, EventArgs e)
         {
-            if (EntityChanged != null)
-                EntityChanged(sender, e);
+            EntityChanged?.Invoke(sender, e);
         }
 
         public void AddEntity(Entity e)
         {
             Entities.Add(e);
             e.HandleChange += HandleChange; // handle changes to the attribute list in e
+            Changed = true;
         }
 
         public void AddLink(Link l)
         {
             Links.Add(l);
+            Changed = true;
         }
 
         public void Draw(Graphics g)
         {
             g.SmoothingMode = SmoothingMode.AntiAlias;
-            foreach (var ent in Entities)
-                ent.Draw(g);
-            foreach (var l in Links)
-                l.Draw(g);
+            Entities.ToList().ForEach( entity => entity.Draw(g));
+            Links.ToList().ForEach( link => link.Draw(g));
         }
 
         /* Traverse list of entites backwards (for Z-Order)
@@ -58,19 +62,19 @@ namespace ERObjects
 
         public Entity FindEntity(Point loc)
         {
-            for (var i = Entities.Count - 1; i >= 0; i--)
-                if (Entities[i].Inside(loc))
-                    return Entities[i];
-
-            return null;
+            return (Entity) Entities.ToList().Find( entity => entity.Inside(loc));
         }
 
-        /* Find Entity at specified index
-         */
+        public Link FindLink(Point loc)
+        {
+            return (Link) Links.ToList().Find( link => link.Inside(loc));
+        }
 
+
+        // Find Entity at specified index
         public Entity FindEntity(int i)
         {
-            return Entities.ElementAt(i);
+            return (Entity) Entities.ElementAt(i);
         }
 
         public bool HasEntities()
@@ -78,10 +82,7 @@ namespace ERObjects
             return Entities.Count > 0;
         }
 
-        /* Traverse list of entites 
-        * to find position
-        */
-
+        // Traverse list of entites to find position
         public int FindEntityPosition(Entity e)
         {
             return Entities.IndexOf(e);
@@ -91,7 +92,7 @@ namespace ERObjects
         {
             var foundAttribute = false;
 
-            foreach (var e in Entities)
+            foreach (Entity e in Entities)
             {
                 foundAttribute = e.HasAttribute(a);
                 if (foundAttribute)
@@ -109,33 +110,93 @@ namespace ERObjects
         {
             var deadLinks = new List<Link>();
 
-            foreach (var l in Links)
+            foreach (Link link in Links)
             {
                 Console.WriteLine(
-                    $"{l.Source} = {ContainsAttribute(l.Source)} -- {l.Destination} = {ContainsAttribute(l.Destination)}");
+                    $"{link.Source} = {ContainsAttribute(link.Source)} -- {link.Destination} = {ContainsAttribute(link.Destination)}");
 
 
-                if (!ContainsAttribute(l.Source) || !ContainsAttribute(l.Destination))
-                    deadLinks.Add(l);
+                if (!ContainsAttribute(link.Source) || !ContainsAttribute(link.Destination))
+                    deadLinks.Add(link);
             }
 
-            foreach (var l in deadLinks)
-                Links.Remove(l);
+            foreach (var link in deadLinks)
+                Links.Remove(link);
 
             deadLinks.Clear();
+            Changed = true;
         }
 
-        public void Highlighted(Entity tempEnt)
+        public void HighlightEntity(Entity tempEnt)
         {
-            foreach (var entity in Entities)
+            Entities.ToList().ForEach( entity =>
+            {
                 if (entity != tempEnt) entity.ClearHighLight();
                 else entity.Highlight();
+            });
         }
 
-        public void ClearHighLighted()
+        public void HighlightLink(Link tempLink)
         {
-            foreach (var entity in Entities)
-                entity.ClearHighLight();
+            Links.ToList().ForEach(link =>
+            {
+                if (link != tempLink) link.ClearHighLight();
+                else link.Highlight();
+            });
+        }
+
+        public void ClearHighLightedEntity()
+        {
+            Entities.ToList().ForEach(entity => entity.ClearHighLight());
+        }
+
+        public void ClearHighLightedLink()
+        {
+            Links.ToList().ForEach( link => link.ClearHighLight());
+        }
+
+        public bool Save( string filename)
+        {
+            bool result;
+            using (Stream stream = new FileStream(filename, FileMode.Create, FileAccess.Write))
+            {
+                try
+                {
+                    IFormatter formatter = new BinaryFormatter();
+                    formatter.Serialize(stream, this);
+                    result = true;
+                }
+                catch (Exception ex) { result = false; }
+            }
+            return result;
+        }
+
+        public Chart Load(string filename)
+        {
+            Chart tempChart;
+            using (Stream stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
+            {
+                try
+                {
+                    IFormatter formatter = new BinaryFormatter();
+                    tempChart = (Chart)formatter.Deserialize(stream);
+                }
+                catch (Exception ex)
+                {
+                    tempChart = null;
+                }
+            }
+            return tempChart;
+        }
+
+        public void Clear()
+        {
+            Entities.Clear();
+            Links.Clear();
+            FileName = "Untitled.ctr";
+            Changed = false;
         }
     }
 }
+
+
