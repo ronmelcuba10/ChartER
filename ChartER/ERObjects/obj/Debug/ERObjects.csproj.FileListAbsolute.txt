@@ -1,0 +1,5 @@
+C:\Users\Ace\Documents\GitHub\ChartER\ChartER\ERObjects\bin\Debug\ERObjects.dll
+C:\Users\Ace\Documents\GitHub\ChartER\ChartER\ERObjects\bin\Debug\ERObjects.pdb
+C:\Users\Ace\Documents\GitHub\ChartER\ChartER\ERObjects\obj\Debug\ERObjects.csprojResolveAssemblyReference.cache
+C:\Users\Ace\Documents\GitHub\ChartER\ChartER\ERObjects\obj\Debug\ERObjects.dll
+C:\Users\Ace\Documents\GitHub\ChartER\ChartER\ERObjects\obj\Debug\ERObjects.pdb

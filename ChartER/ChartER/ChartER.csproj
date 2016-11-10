@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAbout.Designer.cs">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmEntity.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,6 +69,12 @@
     </Compile>
     <Compile Include="frmNewEntity.Designer.cs">
       <DependentUpon>frmNewEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmOath.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmOath.Designer.cs">
+      <DependentUpon>frmOath.cs</DependentUpon>
     </Compile>
     <Compile Include="IformEntity.cs" />
     <Compile Include="Program.cs" />
