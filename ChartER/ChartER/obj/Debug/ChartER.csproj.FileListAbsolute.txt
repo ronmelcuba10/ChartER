@@ -23,3 +23,18 @@ C:\Users\Ronny\OneDrive\Visual Studio 2015\Projects\Homework 9\ChartER\ChartER\C
 C:\Users\Ronny\OneDrive\Visual Studio 2015\Projects\Homework 9\ChartER\ChartER\ChartER\obj\Debug\ChartER.Properties.Resources.resources
 C:\Users\Ronny\OneDrive\Visual Studio 2015\Projects\Homework 9\ChartER\ChartER\ChartER\obj\Debug\ChartER.csproj.GenerateResource.Cache
 C:\Users\Ronny\OneDrive\Visual Studio 2015\Projects\Homework 9\ChartER\ChartER\ChartER\obj\Debug\ChartER.frmNewEntity.resources
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartER\bin\Debug\ChartER.exe.config
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartER\obj\Debug\ChartER.exe
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartER\obj\Debug\ChartER.pdb
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartER\bin\Debug\ChartER.exe
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartER\bin\Debug\ChartER.pdb
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartER\bin\Debug\ERObjects.dll
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartER\bin\Debug\ERObjects.pdb
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartER\obj\Debug\ChartER.csprojResolveAssemblyReference.cache
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartER\obj\Debug\ChartER.frmEntity.resources
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartER\obj\Debug\ChartER.frmMain.resources
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartER\obj\Debug\ChartER.frmNewEntity.resources
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartER\obj\Debug\ChartER.Properties.Resources.resources
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartER\obj\Debug\ChartER.csproj.GenerateResource.Cache
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartER\bin\Debug\ChartPrint.dll
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartER\bin\Debug\ChartPrint.pdb

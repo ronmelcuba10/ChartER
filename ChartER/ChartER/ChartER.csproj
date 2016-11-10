@@ -99,6 +99,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ChartPrint\ChartPrint.csproj">
+      <Project>{491db68d-ee6d-48db-ae62-16ded4ed335a}</Project>
+      <Name>ChartPrint</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ERObjects\ERObjects.csproj">
       <Project>{e91daee4-9d21-4c23-a33d-bfb5b625d3e3}</Project>
       <Name>ERObjects</Name>

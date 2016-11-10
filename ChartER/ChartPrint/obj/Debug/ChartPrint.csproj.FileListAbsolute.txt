@@ -1,0 +1,7 @@
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartPrint\obj\Debug\ChartPrint.csprojResolveAssemblyReference.cache
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartPrint\bin\Debug\ChartPrint.dll
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartPrint\bin\Debug\ChartPrint.pdb
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartPrint\bin\Debug\ERObjects.dll
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartPrint\bin\Debug\ERObjects.pdb
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartPrint\obj\Debug\ChartPrint.dll
+C:\Users\joeca\Source\Repos\ChartER-1\ChartER\ChartPrint\obj\Debug\ChartPrint.pdb

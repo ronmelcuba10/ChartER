@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ERObjects")]
+[assembly: AssemblyTitle("ChartPrint")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ERObjects")]
+[assembly: AssemblyProduct("ChartPrint")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e91daee4-9d21-4c23-a33d-bfb5b625d3e3")]
+[assembly: Guid("491db68d-ee6d-48db-ae62-16ded4ed335a")]
 
 // Version information for an assembly consists of the following four values:
 //

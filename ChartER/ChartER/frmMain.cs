@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using ERObjects;
 using Attribute = ERObjects.Attribute;
+using ChartPrint;
 
 namespace ChartER
 {
@@ -23,6 +24,36 @@ namespace ChartER
         private Rectangle selectedRect = Rectangle.Empty; // A rect for the selected Entity
         private Color selectedColor = Color.Red;
 
+        /* Bitmap of chart */
+        private Image currentBitmap;
+        private DataObject dataObject;
+
+        public Image CurrentBitmap
+        {
+            get
+            {
+                if (currentBitmap == null)
+                    currentBitmap = new Bitmap(this.Width, this.Height);
+
+                return currentBitmap;
+            }
+        }
+
+        public DataObject DragDropObject
+        {
+            get
+            {
+                if (dataObject == null)
+                {
+                    dataObject = new DataObject();
+                    
+                }
+                dataObject.SetImage(CurrentBitmap);
+                return dataObject;
+
+            }
+        }
+
         public frmMain()
         {
             InitializeComponent();
@@ -38,7 +69,7 @@ namespace ChartER
             bs.DataSource = myChart.Entities;
         }
 
-        /* Paint the current chart and selected Entity (if anyy)
+        /* Paint the current chart and selected Entity (if any)
          * Looks so simple, but go deeper into the rabbit hole...
          */
 
@@ -47,6 +78,11 @@ namespace ChartER
             var g = e.Graphics;
             myChart.Draw(g);
             selectedEntity?.Select(g);
+
+            /* Update bitmap for drag-drop */
+            Graphics bg = Graphics.FromImage(CurrentBitmap);
+            bg.Clear(Color.Transparent);
+            myChart.Draw(bg);
         }
 
         /* Handle mouse down
@@ -65,12 +101,21 @@ namespace ChartER
             }
             else if (e.Button == MouseButtons.Left)
             {
-                selectedEntity = myChart.FindEntity(e.Location);
+                mouseSelected = e.Location;
+                selectedEntity = myChart.FindEntity(mouseSelected);
                 bs.Position = myChart.FindEntityPosition(selectedEntity);
+
                 if (selectedEntity == null)
                 {
                     selectedLink = myChart.FindLink(e.Location);
+
+                    /* Assume if user has not selected an Entity or Link,
+                     * they want to drag out an image, so do drag-drop
+                     */
+                    if (selectedLink == null)
+                        this.DoDragDrop(DragDropObject, DragDropEffects.Copy);
                 }
+
                 UpdateStatusBar();
             }
             Invalidate(true);
@@ -89,21 +134,29 @@ namespace ChartER
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            
+
             var tempEnt = myChart.FindEntity(e.Location);
-            if (tempEnt != null) myChart.HighlightEntity(tempEnt);
-            else myChart.ClearHighLightedEntity();
+
+            if (tempEnt != null)
+                myChart.HighlightEntity(tempEnt);
+            else
+                myChart.ClearHighLightedEntity();
 
             var tempAttribute = tempEnt?.FindAttribute(e.Location);
+
             if (tempAttribute != null)
                 tempEnt.HighlightAttribute(tempAttribute);
-            else tempEnt?.ClearHighLightedAttribute();
+            else
+                tempEnt?.ClearHighLightedAttribute();
 
             var tempLink = myChart.FindLink(e.Location);
-            if (tempLink != null) myChart.HighlightLink(tempLink);
-            else myChart.ClearHighLightedLink();
+            if (tempLink != null)
+                myChart.HighlightLink(tempLink);
+            else
+                myChart.ClearHighLightedLink();
 
-            if (mousePoint != Point.Empty) MouseMoveObject(selectedEntity, e.Location);
+            if (mousePoint != Point.Empty)
+                MouseMoveObject(selectedEntity, e.Location);
 
             Invalidate(true);
         }
@@ -141,12 +194,19 @@ namespace ChartER
             {
                 mousePoint = Point.Empty;
                 selectedEntity = null;
-                Invalidate(true);
+                //Invalidate(true);
             }
+
+            if (e.Button == MouseButtons.Left)
+                mouseSelected = Point.Empty;
+            
         }
 
         private void Form1_Shown(object sender, EventArgs e)
         {
+
+            myChart.Size = this.Size;
+
             /* Create sample entities
              * Notice how we link attributes in entites: create a Link object, passing the source and destination
              * attributes to the Link's constructor
@@ -318,6 +378,23 @@ namespace ChartER
             myChart.Clear();
             Invalidate(true);
         }
+
+        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChartPrinter chartPrinter = new ChartPrinter();
+            selectedEntity?.ClearHighLight();
+
+            using (Font headerFont = new Font("Arial", 12))
+                chartPrinter.PrintChart(myChart, headerFont);
+
+        }
+
+        private void frmMain_ResizeEnd(object sender, EventArgs e)
+        {
+            myChart.Size = this.Size;
+            currentBitmap = null; // create a new one with new dimensions
+        }
+
     }
 }
 
