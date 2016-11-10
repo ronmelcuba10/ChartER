@@ -141,14 +141,10 @@ namespace ERObjects
             }
         }
 
-        public override bool Inside(Point loc)
-        {
-            return GetRectangle(SourceStub.EndPoint,DestStub.EndPoint).Contains(loc);
-        }
+        // returns if the location is inside the link coordinates
+        public override bool Inside(Point loc) => GetRectangle(SourceStub.EndPoint,DestStub.EndPoint).Contains(loc);
 
-        private Rectangle GetRectangle(PointF point1, PointF point2)
-        {
-            return new Rectangle(Point.Empty, Size.Empty);
-        }
+        // returns the rectangle formed by a widen line
+        private Rectangle GetRectangle(PointF point1, PointF point2) => new Rectangle(Point.Empty, Size.Empty);
     }
 }

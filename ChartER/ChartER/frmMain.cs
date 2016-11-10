@@ -89,14 +89,19 @@ namespace ChartER
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
+            
             var tempEnt = myChart.FindEntity(e.Location);
             if (tempEnt != null) myChart.HighlightEntity(tempEnt);
             else myChart.ClearHighLightedEntity();
 
+            var tempAttribute = tempEnt?.FindAttribute(e.Location);
+            if (tempAttribute != null)
+                tempEnt.HighlightAttribute(tempAttribute);
+            else tempEnt?.ClearHighLightedAttribute();
+
             var tempLink = myChart.FindLink(e.Location);
             if (tempLink != null) myChart.HighlightLink(tempLink);
             else myChart.ClearHighLightedLink();
-
 
             if (mousePoint != Point.Empty) MouseMoveObject(selectedEntity, e.Location);
 

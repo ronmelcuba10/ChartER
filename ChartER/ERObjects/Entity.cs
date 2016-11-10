@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
@@ -10,17 +11,13 @@ namespace ERObjects
     {
         public event EventHandler HandleChange;
         public string Name { get; set; }
-        public Point Location { get; set; }
-        public Size Size { get; set; }
         public Font Font { get; set; }
         public Color BackColor { get; set; }
         public Color NameColor { get; set; }
         public Color FrameColor { get; set; }
-        
-
         public BindingList<Attribute> Attributes { get; }
 
-        private RectangleF _nameRect = Rectangle.Empty;
+        private Rectangle _nameRect = Rectangle.Empty;
 
         public Entity()
         {
@@ -70,14 +67,8 @@ namespace ERObjects
             return r.Contains(location);
         }
 
-        /* Returns true if the attribute list contains the 
-         * passed Attribute
-         */
-
-        public bool HasAttribute(Attribute a)
-        {
-            return Attributes.Contains(a);
-        }
+        // Returns true if the attribute list contains the passed Attribute
+        public bool HasAttribute(Attribute a) => Attributes.Contains(a);
 
         public override void Draw(Graphics g)
         {
@@ -101,7 +92,7 @@ namespace ERObjects
                          * on Font.GetHeight().
                          */
                         var factor = 0;
-                        Attributes.ToList().ForEach( attribute =>
+                        Attributes.ToList().ForEach( attribute => //DrawAttrib(g,factor)
                         {
                             DrawAttrib(g, attribute, factor, backBrush);
                             factor++;
@@ -110,7 +101,7 @@ namespace ERObjects
 
                         var lastAttribute = Attributes.Last();
                         /* Resize based on number of attributes */
-                        Size = new Size(Size.Width, (int) lastAttribute.Rect.Bottom - Location.Y);
+                        Size = new Size(Size.Width, lastAttribute.Location.Y + lastAttribute.Size.Height + - Location.Y);
 
                         /* Draw Frame */
                         g.DrawRectangle(framePen, new Rectangle(Location, Size));
@@ -123,10 +114,9 @@ namespace ERObjects
 
         private void DrawName(Graphics g, Brush textBrush, Pen framePen, Brush backBrush)
         {
-            var titleSize = new SizeF(Size.Width, Font.GetHeight());
 
-            _nameRect = new RectangleF(Location, titleSize);
-
+            var titleSize = new Size(Size.Width, (int) Font.GetHeight());
+            _nameRect = new Rectangle(Location, titleSize);
             var titleStringFormat = new StringFormat(StringFormatFlags.NoWrap);
             titleStringFormat.Trimming = StringTrimming.EllipsisCharacter;
             titleStringFormat.Alignment = StringAlignment.Center;
@@ -142,35 +132,24 @@ namespace ERObjects
          * based on the value passed in the factor parameter.
          */
 
-        private void DrawAttrib(Graphics g, Attribute a, int factor, Brush backBrush)
+        private void DrawAttrib(Graphics g, Attribute attribute ,int factor, Brush backBrush )
         {
-            using (Brush textBrush = new SolidBrush(a.TextColor))
-            {
-                var attribSize = new SizeF(Size.Width, a.Font.GetHeight());
-                a.Rect = new RectangleF(Location.X, _nameRect.Bottom + factor*a.Font.GetHeight(), attribSize.Width,
-                    attribSize.Height);
-                var attribFormat = new StringFormat(StringFormatFlags.NoWrap);
-                attribFormat.Trimming = StringTrimming.EllipsisCharacter;
-                attribFormat.Alignment = StringAlignment.Near;
-                attribFormat.LineAlignment = StringAlignment.Center;
-                g.FillRectangle(backBrush, a.Rect.X, a.Rect.Y, a.Rect.Width, a.Rect.Height);
-                g.DrawString(a.Name, a.Font, textBrush, a.Rect, attribFormat);
-            }
+            attribute.Size = new Size(Size.Width, (int) attribute.Font.GetHeight());
+            attribute.Location = new Point(Location.X, _nameRect.Bottom + factor *( (int) attribute.Font.GetHeight()));
+            attribute.BackBrush = backBrush;
+            attribute.Draw(g);
         }
 
-        public void AddAttribute(Attribute a)
-        {
-            Attributes.Add(a);
-        }
+        // Adds an atttribute
+        public void AddAttribute(Attribute a) => Attributes.Add(a);
 
-        public override void Select(Graphics g)
-        {
-            using (var selectionPen = new Pen(SelectedColor, 5f))
-            {
-                g.DrawRectangle(selectionPen, new Rectangle(Location, Size));
-            }
-        }
+        // Finds the attribute located under the specified location
+        public Attribute FindAttribute(Point loc) => (Attribute) FindElement(Attributes, loc);
+        
+        // Highlight the attribute under the specified location
+        public void HighlightAttribute( Attribute tempAttribute) => HighLightElement( Attributes ,tempAttribute);
 
-       
+        // Clear the highlighted attribute
+        public void ClearHighLightedAttribute() => ClearHighLightedElement(Attributes);
     }
 }

@@ -30,11 +30,7 @@ namespace ERObjects
         }
 
         /* Pass changes to Entity (including Attributes) and Links list */
-
-        public void HandleChange(object sender, EventArgs e)
-        {
-            EntityChanged?.Invoke(sender, e);
-        }
+        public void HandleChange(object sender, EventArgs e) => EntityChanged?.Invoke(sender, e);
 
         public void AddEntity(Entity e)
         {
@@ -56,36 +52,32 @@ namespace ERObjects
             Links.ToList().ForEach( link => link.Draw(g));
         }
 
-        /* Traverse list of entites backwards (for Z-Order)
-         * to find one including the passed point
-         */
+        // Traverse list of entites backwards (for Z-Order) to find one including the passed point
+        public Entity FindEntity(Point loc) => (Entity) Entities.Reverse().ToList().Find( entity => entity.Inside(loc));
 
-        public Entity FindEntity(Point loc)
-        {
-            return (Entity) Entities.ToList().Find( entity => entity.Inside(loc));
-        }
-
-        public Link FindLink(Point loc)
-        {
-            return (Link) Links.ToList().Find( link => link.Inside(loc));
-        }
-
-
+        // Find the link in the specified location 
+        public Link FindLink(Point loc) => (Link) Links.ToList().Find( link => link.Inside(loc));
+        
         // Find Entity at specified index
-        public Entity FindEntity(int i)
-        {
-            return (Entity) Entities.ElementAt(i);
-        }
+        public Entity FindEntity(int i) => (Entity) Entities.ElementAt(i);
 
-        public bool HasEntities()
-        {
-            return Entities.Count > 0;
-        }
+        public bool HasEntities() => Entities.Count > 0;
 
         // Traverse list of entites to find position
-        public int FindEntityPosition(Entity e)
+        public int FindEntityPosition(Entity e) => Entities.IndexOf(e);
+
+        // Clear the highlighted link
+        public void ClearHighLightedLink() => Links.ToList().ForEach(link => link.ClearHighLight());
+
+        // Clear the highlighted entity
+        public void ClearHighLightedEntity()
         {
-            return Entities.IndexOf(e);
+            Entities.ToList().ForEach(entity =>
+            {
+                entity.ClearHighLight();
+                entity.ClearHighLightedAttribute();
+            });
+
         }
 
         private bool ContainsAttribute(Attribute a)
@@ -145,15 +137,7 @@ namespace ERObjects
             });
         }
 
-        public void ClearHighLightedEntity()
-        {
-            Entities.ToList().ForEach(entity => entity.ClearHighLight());
-        }
-
-        public void ClearHighLightedLink()
-        {
-            Links.ToList().ForEach( link => link.ClearHighLight());
-        }
+        
 
         public bool Save( string filename)
         {
