@@ -18,10 +18,10 @@ Create an application that implements the following features:
  
  ##Propositions
  * _Using drag and drop to remove an atribute from an entity or to copy it to another one_
- * ~~The status bar should show the actual entity information (name, amount of attributes and key values)~~
+ * _✔ The status bar should show the actual entity information (name, amount of attributes and key values)_
  * _Copy and paste to move attibutes from one entity to another one_
  * _Add a tooltip to our entities: in the MouseOver event show some info_
- * ~~the above option could be extended to Highlight the entity~~
+ * _✔ the above option could be extended to Highlight the entity_
  * _Main menu: Add copy/paste; add a relatioship; edit a relationship; and show the entity editor_
  * _Toolbar : duplicate the options in the main menu_
  
