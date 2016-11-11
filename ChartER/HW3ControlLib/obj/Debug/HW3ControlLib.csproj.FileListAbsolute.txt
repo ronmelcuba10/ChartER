@@ -9,3 +9,14 @@ C:\Users\Ace\Documents\GitHub\TextDesigner\HW3ControlLib\obj\Debug\TextDesigner.
 C:\Users\Ace\Documents\GitHub\TextDesigner\HW3ControlLib\obj\Debug\HW3ControlLib.csproj.GenerateResource.Cache
 C:\Users\Ace\Documents\GitHub\TextDesigner\HW3ControlLib\obj\Debug\HW3ControlLib.dll
 C:\Users\Ace\Documents\GitHub\TextDesigner\HW3ControlLib\obj\Debug\HW3ControlLib.pdb
+C:\Users\Ace\Documents\GitHub\ChartER\ChartER\HW3ControlLib\bin\Debug\HW3ControlLib.dll
+C:\Users\Ace\Documents\GitHub\ChartER\ChartER\HW3ControlLib\bin\Debug\HW3ControlLib.pdb
+C:\Users\Ace\Documents\GitHub\ChartER\ChartER\HW3ControlLib\obj\Debug\HW3ControlLib.csprojResolveAssemblyReference.cache
+C:\Users\Ace\Documents\GitHub\ChartER\ChartER\HW3ControlLib\obj\Debug\TextDesigner.BaseDialogForm.resources
+C:\Users\Ace\Documents\GitHub\ChartER\ChartER\HW3ControlLib\obj\Debug\TextDesigner.BaseForm.resources
+C:\Users\Ace\Documents\GitHub\ChartER\ChartER\HW3ControlLib\obj\Debug\TextDesigner.ClassInfoControl.resources
+C:\Users\Ace\Documents\GitHub\ChartER\ChartER\HW3ControlLib\obj\Debug\TextDesigner.GroupInfoControl.resources
+C:\Users\Ace\Documents\GitHub\ChartER\ChartER\HW3ControlLib\obj\Debug\TextDesigner.OathControl.resources
+C:\Users\Ace\Documents\GitHub\ChartER\ChartER\HW3ControlLib\obj\Debug\HW3ControlLib.csproj.GenerateResource.Cache
+C:\Users\Ace\Documents\GitHub\ChartER\ChartER\HW3ControlLib\obj\Debug\HW3ControlLib.dll
+C:\Users\Ace\Documents\GitHub\ChartER\ChartER\HW3ControlLib\obj\Debug\HW3ControlLib.pdb

@@ -115,6 +115,10 @@
       <Project>{e91daee4-9d21-4c23-a33d-bfb5b625d3e3}</Project>
       <Name>ERObjects</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HW3ControlLib\HW3ControlLib.csproj">
+      <Project>{27977cc0-606d-4f86-bbf4-6dc398db5f77}</Project>
+      <Name>HW3ControlLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
