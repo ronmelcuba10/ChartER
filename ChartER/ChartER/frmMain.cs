@@ -19,6 +19,9 @@ namespace ChartER
         private Entity selectedEntity; // Represents the entity selected with the left mouse button
         private Link selectedLink;     // Represents the link selected with the left mouse button
 
+        private Entity copyEntity;
+        private Link copyLink;
+
         /* Form Stuff */
         private Rectangle selectedRect = Rectangle.Empty; // A rect for the selected Entity
         private Color selectedColor = Color.Red;
@@ -332,6 +335,42 @@ namespace ChartER
             using (frmAbout about = new frmAbout())
             {
                 about.ShowDialog();
+            }
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            copyEntity = selectedEntity;
+            copyLink = selectedLink;
+        }
+
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            myChart.AddEntity(copyEntity);
+
+
+        }
+
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            copyEntity = selectedEntity;
+            copyLink = selectedLink;
+
+            bs.Remove(selectedEntity);
+
+            //removes the links to the imaginary
+            //myChart.DestroyLinks();
+            
+
+        }
+
+        private void newEntityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var ne = new frmNewEntity())
+            {
+                if (ne.ShowDialog() == DialogResult.OK)
+                    myChart.AddEntity(ne.Entity());
             }
         }
     }
