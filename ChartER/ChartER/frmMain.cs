@@ -318,6 +318,22 @@ namespace ChartER
             myChart.Clear();
             Invalidate(true);
         }
+
+        private void oathToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (frmOath oath = new frmOath())
+            {
+                oath.ShowDialog();
+            }
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (frmAbout about = new frmAbout())
+            {
+                about.ShowDialog();
+            }
+        }
     }
 }
 
