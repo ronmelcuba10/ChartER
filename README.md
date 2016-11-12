@@ -10,7 +10,7 @@ Create an application that implements the following features:
  * Threading
  * ✔ Document printing and serialization
  * ? Drag and drop - isn't this done?
- * ✔ Edit - cut, copy, paste ** BUG: when selecting an entity(left click) and then cut it, the rect rectangle stays in the graph** 
+ * ✔ Edit - cut, copy, paste  **BUG: when selecting an entity(left click) and then cut it, the rect rectangle stays in the graph** 
  * Notify icon
  * Multiple views of data. For example, an additional view might contain a grid view of all the data in the document
  
