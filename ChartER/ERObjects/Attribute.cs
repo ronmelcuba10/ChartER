@@ -62,6 +62,7 @@ namespace ERObjects
             g.DrawString(Name, Key ? tempFont : Font,
                 new SolidBrush(TextColor),
                 new RectangleF(Location, Size), format);
+            if(IsSelected)Select();
         }
     }
 }

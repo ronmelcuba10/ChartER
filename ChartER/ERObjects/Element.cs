@@ -17,6 +17,7 @@ namespace ERObjects
         public Size Size { get; set; }
         public Color SelectedColor { get; set; }
         public bool IsHighlighted { get; set; }
+        public bool IsSelected { get; set; }
         public abstract void Draw(Graphics g);
         public void Highlight()
         {
@@ -26,7 +27,16 @@ namespace ERObjects
         {
             IsHighlighted = false;
         }
-        
+
+        public void Select()
+        {
+            IsSelected = true;
+        }
+        public void ClearSelect()
+        {
+            IsSel = false;
+        }
+
         public virtual bool Inside(Point location)
         {
             var r = new Rectangle(Location, Size);

@@ -45,15 +45,10 @@ namespace ERObjects
             this.SelectedColor = a.SelectedColor;
             this.IsHighlighted = a.IsHighlighted;
 
-            
-
             foreach (Attribute attribute in a.Attributes)
             {
                 this.Attributes.Add(new Attribute(attribute));
             }
-            
-
-
         }
 
         private void AttribsChanged(object sender, ListChangedEventArgs e)
@@ -99,7 +94,13 @@ namespace ERObjects
         }
 
         // Returns true if the attribute list contains the passed Attribute
-        public bool HasAttribute(Attribute a) => Attributes.Contains(a);
+        public bool HasAttribute(Attribute attribute) => Attributes.Contains(attribute);
+
+        // Returns true if contains any attibute with that name
+        public bool HasAttribute(string attributename)
+        {
+            return Attributes.FirstOrDefault(attribute => attribute.Name.Equals(attributename)) != null;
+        }
 
         public override void Draw(Graphics g)
         {
@@ -123,19 +124,21 @@ namespace ERObjects
                          * on Font.GetHeight().
                          */
                         var factor = 0;
-                        Attributes.ToList().ForEach( attribute => //DrawAttrib(g,factor)
+                        Attributes.ToList().ForEach(attribute => //DrawAttrib(g,factor)
                         {
                             DrawAttrib(g, attribute, factor, backBrush);
                             factor++;
                         });
-                        
+
 
                         var lastAttribute = Attributes.Last();
                         /* Resize based on number of attributes */
-                        Size = new Size(Size.Width, lastAttribute.Location.Y + lastAttribute.Size.Height + - Location.Y);
+                        Size = new Size(Size.Width, lastAttribute.Location.Y + lastAttribute.Size.Height + -Location.Y);
 
                         /* Draw Frame */
                         g.DrawRectangle(framePen, new Rectangle(Location, Size));
+
+                        if (IsSelected) Select();
                     }
                 }
             }
@@ -163,10 +166,10 @@ namespace ERObjects
          * based on the value passed in the factor parameter.
          */
 
-        private void DrawAttrib(Graphics g, Attribute attribute ,int factor, Brush backBrush )
+        private void DrawAttrib(Graphics g, Attribute attribute, int factor, Brush backBrush)
         {
             attribute.Size = new Size(Size.Width, (int) attribute.Font.GetHeight());
-            attribute.Location = new Point(Location.X, _nameRect.Bottom + factor *( (int) attribute.Font.GetHeight()));
+            attribute.Location = new Point(Location.X, _nameRect.Bottom + factor*((int) attribute.Font.GetHeight()));
             attribute.BackBrush = backBrush;
             attribute.Draw(g);
         }
@@ -186,9 +189,9 @@ namespace ERObjects
 
         // Finds the attribute located under the specified location
         public Attribute FindAttribute(Point loc) => (Attribute) FindElement(Attributes, loc);
-        
+
         // Highlight the attribute under the specified location
-        public void HighlightAttribute( Attribute tempAttribute) => HighLightElement( Attributes ,tempAttribute);
+        public void HighlightAttribute(Attribute tempAttribute) => HighLightElement(Attributes, tempAttribute);
 
         // Clear the highlighted attribute
         public void ClearHighLightedAttribute() => ClearHighLightedElement(Attributes);
@@ -197,7 +200,9 @@ namespace ERObjects
         {
             if (Attributes.Contains(attribute)) return;
             if (attribute.Key) KeysCount++;
-            Attributes.Insert(Attributes.IndexOf(indexAttribute),attribute);
+            Attributes.Insert(Attributes.IndexOf(indexAttribute), attribute);
         }
+
+
     }
 }

@@ -24,6 +24,9 @@ namespace ChartER
         private Entity selectedEntity; // Represents the entity selected with the left mouse button
         private Link selectedLink;     // Represents the link selected with the left mouse button
 
+        private Entity copyEntity;
+        private Link copyLink;
+
         /* Form Stuff */
         private Rectangle selectedRect = Rectangle.Empty; // A rect for the selected Entity
         private Color selectedColor = Color.Red;
@@ -158,7 +161,7 @@ namespace ChartER
                 // clicked on an attribute
                 var tempAttribute = selectedEntity?.FindAttribute(e.Location);
                 if (tempAttribute != null)
-                    DoDragDrop(new Attribute(tempAttribute), DragDropEffects.Copy | DragDropEffects.Move);
+                    DoDragDrop(tempAttribute, DragDropEffects.Copy | DragDropEffects.Move);
 
                 // clicked on an empty space = background
                 if ( tempLink == null && tempAttribute == null && selectedEntity == null)
@@ -237,12 +240,17 @@ namespace ChartER
 
         private void frmMain_DragDrop(object sender, DragEventArgs e)
         {
-            
+            var draggedAttribute = (Attribute)e.Data.GetData(typeof(Attribute));
             var dropPoint = PointToClient(new Point(e.X, e.Y));
             var tempEntity = myChart.FindEntity(dropPoint);
-            if (tempEntity == null) return;
+            if (tempEntity == null)
+            {
+                selectedEntity.DeleteAttribute(draggedAttribute);
+                return;
+            }
             var tempAttribute = tempEntity.FindAttribute(dropPoint);
-            tempEntity.AddAttributeAfter( (Attribute) e.Data.GetData(typeof(Attribute)),tempAttribute);
+            if (tempEntity.HasAttribute(draggedAttribute.Name)) return;
+            tempEntity.AddAttributeAfter( new Attribute(draggedAttribute),tempAttribute);
             Invalidate(true);
             
         }
@@ -432,10 +440,39 @@ namespace ChartER
                 chartPrinter.PrintChart(myChart, headerFont);
         }
 
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            copyEntity = new Entity(selectedEntity);
+        }
 
-        #endregion
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            myChart.AddEntity(copyEntity);
+        }
 
-    }
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            copyEntity = new Entity(selectedEntity);
+            copyLink = selectedLink;
+            bs.Remove(selectedEntity);
+
+            //removes the links to the imaginary
+            myChart.DestroyLinks();
+        }
+
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            selectedEntity.ClearHighLight();
+            bs.Remove(selectedEntity);
+            myChart.DestroyLinks();
+        }
+
+
+
+    #endregion
+
+}
 }
 
 
