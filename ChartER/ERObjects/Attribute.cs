@@ -36,6 +36,14 @@ namespace ERObjects
             this.TextColor = textColor;
         }
 
+        // Deep cloning constructor
+        public Attribute (Attribute b)
+        {
+            this.Name = b.Name;
+            this.Font = b.Font;
+            this.TextColor = b.TextColor;
+        }
+
         public Attribute (String name, Font font) :this(name, font, Color.Black)
         {
         }

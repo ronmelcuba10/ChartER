@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using ERObjects;
 using Attribute = ERObjects.Attribute;
 
+
 namespace ChartER
 {
     public partial class frmMain : Form
@@ -20,7 +21,7 @@ namespace ChartER
         private Link selectedLink;     // Represents the link selected with the left mouse button
 
         private Entity copyEntity;
-        private Link copyLink;
+        private Link copyLink;        
 
         /* Form Stuff */
         private Rectangle selectedRect = Rectangle.Empty; // A rect for the selected Entity
@@ -340,8 +341,10 @@ namespace ChartER
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            copyEntity = selectedEntity;
-            copyLink = selectedLink;
+            copyEntity = new Entity(selectedEntity);
+            
+
+            
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -349,18 +352,17 @@ namespace ChartER
 
             myChart.AddEntity(copyEntity);
 
-
         }
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            copyEntity = selectedEntity;
+            copyEntity = new Entity(selectedEntity);
             copyLink = selectedLink;
 
             bs.Remove(selectedEntity);
 
             //removes the links to the imaginary
-            //myChart.DestroyLinks();
+            myChart.DestroyLinks();
             
 
         }
@@ -372,6 +374,12 @@ namespace ChartER
                 if (ne.ShowDialog() == DialogResult.OK)
                     myChart.AddEntity(ne.Entity());
             }
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bs.Remove(selectedEntity);
+            myChart.DestroyLinks();
         }
     }
 }

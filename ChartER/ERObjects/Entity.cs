@@ -25,6 +25,22 @@ namespace ERObjects
             Attributes.ListChanged += AttribsChanged;
         }
 
+        // Deep Cloning constructor
+        public Entity(Entity a)
+        {
+            this.Name = a.Name;
+            this.Location = a.Location;
+            this.Size = a.Size;
+            this.Font = a.Font;
+            this.BackColor = a.BackColor;
+            this.NameColor = a.NameColor;
+            this.FrameColor = a.FrameColor;
+            this.SelectedColor = a.SelectedColor;
+            this.IsHighlighted = a.IsHighlighted;
+            this.Attributes = a.Attributes;
+
+        }
+
         private void AttribsChanged(object sender, ListChangedEventArgs e)
         {
             HandleChange?.Invoke(sender, e);
