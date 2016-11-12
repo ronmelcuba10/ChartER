@@ -66,20 +66,7 @@ namespace ERObjects
 
         // Traverse list of entites to find position
         public int FindEntityPosition(Entity e) => Entities.IndexOf(e);
-
-        // Clear the highlighted link
-        public void ClearHighLightedLink() => Links.ToList().ForEach(link => link.ClearHighLight());
-
-        // Clear the highlighted entity
-        public void ClearHighLightedEntity()
-        {
-            Entities.ToList().ForEach(entity =>
-            {
-                entity.ClearHighLight();
-                entity.ClearHighLightedAttribute();
-            });
-
-        }
+        
 
         private bool ContainsAttribute(Attribute a)
         {
@@ -120,26 +107,7 @@ namespace ERObjects
             Changed = true;
         }
 
-        public void HighlightEntity(Entity tempEnt)
-        {
-            Entities.ToList().ForEach( entity =>
-            {
-                if (entity != tempEnt) entity.ClearHighLight();
-                else entity.Highlight();
-            });
-        }
-
-        public void HighlightLink(Link tempLink)
-        {
-            Links.ToList().ForEach(link =>
-            {
-                if (link != tempLink) link.ClearHighLight();
-                else link.Highlight();
-            });
-        }
-
         
-
         public bool Save( string filename)
         {
             bool result;

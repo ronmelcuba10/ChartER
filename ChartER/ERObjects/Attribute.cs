@@ -47,7 +47,6 @@ namespace ERObjects
             this.Key = attribute.Key;
             this.Font = new Font(new FontFamily(attribute.Font.FontFamily.Name), attribute.Font.Size);
             this.TextColor = attribute.TextColor;
-
         }
 
         public override void Draw(Graphics g)
@@ -62,7 +61,7 @@ namespace ERObjects
             g.DrawString(Name, Key ? tempFont : Font,
                 new SolidBrush(TextColor),
                 new RectangleF(Location, Size), format);
-            if(IsSelected)Select();
+            if(IsSelected) DrawSelected(g);
         }
     }
 }

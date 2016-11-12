@@ -97,6 +97,7 @@ namespace ERObjects
         public bool HasAttribute(Attribute attribute) => Attributes.Contains(attribute);
 
         // Returns true if contains any attibute with that name
+        // used to avoid duplicates in the entity set
         public bool HasAttribute(string attributename)
         {
             return Attributes.FirstOrDefault(attribute => attribute.Name.Equals(attributename)) != null;
@@ -131,14 +132,14 @@ namespace ERObjects
                         });
 
 
-                        var lastAttribute = Attributes.Last();
-                        /* Resize based on number of attributes */
-                        Size = new Size(Size.Width, lastAttribute.Location.Y + lastAttribute.Size.Height + -Location.Y);
+                        var lastAttribute = ( Attributes.Count > 0 ? Attributes.Last() : null);
+                        Size = lastAttribute != null ? new Size(Size.Width, lastAttribute.Location.Y + lastAttribute.Size.Height + -Location.Y) 
+                                                        : new Size(Size.Width, Size.Height);
 
                         /* Draw Frame */
                         g.DrawRectangle(framePen, new Rectangle(Location, Size));
 
-                        if (IsSelected) Select();
+                        if (IsSelected) DrawSelected(g);
                     }
                 }
             }
@@ -149,8 +150,8 @@ namespace ERObjects
         private void DrawName(Graphics g, Brush textBrush, Pen framePen, Brush backBrush)
         {
 
-            var titleSize = new Size(Size.Width, (int) Font.GetHeight());
-            _nameRect = new Rectangle(Location, titleSize);
+            Size = new Size(Size.Width, (int) Font.GetHeight());
+            _nameRect = new Rectangle(Location, Size);
             var titleStringFormat = new StringFormat(StringFormatFlags.NoWrap);
             titleStringFormat.Trimming = StringTrimming.EllipsisCharacter;
             titleStringFormat.Alignment = StringAlignment.Center;
@@ -181,28 +182,35 @@ namespace ERObjects
             Attributes.Add(attribute);
         }
 
-        public bool DeleteAttribute(Attribute attribute)
+        public void DeleteAttribute(Attribute attribute)
         {
             if (attribute.Key) KeysCount--;
-            return Attributes.Remove(attribute);
+            var att = Attributes.First(currentattribute => currentattribute.Name.Equals(attribute.Name));
+            Attributes.Remove(att);
         }
+        
 
         // Finds the attribute located under the specified location
         public Attribute FindAttribute(Point loc) => (Attribute) FindElement(Attributes, loc);
 
-        // Highlight the attribute under the specified location
-        public void HighlightAttribute(Attribute tempAttribute) => HighLightElement(Attributes, tempAttribute);
-
-        // Clear the highlighted attribute
-        public void ClearHighLightedAttribute() => ClearHighLightedElement(Attributes);
-
         public void AddAttributeAfter(Attribute attribute, Attribute indexAttribute)
         {
-            if (Attributes.Contains(attribute)) return;
-            if (attribute.Key) KeysCount++;
-            Attributes.Insert(Attributes.IndexOf(indexAttribute), attribute);
+            if (HasAttribute(attribute.Name)) ReorderAttribute(attribute, indexAttribute);
+            else InsertAttribute(attribute,indexAttribute);
+            
         }
 
+        private void ReorderAttribute(Attribute attribute, Attribute indexAttribute)
+        {
+            DeleteAttribute(attribute);
+            InsertAttribute(attribute,indexAttribute);
+        }
 
+        private void InsertAttribute(Attribute attribute, Attribute indexAttribute)
+        {
+            if (attribute.Key) KeysCount++;
+            if (Attributes.Count > 0) Attributes.Insert(Attributes.IndexOf(indexAttribute), attribute);
+            else Attributes.Add(attribute);
+        }
     }
 }

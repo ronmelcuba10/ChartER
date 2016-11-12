@@ -63,7 +63,7 @@ namespace ERObjects
             g.DrawLine(p, EndPoint, point2);
         }
 
-        public override void Select(Graphics g)
+        public override void DrawSelected(Graphics g)
         {
             using (var selectionPen = new Pen(SelectedColor, 5f))
                 DrawTriangle(g, selectionPen);

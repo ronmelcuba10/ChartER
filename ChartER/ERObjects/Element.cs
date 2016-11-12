@@ -19,6 +19,7 @@ namespace ERObjects
         public bool IsHighlighted { get; set; }
         public bool IsSelected { get; set; }
         public abstract void Draw(Graphics g);
+
         public void Highlight()
         {
             IsHighlighted = true;
@@ -28,13 +29,13 @@ namespace ERObjects
             IsHighlighted = false;
         }
 
-        public void Select()
+        public virtual void Select()
         {
             IsSelected = true;
         }
-        public void ClearSelect()
+        public virtual void ClearSelection()
         {
-            IsSel = false;
+            IsSelected = false;
         }
 
         public virtual bool Inside(Point location)
@@ -43,26 +44,12 @@ namespace ERObjects
             return r.Contains(location);
         }
 
-        public virtual void Select(Graphics g)
+        public virtual void DrawSelected(Graphics g)
         {
             using (var selectionPen = new Pen(SelectedColor, 3f))
             {
                 g.DrawRectangle(selectionPen, new Rectangle(Location, Size));
             }
-        }
-
-        public void HighLightElement( IEnumerable<Element> list, Element element)
-        {
-            list.ToList().ForEach(currentelement =>
-            {
-                if (currentelement != element) currentelement.ClearHighLight();
-                else currentelement.Highlight();
-            });
-        }
-
-        public void ClearHighLightedElement( IEnumerable<Element> list)
-        {
-            list.ToList().ForEach(currentelement => currentelement.ClearHighLight());
         }
 
         public Element FindElement( IEnumerable<Element> list, Point loc)

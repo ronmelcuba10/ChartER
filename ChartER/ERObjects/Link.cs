@@ -87,6 +87,7 @@ namespace ERObjects
         public override void Draw(Graphics g)
         {
             if ((Source == null) || (Destination == null)) return;
+
             using (var linkPen = new Pen(LinkColor))
             {
                 DrawLink(g,linkPen);
@@ -137,7 +138,23 @@ namespace ERObjects
             g.DrawLine(linkPen, SourceStub.EndPoint, DestStub.EndPoint);
         }
 
-        public override void Select(Graphics g)
+        // needs to override to select both stubs
+        public override void Select()
+        {
+            base.Select();
+            SourceStub.Select();
+            DestStub.Select();
+        }
+
+        // needs to override to clearselection both stubs
+        public override void ClearSelection()
+        {
+            base.ClearSelection();
+            SourceStub.Select();
+            DestStub.Select();
+        }
+
+        public override void DrawSelected(Graphics g)
         {
             using (var selectionPen = new Pen(SelectedColor, 5f))
             {

@@ -19,10 +19,20 @@ namespace ChartER
         private Point mouseSelected = Point.Empty; // This is used for selecting via left mouse button
 
         /* Data Stuff */
-        private Chart myChart = new Chart(); // The chart "document"
-        private BindingSource bs; // For sending to the Entity Editor
-        private Entity selectedEntity; // Represents the entity selected with the left mouse button
-        private Link selectedLink;     // Represents the link selected with the left mouse button
+        private Chart myChart = new Chart();   // The chart "document"
+        private BindingSource bs;              // For sending to the Entity Editor
+
+        // these members are useful to avoid checking the entire list for the selected/highlighted one
+        private Entity selectedEntity;            // Represents the entity selected with the left mouse button
+        private Entity highlightedEntity;         // Represents the highlighted entity 
+        private Link selectedLink;                // Represents the link selected with the left mouse button
+        private Link highlightedLink;             // Represents the highlighted link
+        private Attribute selectedAttribute;      // Represents the attribute selected with the left mouse button
+        private Attribute highlightedAttribute;   // Represents the highlighted attribute
+
+
+        private Entity movedEntity;            // Represents the entity being moved
+
 
         private Entity copyEntity;
         private Link copyLink;
@@ -64,7 +74,7 @@ namespace ChartER
         {
             var g = e.Graphics;
             myChart.Draw(g);
-            selectedEntity?.Select(g);
+            //selectedEntity?.Select(g);
 
             /* Update bitmap for drag-drop */
             var bg = Graphics.FromImage(CurrentBitmap);
@@ -143,28 +153,31 @@ namespace ChartER
         {
             if (e.Button == MouseButtons.Right)
             {
-                selectedEntity = myChart.FindEntity(e.Location);
-                mousePoint = ( selectedEntity != null ? e.Location : Point.Empty);
+                // clicked on an entity
+                movedEntity = myChart.FindEntity(e.Location);
+                mousePoint = (movedEntity != null ? e.Location : Point.Empty);
             }
             else if (e.Button == MouseButtons.Left)
             {
                 mouseSelected = e.Location;
 
                 // clicked on an entity
-                selectedEntity = myChart.FindEntity(mouseSelected);
+                var tempEntity = myChart.FindEntity(mouseSelected);
+                selectedEntity = (Entity) ProcessSelection(tempEntity, selectedEntity);
                 bs.Position = myChart.FindEntityPosition(selectedEntity);
 
                 // clicked on a link
                 var tempLink = myChart.FindLink(e.Location);
-                //tempLink.Select();
-
+                selectedLink = (Link) ProcessSelection(tempLink, selectedLink);
+                
                 // clicked on an attribute
                 var tempAttribute = selectedEntity?.FindAttribute(e.Location);
-                if (tempAttribute != null)
-                    DoDragDrop(tempAttribute, DragDropEffects.Copy | DragDropEffects.Move);
+                selectedAttribute = (Attribute) ProcessSelection(tempAttribute, selectedAttribute);
+                if (selectedAttribute != null)
+                    DoDragDrop(selectedAttribute, DragDropEffects.Copy | DragDropEffects.Move);
 
                 // clicked on an empty space = background
-                if ( tempLink == null && tempAttribute == null && selectedEntity == null)
+                if (tempLink == null && tempAttribute == null && selectedEntity == null)
                     DoDragDrop(DragDropObject, DragDropEffects.Copy);
 
                 UpdateStatusBar();
@@ -174,33 +187,61 @@ namespace ChartER
 
 
 
-        /* Handle mouse move
-         * Only handles moving an Entity around with the right button.
-         * All other movements are ignored/not needed
+        /* Handle mouse move moving an Entity around with the right button.
+         * and the highlighting process
          */
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
+            // if it is over an entity
             var tempEnt = myChart.FindEntity(e.Location);
-            if (tempEnt != null) myChart.HighlightEntity(tempEnt);
-            else myChart.ClearHighLightedEntity();
-
+            highlightedEntity = (Entity) ProcessHighLighting(tempEnt, highlightedEntity);
+            
+            // if it is over an attribute
             var tempAttribute = tempEnt?.FindAttribute(e.Location);
-            if (tempAttribute != null)
-                tempEnt.HighlightAttribute(tempAttribute);
-            else tempEnt?.ClearHighLightedAttribute();
+            highlightedAttribute = (Attribute) ProcessHighLighting(tempAttribute, highlightedAttribute);
 
+            //if it is over a link
             var tempLink = myChart.FindLink(e.Location);
-            if (tempLink != null) myChart.HighlightLink(tempLink);
-            else myChart.ClearHighLightedLink();
+            highlightedLink = (Link) ProcessHighLighting(tempLink, highlightedLink);
 
-            if (mousePoint != Point.Empty) MouseMoveObject(selectedEntity, e.Location);
+            // moving an entity
+            if (mousePoint != Point.Empty) MouseMoveObject(movedEntity, e.Location);
 
+            // repaint
             Invalidate(true);
         }
 
-        /* Move the selected object */
+        // this method is key to avoid iterations in the collections to highlight/select
+        // it reduces the highlight/select process from O(n) to O(1)
+        private Element ProcessHighLighting(Element tempElement, Element highlightedElement)
+        {
+            highlightedElement?.ClearHighLight();      // clear the last selection/highlight if any
+            tempElement?.Highlight();                  // highlight this element if any
+            return tempElement ?? null;                // return this element
+        }
 
+        // this method is key to avoid iterations in the collections to highlight/select
+        // it reduces the highlight/select process from O(n) to O(1)
+        private Element ProcessSelection(Element tempElement, Element selectedElement)
+        {
+            selectedElement?.ClearSelection();      // clear the last selection/highlight if any
+            tempElement?.Select();                  // select this element if any
+            return tempElement ?? null;                // return this element
+        }
+
+
+        /*
+        private Element ProcessActions(Element temElement, Element currentElement, 
+                                Action<Element> clearAction, Action<Element> setAction)
+        {
+            currentElement?.
+        }
+        */
+
+
+
+        /* Move the selected object */
         private void MouseMoveObject(Entity ent, Point loc)
         {
             int dx;
@@ -223,7 +264,7 @@ namespace ChartER
             if (e.Button == MouseButtons.Right)
             {
                 mousePoint = Point.Empty;
-                selectedEntity = null;
+                movedEntity = null;
                 Invalidate(true);
             }
             if (e.Button == MouseButtons.Left)
@@ -249,7 +290,6 @@ namespace ChartER
                 return;
             }
             var tempAttribute = tempEntity.FindAttribute(dropPoint);
-            if (tempEntity.HasAttribute(draggedAttribute.Name)) return;
             tempEntity.AddAttributeAfter( new Attribute(draggedAttribute),tempAttribute);
             Invalidate(true);
             
