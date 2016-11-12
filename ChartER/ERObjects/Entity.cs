@@ -22,7 +22,7 @@ namespace ERObjects
 
         public Color BackColor
         {
-            get { return (KeysCount > 0 ? backColor : Color.LightPink); }
+            get { return (KeysCount > 0 ? backColor : Color.White); }
             set { backColor = value; }
         }
 

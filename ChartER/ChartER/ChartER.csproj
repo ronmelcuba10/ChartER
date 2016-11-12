@@ -79,6 +79,9 @@
     <Compile Include="IformEntity.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmAbout.resx">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmEntity.resx">
       <DependentUpon>frmEntity.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -89,6 +92,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmNewEntity.resx">
       <DependentUpon>frmNewEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmOath.resx">
+      <DependentUpon>frmOath.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
