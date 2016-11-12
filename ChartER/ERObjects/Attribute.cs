@@ -40,8 +40,9 @@ namespace ERObjects
         public Attribute (Attribute b)
         {
             this.Name = b.Name;
-            this.Font = b.Font;
+            this.Font = new Font (new FontFamily(b.Font.FontFamily.Name), b.Font.Size);
             this.TextColor = b.TextColor;
+            
         }
 
         public Attribute (String name, Font font) :this(name, font, Color.Black)

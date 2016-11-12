@@ -26,7 +26,7 @@ namespace ERObjects
         }
 
         // Deep Cloning constructor
-        public Entity(Entity a)
+        public Entity(Entity a) : this()
         {
             this.Name = a.Name;
             this.Location = a.Location;
@@ -37,7 +37,15 @@ namespace ERObjects
             this.FrameColor = a.FrameColor;
             this.SelectedColor = a.SelectedColor;
             this.IsHighlighted = a.IsHighlighted;
-            this.Attributes = a.Attributes;
+
+            
+
+            foreach (Attribute attribute in a.Attributes)
+            {
+                this.Attributes.Add(new Attribute(attribute));
+            }
+            
+
 
         }
 
