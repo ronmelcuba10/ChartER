@@ -12,12 +12,19 @@ namespace ERObjects
         public event EventHandler HandleChange;
         public string Name { get; set; }
         public Font Font { get; set; }
-        public Color BackColor { get; set; }
         public Color NameColor { get; set; }
         public Color FrameColor { get; set; }
         public BindingList<Attribute> Attributes { get; }
+        public int KeysCount { get; set; }
 
         private Rectangle _nameRect = Rectangle.Empty;
+        private Color backColor;
+
+        public Color BackColor
+        {
+            get { return (KeysCount > 0 ? backColor : Color.LightPink); }
+            set { backColor = value; }
+        }
 
         public Entity()
         {
@@ -141,7 +148,17 @@ namespace ERObjects
         }
 
         // Adds an atttribute
-        public void AddAttribute(Attribute a) => Attributes.Add(a);
+        public void AddAttribute(Attribute attribute)
+        {
+            if (attribute.Key) KeysCount++;
+            Attributes.Add(attribute);
+        }
+
+        public bool DeleteAttribute(Attribute attribute)
+        {
+            if (attribute.Key) KeysCount--;
+            return Attributes.Remove(attribute);
+        }
 
         // Finds the attribute located under the specified location
         public Attribute FindAttribute(Point loc) => (Attribute) FindElement(Attributes, loc);
@@ -151,5 +168,11 @@ namespace ERObjects
 
         // Clear the highlighted attribute
         public void ClearHighLightedAttribute() => ClearHighLightedElement(Attributes);
+
+        public void AddAttributeAfter(Attribute attribute, Attribute indexAttribute)
+        {
+            if (Attributes.Contains(attribute)) return;
+            Attributes.Insert(Attributes.IndexOf(indexAttribute),attribute);
+        }
     }
 }

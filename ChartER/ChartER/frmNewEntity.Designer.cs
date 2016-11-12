@@ -37,6 +37,7 @@
             this.lblAttributeName = new System.Windows.Forms.Label();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.cbxKey = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,7 +56,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbxEntityName.Location = new System.Drawing.Point(53, 20);
             this.tbxEntityName.Name = "tbxEntityName";
-            this.tbxEntityName.Size = new System.Drawing.Size(241, 20);
+            this.tbxEntityName.Size = new System.Drawing.Size(300, 20);
             this.tbxEntityName.TabIndex = 2;
             // 
             // groupBox1
@@ -63,13 +64,14 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.cbxKey);
             this.groupBox1.Controls.Add(this.lbxAttributes);
             this.groupBox1.Controls.Add(this.btnAddAttribute);
             this.groupBox1.Controls.Add(this.tbxAttributeName);
             this.groupBox1.Controls.Add(this.lblAttributeName);
             this.groupBox1.Location = new System.Drawing.Point(12, 51);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(282, 180);
+            this.groupBox1.Size = new System.Drawing.Size(341, 182);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Attributes";
@@ -79,12 +81,12 @@
             this.lbxAttributes.FormattingEnabled = true;
             this.lbxAttributes.Location = new System.Drawing.Point(22, 63);
             this.lbxAttributes.Name = "lbxAttributes";
-            this.lbxAttributes.Size = new System.Drawing.Size(230, 108);
+            this.lbxAttributes.Size = new System.Drawing.Size(300, 108);
             this.lbxAttributes.TabIndex = 5;
             // 
             // btnAddAttribute
             // 
-            this.btnAddAttribute.Location = new System.Drawing.Point(229, 22);
+            this.btnAddAttribute.Location = new System.Drawing.Point(296, 22);
             this.btnAddAttribute.Name = "btnAddAttribute";
             this.btnAddAttribute.Size = new System.Drawing.Size(23, 23);
             this.btnAddAttribute.TabIndex = 4;
@@ -114,7 +116,7 @@
             // 
             this.btnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(79, 240);
+            this.btnOk.Location = new System.Drawing.Point(109, 242);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 4;
@@ -125,18 +127,28 @@
             // 
             this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(160, 240);
+            this.btnCancel.Location = new System.Drawing.Point(190, 242);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
+            // cbxKey
+            // 
+            this.cbxKey.AutoSize = true;
+            this.cbxKey.Location = new System.Drawing.Point(234, 26);
+            this.cbxKey.Name = "cbxKey";
+            this.cbxKey.Size = new System.Drawing.Size(44, 17);
+            this.cbxKey.TabIndex = 6;
+            this.cbxKey.Text = "Key";
+            this.cbxKey.UseVisualStyleBackColor = true;
+            // 
             // frmNewEntity
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(309, 275);
+            this.ClientSize = new System.Drawing.Size(368, 277);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.groupBox1);
@@ -163,5 +175,6 @@
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.ListBox lbxAttributes;
+        private System.Windows.Forms.CheckBox cbxKey;
     }
 }

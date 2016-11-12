@@ -18,6 +18,7 @@ namespace ERObjects
         public BindingList<Link> Links { get; }
         public bool Changed { get; set; }
         public string FileName { get; set; }
+        public Size Size { get; set; }
         
         public Chart()
         {

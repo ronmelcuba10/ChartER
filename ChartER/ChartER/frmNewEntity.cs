@@ -16,7 +16,7 @@ namespace ChartER
         {
             var ent = new Entity(lblEntityName.Text);
             foreach (var item in lbxAttributes.Items)
-                ent.AddAttribute(new Attribute((string) item));
+                ent.AddAttribute(new Attribute((string) item,cbxKey.Checked));
             return ent;
         }
 

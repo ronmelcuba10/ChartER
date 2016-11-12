@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ERObjects
 {
     [Serializable]
-    public abstract class Element
+    public abstract class Element : ICloneable
     {
         public Point Location { get; set; }
         public Size Size { get; set; }
@@ -24,7 +26,7 @@ namespace ERObjects
         {
             IsHighlighted = false;
         }
-
+        
         public virtual bool Inside(Point location)
         {
             var r = new Rectangle(Location, Size);
@@ -57,6 +59,19 @@ namespace ERObjects
         {
             return list.ToList().Find( element => element.Inside(loc));
         }
-       
+
+        public virtual object Clone()
+        {
+            using ( var ms = new MemoryStream())
+            {
+                var formatter = new BinaryFormatter();
+                formatter.Serialize(ms, this);
+                return (Element) formatter.Deserialize(ms);
+            }
+
+        }
+        
+        
+        
     }
 }

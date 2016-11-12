@@ -2,13 +2,18 @@
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using ChartPrint;
 using ERObjects;
 using Attribute = ERObjects.Attribute;
+
 
 namespace ChartER
 {
     public partial class frmMain : Form
     {
+
+        #region Properties and Constructor
+
         /* Mouse Stuff */
         private Point mousePoint = Point.Empty; // This is used for moving via right mouse button
         private Point mouseSelected = Point.Empty; // This is used for selecting via left mouse button
@@ -23,10 +28,20 @@ namespace ChartER
         private Rectangle selectedRect = Rectangle.Empty; // A rect for the selected Entity
         private Color selectedColor = Color.Red;
 
+        /* Bitmap of chart */
+        private Image currentBitmap;
+        private DataObject dataObject;
+        public Image CurrentBitmap => currentBitmap ?? (currentBitmap = new Bitmap(this.Width, this.Height));
+
+
         public frmMain()
         {
             InitializeComponent();
         }
+
+        #endregion
+
+        #region Form events methods
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -38,7 +53,7 @@ namespace ChartER
             bs.DataSource = myChart.Entities;
         }
 
-        /* Paint the current chart and selected Entity (if anyy)
+        /* Paint the current chart and selected Entity (if any)
          * Looks so simple, but go deeper into the rabbit hole...
          */
 
@@ -47,7 +62,13 @@ namespace ChartER
             var g = e.Graphics;
             myChart.Draw(g);
             selectedEntity?.Select(g);
+
+            /* Update bitmap for drag-drop */
+            var bg = Graphics.FromImage(CurrentBitmap);
+            bg.Clear(Color.Transparent);
+            myChart.Draw(bg);
         }
+    
 
         /* Handle mouse down
          * If right button held down, we are going to move an entity around
@@ -56,31 +77,99 @@ namespace ChartER
          * and for the editor
          */
 
+        private void Form1_Move(object sender, EventArgs e)
+        {
+        }
+
+        /* Handle mouse up
+         * If we were moving an Entity around, stop and reset the selected Entity
+         */
+
+        
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            /* Create sample entities
+             * Notice how we link attributes in entites: create a Link object, passing the source and destination
+             * attributes to the Link's constructor
+             */
+
+            myChart.Size = this.Size;
+
+            var ent1 = new Entity("Vehicle", new Point(10, 10), new Size(200, 200), new Font("Arial", 12),
+                Color.White, Color.Black, Color.Blue);
+            ent1.AddAttribute(new Attribute("VehicleID", true ,new Font("Arial", 10)));
+            ent1.AddAttribute(new Attribute("VehicleType", false, new Font("Arial", 10)));
+            ent1.AddAttribute(new Attribute("LicensePlate", false, new Font("Arial", 10)));
+            ent1.AddAttribute(new Attribute("DriverID", false, new Font("Arial", 10)));
+            myChart.AddEntity(ent1);
+
+            var ent2 = new Entity("Driver", new Point(50, 50), new Size(200, 200), new Font("Arial", 12), Color.White,
+                Color.Black, Color.Blue);
+            ent2.AddAttribute(new Attribute("DriverID", true, new Font("Arial", 10)));
+            ent2.AddAttribute(new Attribute("Age", false, new Font("Arial", 10)));
+            ent2.AddAttribute(new Attribute("Gender", false, new Font("Arial", 10)));
+            myChart.AddEntity(ent2);
+
+            var ent3 = new Entity("VehicleType", new Point(100, 100), new Size(200, 200), new Font("Arial", 12),
+                Color.White, Color.Black, Color.Blue);
+            ent3.AddAttribute(new Attribute("Make", false, new Font("Arial", 10)));
+            ent3.AddAttribute(new Attribute("Model", false, new Font("Arial", 10)));
+            ent3.AddAttribute(new Attribute("Year", false, new Font("Arial", 10)));
+            myChart.AddEntity(ent3);
+
+            var l = new Link(ent1.Attributes[3], ent2.Attributes[0], Relationship.Many2One);
+            myChart.AddLink(l);
+
+            l = new Link(ent1.Attributes[1], ent3.Attributes[0], Relationship.One2One);
+
+            myChart.AddLink(l);
+            Invalidate(true);
+        }
+
+        private void frmMain_ResizeEnd(object sender, EventArgs e)
+        {
+            myChart.Size = this.Size;
+            currentBitmap = null; // create a new one with new dimensions
+        }
+
+        #endregion
+
+        #region Mouse events
+
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
                 selectedEntity = myChart.FindEntity(e.Location);
-                if (selectedEntity != null)  mousePoint = e.Location;
+                mousePoint = ( selectedEntity != null ? e.Location : Point.Empty);
             }
             else if (e.Button == MouseButtons.Left)
             {
-                selectedEntity = myChart.FindEntity(e.Location);
+                mouseSelected = e.Location;
+
+                // clicked on an entity
+                selectedEntity = myChart.FindEntity(mouseSelected);
                 bs.Position = myChart.FindEntityPosition(selectedEntity);
-                if (selectedEntity == null)
-                {
-                    selectedLink = myChart.FindLink(e.Location);
-                }
+
+                // clicked on a link
+                var tempLink = myChart.FindLink(e.Location);
+                //tempLink.Select();
+
+                // clicked on an attribute
+                var tempAttribute = selectedEntity?.FindAttribute(e.Location);
+                if (tempAttribute != null)
+                    DoDragDrop(tempAttribute.Clone(), DragDropEffects.Copy | DragDropEffects.Move);
+
+                // clicked on an empty space = background
+                if ( tempLink == null && tempAttribute == null && selectedEntity == null)
+                    DoDragDrop(DragDropObject, DragDropEffects.Copy);
+
                 UpdateStatusBar();
             }
             Invalidate(true);
         }
 
-        private void UpdateStatusBar()
-        {
-            stbEntityName.Text = ((Entity) bs.Current).Name;
-            stbAtts.Text = ((Entity) bs.Current).Attributes.Count.ToString();
-        }
+
 
         /* Handle mouse move
          * Only handles moving an Entity around with the right button.
@@ -89,7 +178,6 @@ namespace ChartER
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            
             var tempEnt = myChart.FindEntity(e.Location);
             if (tempEnt != null) myChart.HighlightEntity(tempEnt);
             else myChart.ClearHighLightedEntity();
@@ -127,14 +215,6 @@ namespace ChartER
             ent.Location = newLoc;
         }
 
-        private void Form1_Move(object sender, EventArgs e)
-        {
-        }
-
-        /* Handle mouse up
-         * If we were moving an Entity around, stop and reset the selected Entity
-         */
-
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -143,48 +223,82 @@ namespace ChartER
                 selectedEntity = null;
                 Invalidate(true);
             }
+            if (e.Button == MouseButtons.Left)
+                mouseSelected = Point.Empty;
         }
 
-        private void Form1_Shown(object sender, EventArgs e)
+        private void frmMain_DragEnter(object sender, DragEventArgs e)
         {
-            /* Create sample entities
-             * Notice how we link attributes in entites: create a Link object, passing the source and destination
-             * attributes to the Link's constructor
-             */
+            if (e.Data.GetDataPresent(typeof(Attribute)))
+                e.Effect = DragDropEffects.Copy | DragDropEffects.Move;
+            else
+                e.Effect = DragDropEffects.None;
+        }
 
-            var ent1 = new Entity("Vehicle", new Point(10, 10), new Size(200, 200), new Font("Arial", 12),
-                Color.White, Color.Black, Color.Blue);
-            ent1.AddAttribute(new Attribute("VehicleID", new Font("Arial", 10)));
-            ent1.AddAttribute(new Attribute("VehicleType", new Font("Arial", 10)));
-            ent1.AddAttribute(new Attribute("LicensePlate", new Font("Arial", 10)));
-            ent1.AddAttribute(new Attribute("DriverID", new Font("Arial", 10)));
-            myChart.AddEntity(ent1);
+        private void frmMain_DragDrop(object sender, DragEventArgs e)
+        {
+            
+            var dropPoint = PointToClient(new Point(e.X, e.Y));
+            var tempEntity = myChart.FindEntity(dropPoint);
+            if (tempEntity == null) return;
+            var tempAttribute = tempEntity.FindAttribute(dropPoint);
+            tempEntity.AddAttributeAfter( (Attribute) e.Data.GetData(typeof(Attribute)),tempAttribute);
+            Invalidate(true);
+            
+        }
 
-            var ent2 = new Entity("Driver", new Point(50, 50), new Size(200, 200), new Font("Arial", 12), Color.White,
-                Color.Black, Color.Blue);
-            ent2.AddAttribute(new Attribute("DriverID", new Font("Arial", 10)));
-            ent2.AddAttribute(new Attribute("Age", new Font("Arial", 10)));
-            ent2.AddAttribute(new Attribute("Gender", new Font("Arial", 10)));
-            myChart.AddEntity(ent2);
+        public DataObject DragDropObject
+        {
+            get
+            {
+                if (dataObject == null)
+                {
+                    dataObject = new DataObject();
+                }
+                dataObject.SetImage(CurrentBitmap);
+                return dataObject;
+            }
+        }
 
-            var ent3 = new Entity("VehicleType", new Point(100, 100), new Size(200, 200), new Font("Arial", 12),
-                Color.White, Color.Black, Color.Blue);
-            ent3.AddAttribute(new Attribute("Make", new Font("Arial", 10)));
-            ent3.AddAttribute(new Attribute("Model", new Font("Arial", 10)));
-            ent3.AddAttribute(new Attribute("Year", new Font("Arial", 10)));
-            myChart.AddEntity(ent3);
+        #endregion
 
-            var l = new Link(ent1.Attributes[3], ent2.Attributes[0], Relationship.Many2One);
-            myChart.AddLink(l);
+        #region Helpers
 
-            l = new Link(ent1.Attributes[1], ent3.Attributes[0], Relationship.One2One);
+        /* We changed the selected Entity in the editing window */
 
-            myChart.AddLink(l);
+        private void Bs_PositionChanged(object sender, EventArgs e)
+        {
+            if (myChart.HasEntities())
+                //selectedEntity = this.myChart.FindEntity(bs.Position);
+                selectedEntity = (Entity) bs.Current;
+            else
+                selectedEntity = null;
+
             Invalidate(true);
         }
 
-        /* Handler for Entity Editing */
+        /* User did something to the Entites in myChart */
 
+        public void EntityChangedByEditor(object sender, EventArgs e)
+        {
+            /* Traverse the Links and destroy any that may now be
+            * invalid due to an entity or attribute being deleted!
+            */
+            myChart.DestroyLinks();
+            Invalidate(true);
+        }
+
+        private void UpdateStatusBar()
+        {
+            stbEntityName.Text = ((Entity)bs.Current).Name;
+            stbAtts.Text = ((Entity)bs.Current).Attributes.Count.ToString();
+        }
+
+        #endregion
+
+        #region Menu options click
+
+        /* Handler for Entity Editing */
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bs.Position = selectedEntity == null ? -1 : myChart.FindEntityPosition(selectedEntity);
@@ -210,31 +324,6 @@ namespace ChartER
             entityEdit.Show(this);
         }
 
-        /* We changed the selected Entity in the editing window */
-
-        private void Bs_PositionChanged(object sender, EventArgs e)
-        {
-            if (myChart.HasEntities())
-                //selectedEntity = this.myChart.FindEntity(bs.Position);
-                selectedEntity = (Entity) bs.Current;
-            else
-                selectedEntity = null;
-
-            Invalidate(true);
-        }
-
-        /* User did something to the Entites in myChart */
-
-        public void EntityChangedByEditor(object sender, EventArgs e)
-        {
-            /* Traverse the Links and destroy any that may now be
-            * invalid due to an entity or attribute being deleted!
-            */
-
-            myChart.DestroyLinks();
-            Invalidate(true);
-        }
-
         private void tsbNewEntity_Click(object sender, EventArgs e)
         {
             using (var ne = new frmNewEntity())
@@ -243,7 +332,6 @@ namespace ChartER
                     myChart.AddEntity(ne.Entity());
             }
         }
-
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -334,6 +422,19 @@ namespace ChartER
                 about.ShowDialog();
             }
         }
+
+        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var chartPrinter = new ChartPrinter();
+            selectedEntity?.ClearHighLight();
+
+            using (var headerFont = new Font("Arial", 12))
+                chartPrinter.PrintChart(myChart, headerFont);
+        }
+
+
+        #endregion
+
     }
 }
 

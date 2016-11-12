@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 
 namespace ERObjects
 {
+    [Serializable]
     public enum Relationship
     {
         One2One = 0,
@@ -13,18 +14,21 @@ namespace ERObjects
         Many2Many = 3
     }
 
+    [Serializable]
     public enum StubType
     {
         One = 0,
         Many = 1
     }
 
+    [Serializable]
     public enum LinkLocation
     {
         Left,
         Right
     }
 
+    [Serializable]
     public enum LinkPen
     {
         Solid,
@@ -79,6 +83,7 @@ namespace ERObjects
 
         /* Draws the link on the passed graphics context */
 
+        
         public override void Draw(Graphics g)
         {
             if ((Source == null) || (Destination == null)) return;
