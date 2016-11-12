@@ -487,6 +487,7 @@ namespace ChartER
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            copyEntity.IsSelected = false;
             myChart.AddEntity(copyEntity);
         }
 
