@@ -196,6 +196,7 @@ namespace ERObjects
         public void AddAttributeAfter(Attribute attribute, Attribute indexAttribute)
         {
             if (Attributes.Contains(attribute)) return;
+            if (attribute.Key) KeysCount++;
             Attributes.Insert(Attributes.IndexOf(indexAttribute),attribute);
         }
     }

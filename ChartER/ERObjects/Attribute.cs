@@ -40,6 +40,16 @@ namespace ERObjects
             Key = isKey;
         }
 
+        // Deep cloning constructor
+        public Attribute(Attribute attribute)
+        {
+            this.Name = attribute.Name;
+            this.Key = attribute.Key;
+            this.Font = new Font(new FontFamily(attribute.Font.FontFamily.Name), attribute.Font.Size);
+            this.TextColor = attribute.TextColor;
+
+        }
+
         public override void Draw(Graphics g)
         {
             var format = new StringFormat(StringFormatFlags.NoWrap);

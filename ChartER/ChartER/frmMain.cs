@@ -158,7 +158,7 @@ namespace ChartER
                 // clicked on an attribute
                 var tempAttribute = selectedEntity?.FindAttribute(e.Location);
                 if (tempAttribute != null)
-                    DoDragDrop(tempAttribute.Clone(), DragDropEffects.Copy | DragDropEffects.Move);
+                    DoDragDrop(new Attribute(tempAttribute), DragDropEffects.Copy | DragDropEffects.Move);
 
                 // clicked on an empty space = background
                 if ( tempLink == null && tempAttribute == null && selectedEntity == null)
