@@ -40,6 +40,7 @@ namespace ChartER
         /* Form Stuff */
         private Rectangle selectedRect = Rectangle.Empty; // A rect for the selected Entity
         private Color selectedColor = Color.Red;
+        private bool isCleaningUp; // inhibit painting while cleaning up
 
         /* Bitmap of chart */
         private Image currentBitmap;
@@ -73,15 +74,17 @@ namespace ChartER
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            var g = e.Graphics;
-            myChart.Draw(g);
-            //selectedEntity?.Select(g);
+            if (!isCleaningUp) // inhibit if we're cleaning up chart via threading
+            {
+                var g = e.Graphics;
+                myChart.Draw(g);
+                //selectedEntity?.Select(g);
 
-            /* Update bitmap for drag-drop */
-            var bg = Graphics.FromImage(CurrentBitmap);
-            bg.Clear(Color.Transparent);
-            myChart.Draw(bg);
-            UpdateStatusBar();
+                /* Update bitmap for drag-drop */
+                var bg = Graphics.FromImage(CurrentBitmap);
+                bg.Clear(Color.Transparent);
+                myChart.Draw(bg);
+            }
         }
     
 
@@ -289,7 +292,7 @@ namespace ChartER
             var tempEntity = myChart.FindEntity(dropPoint);
             if (tempEntity == null)
             {
-                selectedEntity.RemoveAttribute(draggedAttribute);
+                selectedEntity.DeleteAttribute(draggedAttribute);
                 myChart.DestroyLinks();
                 return;
             }
@@ -351,11 +354,10 @@ namespace ChartER
 
         private void UpdateStatusBar()
         {
-            var tempEntity = ((Entity) bs.Current);
-            stbEntityName.Text = tempEntity?.Name;
-            stbAtts.Text = tempEntity?.Attributes.Count.ToString();
-            stblblEntityMsg.Text = tempEntity?.Message;
-            if (tempEntity != null ) stblblEntityMsg.BackColor = tempEntity.BackColor;
+            stbEntityName.Text = ((Entity)bs.Current).Name;
+            stbAtts.Text = ((Entity)bs.Current).Attributes.Count.ToString();
+            stblblEntityMsg.Text = ((Entity) bs.Current).Message;
+            stblblEntityMsg.BackColor = ((Entity) bs.Current).BackColor;
         }
 
         // this method is key to avoid iterations in the collections to highlight/select
@@ -472,9 +474,6 @@ namespace ChartER
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!confirmUnsavedWork())
-                return;
-            myChart.Clear();
             myChart.Changed = false;
         }
 
@@ -503,6 +502,12 @@ namespace ChartER
             Text = Path.GetFileName(myChart.FileName) + " - " + Application.ProductName;
             myChart.Save(fileName);
             myChart.Changed = false;
+        }
+
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            myChart.Clear();
+            Invalidate(true);
         }
 
         private void oathToolStripMenuItem_Click(object sender, EventArgs e)
@@ -589,8 +594,23 @@ namespace ChartER
 
         }
 
-        #endregion
+        private void cleanUpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            isCleaningUp = true;
+            CleanUpView cleanUpView = new CleanUpView(this.myChart);
+            cleanUpView.CleanUpStoped += CleanUpView_CleanUpStoped;
+            cleanUpToolStripMenuItem.Enabled = false;
+            cleanUpView.StartCleanUp();
+        }
 
+        private void CleanUpView_CleanUpStoped(object sender, EventArgs e)
+        {
+            isCleaningUp = false;
+            cleanUpToolStripMenuItem.Enabled = true;
+
+        }
+
+        #endregion
 
 
     }
