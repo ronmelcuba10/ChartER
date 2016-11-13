@@ -33,13 +33,25 @@ namespace ChartER
             /* Bind attributes datagridview to the Attributes IBindingList
              * in the Entities IBindingList
              */
-            dgvAttribs.DataSource = entityBS;
+            
             dgvAttribs.DataMember = "Attributes";
+            dgvAttribs.AutoGenerateColumns = false;
+            dgvAttribs.ColumnCount = 2;
 
-            /*
-            for (int i = 0; i < BindingManager.Count; i++)
-                Console.WriteLine(BindingManager.Current);
-                */
+            var checkcell = new DataGridViewCheckBoxColumn();
+            checkcell.HeaderText = "Include Dog";
+            checkcell.FalseValue = false;
+            checkcell.TrueValue = true;
+            dgvAttribs.Columns.Insert(1, checkcell);
+            
+            dgvAttribs.Columns[0].Name = "Name";
+            dgvAttribs.Columns[0].HeaderText = "Name";
+            dgvAttribs.Columns[0].DataPropertyName = "Name";
+            dgvAttribs.Columns[1].Name = "IsKey";
+            dgvAttribs.Columns[1].HeaderText = "IsKey";
+            dgvAttribs.Columns[1].DataPropertyName = "Key";
+            dgvAttribs.DataSource = entityBS;
+
         }
 
         private void btnForward_Click(object sender, EventArgs e)

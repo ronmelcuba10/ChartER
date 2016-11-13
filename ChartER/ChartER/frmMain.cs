@@ -287,7 +287,7 @@ namespace ChartER
             var tempEntity = myChart.FindEntity(dropPoint);
             if (tempEntity == null)
             {
-                selectedEntity.DeleteAttribute(draggedAttribute);
+                selectedEntity.RemoveAttribute(draggedAttribute);
                 myChart.DestroyLinks();
                 return;
             }
@@ -464,6 +464,9 @@ namespace ChartER
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (!confirmUnsavedWork())
+                return;
+            myChart.Clear();
             myChart.Changed = false;
         }
 
@@ -561,7 +564,13 @@ namespace ChartER
 
         #endregion
 
-       
+       /*
+        Check the LinkS the stubs se borran
+
+            the frmOath hay QueryAccessibilityHelpEventArgs ponerle el oath
+
+    */
+
     }
 }
 

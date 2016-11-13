@@ -37,6 +37,7 @@
             this.stblblAtts = new System.Windows.Forms.ToolStripStatusLabel();
             this.stbAtts = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.stblblEntityMsg = new System.Windows.Forms.ToolStripStatusLabel();
             this.stblblLink = new System.Windows.Forms.ToolStripStatusLabel();
             this.stbLink = new System.Windows.Forms.ToolStripDropDownButton();
             this.oneToOneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,7 +78,7 @@
             this.tsbPaste = new System.Windows.Forms.ToolStripButton();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.stblblEntityMsg = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
@@ -136,6 +137,12 @@
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(30, 17);
             this.toolStripStatusLabel2.ToolTipText = "# of attributes";
+            // 
+            // stblblEntityMsg
+            // 
+            this.stblblEntityMsg.AutoSize = false;
+            this.stblblEntityMsg.Name = "stblblEntityMsg";
+            this.stblblEntityMsg.Size = new System.Drawing.Size(200, 17);
             // 
             // stblblLink
             // 
@@ -398,6 +405,7 @@
             this.tsbNewEntity,
             this.toolStripButton2,
             this.toolStripButton1,
+            this.toolStripButton3,
             this.tsbCopy,
             this.tsbCut,
             this.tsbPaste});
@@ -475,11 +483,15 @@
             this.notifyIcon.Text = "Charter";
             this.notifyIcon.Visible = true;
             // 
-            // stblblEntityMsg
+            // toolStripButton3
             // 
-            this.stblblEntityMsg.AutoSize = false;
-            this.stblblEntityMsg.Name = "stblblEntityMsg";
-            this.stblblEntityMsg.Size = new System.Drawing.Size(200, 17);
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton3.Text = "toolStripButton3";
+            this.toolStripButton3.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -568,6 +580,7 @@
         private System.Windows.Forms.ToolStripMenuItem manyToManyToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.ToolStripStatusLabel stblblEntityMsg;
+        private System.Windows.Forms.ToolStripButton toolStripButton3;
     }
 }
 

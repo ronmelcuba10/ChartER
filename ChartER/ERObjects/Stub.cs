@@ -49,6 +49,7 @@ namespace ERObjects
 
             if (StubType == StubType.One) g.DrawLine( Pen, startPoint, EndPoint);
             else DrawTriangle(g);
+            if(IsSelected)DrawSelected(g);
         }
 
         private void DrawTriangle(Graphics g)
@@ -56,7 +57,7 @@ namespace ERObjects
             var size = new Size(0, 5);
             var point1 = PointF.Add(startPoint, size);
             var point2 = PointF.Subtract(startPoint, size);
-            var tempPen = (IsSelected ? new Pen(SelectedColor, 7f) : Pen);
+            var tempPen = (IsSelected ? new Pen(SelectedColor, 3f) : Pen );
             g.DrawLine(tempPen, EndPoint, point1);
             g.DrawLine(tempPen, point1, point2);
             g.DrawLine(tempPen, EndPoint, point2);
@@ -64,7 +65,8 @@ namespace ERObjects
 
         public override void DrawSelected(Graphics g)
         {
-            DrawTriangle( g );
+            if (StubType == StubType.One) g.DrawLine(Pen, startPoint, EndPoint);
+            else DrawTriangle(g);
         }
 
         public override bool Inside(Point loc)

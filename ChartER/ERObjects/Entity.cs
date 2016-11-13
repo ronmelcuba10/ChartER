@@ -200,7 +200,7 @@ namespace ERObjects
         }
 
         // Removes the attribute with that name and updates the keys count
-        public void DeleteAttribute(Attribute attribute)
+        public void RemoveAttribute(Attribute attribute)
         {
             if (attribute.Key) KeysCount--;
             CheckValidity();
@@ -229,7 +229,7 @@ namespace ERObjects
         private void ReorderAttribute(Attribute attribute, Attribute indexAttribute)
         {
             if(FindAttribute(attribute.Name) == FindAttribute(indexAttribute.Name) ) return;
-            DeleteAttribute(attribute);
+            RemoveAttribute(attribute);
             InsertAttribute(attribute,indexAttribute);
         }
 
@@ -237,6 +237,7 @@ namespace ERObjects
         private void InsertAttribute(Attribute attribute, Attribute indexAttribute)
         {
             if (attribute.Key) KeysCount++;
+            CheckValidity();
             if (Attributes.Count > 0) Attributes.Insert(Attributes.IndexOf(indexAttribute), attribute);
             else Attributes.Add(attribute);
         }

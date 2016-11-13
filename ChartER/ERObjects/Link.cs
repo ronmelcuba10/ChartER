@@ -79,7 +79,7 @@ namespace ERObjects
         public override void Draw(Graphics g)
         {
             if ((Source == null) || (Destination == null)) return;
-            var linkPen = (IsHighlighted ? new Pen(LinkColor, 5F) : new Pen(LinkColor));
+            var linkPen = (IsHighlighted ? new Pen(LinkColor, 3F) : new Pen(LinkColor));
             DrawLink(g, linkPen);
             DrawStubs(g, linkPen);
         }
@@ -149,7 +149,7 @@ namespace ERObjects
 
         public override void DrawSelected(Graphics g)
         {
-            using (var selectionPen = new Pen(SelectedColor, 7f))
+            using (var selectionPen = new Pen(SelectedColor, 3f))
             {
                 g.DrawLine(selectionPen, SourceStub.EndPoint, DestStub.EndPoint); ;
                 DrawStubs(g, selectionPen);

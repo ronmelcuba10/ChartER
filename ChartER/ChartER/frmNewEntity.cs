@@ -15,17 +15,36 @@ namespace ChartER
         public Entity Entity()
         {
             var ent = new Entity(lblEntityName.Text);
-            foreach (var item in lbxAttributes.Items)
-                ent.AddAttribute(new Attribute((string) item,cbxKey.Checked));
+            for (int i = 0; i < clbAttributes.Items.Count; i++)
+            {
+                var name = clbAttributes.Items[i].ToString();
+                var key = clbAttributes.CheckedIndices.Contains(i);
+                ent.AddAttribute(new Attribute(name, key));
+            }
             return ent;
         }
 
         private void btnAddAttribute_Click(object sender, EventArgs e)
         {
             if (tbxAttributeName.Text.Equals(string.Empty)) return;
-            if (!lbxAttributes.Items.Contains(tbxAttributeName.Text))
-                lbxAttributes.Items.Add(tbxAttributeName.Text);
+            if (clbAttributes.Items.Contains(tbxAttributeName.Text))
+            {
+                MessageBox.Show(this, "That attribute is alrteady present", "Exisiting attribute", MessageBoxButtons.OK);
+                return;
+            }
+            clbAttributes.Items.Add(tbxAttributeName.Text, cbxKey.Checked);
             tbxAttributeName.Clear();
+            cbxKey.Checked = false;
+        }
+
+        private void tbxAttributeName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter) btnAddAttribute_Click(sender, e);
+        }
+
+        private void tbxEntityName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter) tbxAttributeName.Focus();
         }
     }
 }
