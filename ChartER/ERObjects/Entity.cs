@@ -19,10 +19,16 @@ namespace ERObjects
 
         private Rectangle _nameRect = Rectangle.Empty;
         private Color backColor;
+        private string message;
+
+        // validations and visual help
+        public bool IsValid { get; set; }            // no error inside entity
+        public string Message { get; set; }         
+
 
         public Color BackColor
         {
-            get { return (KeysCount > 0 ? backColor : Color.White); }
+            get { return (KeysCount > 0 ? backColor : Color.LightPink); }
             set { backColor = value; }
         }
 
@@ -43,11 +49,15 @@ namespace ERObjects
             this.NameColor = a.NameColor;
             this.FrameColor = a.FrameColor;
             this.SelectedColor = a.SelectedColor;
+            this.KeysCount = a.KeysCount;
+            
 
             foreach (Attribute attribute in a.Attributes)
             {
                 this.Attributes.Add(new Attribute(attribute));
             }
+
+            CheckValidity();
         }
 
         private void AttribsChanged(object sender, ListChangedEventArgs e)
@@ -65,7 +75,9 @@ namespace ERObjects
             NameColor = nameC;
             FrameColor = frame;
             SelectedColor = Color.Red;
+            this.KeysCount = 0;
             IsHighlighted = false;
+            CheckValidity();
         }
 
         public Entity(string name, Point location, Size size, Font font) :
@@ -177,13 +189,21 @@ namespace ERObjects
         public void AddAttribute(Attribute attribute)
         {
             if (attribute.Key) KeysCount++;
+            CheckValidity();
             Attributes.Add(attribute);
+        }
+
+        private void CheckValidity()
+        {
+            IsValid = KeysCount > 0;
+            Message = (IsValid ? "" : "Missing key");
         }
 
         // Removes the attribute with that name and updates the keys count
         public void DeleteAttribute(Attribute attribute)
         {
             if (attribute.Key) KeysCount--;
+            CheckValidity();
             var att = Attributes.First(currentattribute => currentattribute.Name.Equals(attribute.Name));
             Attributes.Remove(att);
         }

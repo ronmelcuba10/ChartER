@@ -165,6 +165,11 @@ namespace ChartER
             selectedLink.SetRelationship(Relationship.Many2Many);
         }
 
+        private void frmMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Delete) RemoveElement();
+        }
+
         #endregion
 
         #region Mouse events
@@ -341,6 +346,8 @@ namespace ChartER
         {
             stbEntityName.Text = ((Entity)bs.Current).Name;
             stbAtts.Text = ((Entity)bs.Current).Attributes.Count.ToString();
+            stblblEntityMsg.Text = ((Entity) bs.Current).Message;
+            stblblEntityMsg.BackColor = ((Entity) bs.Current).BackColor;
         }
 
         // this method is key to avoid iterations in the collections to highlight/select
@@ -369,6 +376,16 @@ namespace ChartER
             currentElement?.
         }
         */
+        
+        private void RemoveElement()
+        {
+            var result = MessageBox.Show("Are you sure you want to remove this element",
+                                            "Remove element", MessageBoxButtons.OKCancel);
+            if (result == DialogResult.Cancel) return;
+            myChart.RemoveElement(selectedEntity);
+            myChart.RemoveElement(selectedLink);
+            Invalidate(true);
+        }
 
         #endregion
 
@@ -541,9 +558,10 @@ namespace ChartER
 
 
 
+
         #endregion
 
-        
+       
     }
 }
 

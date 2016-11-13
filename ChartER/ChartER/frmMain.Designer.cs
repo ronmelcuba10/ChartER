@@ -68,7 +68,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.tsbNewEntity = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
@@ -76,9 +76,11 @@
             this.tsbCut = new System.Windows.Forms.ToolStripButton();
             this.tsbPaste = new System.Windows.Forms.ToolStripButton();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.stblblEntityMsg = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
+            this.toolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip
@@ -90,6 +92,7 @@
             this.stblblAtts,
             this.stbAtts,
             this.toolStripStatusLabel2,
+            this.stblblEntityMsg,
             this.stblblLink,
             this.stbLink});
             this.statusStrip.Location = new System.Drawing.Point(0, 426);
@@ -114,6 +117,7 @@
             this.toolStripStatusLabel1.AutoSize = false;
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(30, 17);
+            this.toolStripStatusLabel1.ToolTipText = "Current entity name";
             // 
             // stblblAtts
             // 
@@ -131,6 +135,7 @@
             this.toolStripStatusLabel2.AutoSize = false;
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(30, 17);
+            this.toolStripStatusLabel2.ToolTipText = "# of attributes";
             // 
             // stblblLink
             // 
@@ -151,32 +156,33 @@
             this.stbLink.Name = "stbLink";
             this.stbLink.Size = new System.Drawing.Size(74, 20);
             this.stbLink.Text = "Select one";
+            this.stbLink.ToolTipText = "Click to select the relationship";
             // 
             // oneToOneToolStripMenuItem
             // 
             this.oneToOneToolStripMenuItem.Name = "oneToOneToolStripMenuItem";
-            this.oneToOneToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.oneToOneToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.oneToOneToolStripMenuItem.Text = "One to one";
             this.oneToOneToolStripMenuItem.Click += new System.EventHandler(this.oneToOneToolStripMenuItem_Click);
             // 
             // oneToManyToolStripMenuItem
             // 
             this.oneToManyToolStripMenuItem.Name = "oneToManyToolStripMenuItem";
-            this.oneToManyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.oneToManyToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.oneToManyToolStripMenuItem.Text = "One to many";
             this.oneToManyToolStripMenuItem.Click += new System.EventHandler(this.oneToManyToolStripMenuItem_Click);
             // 
             // manyToOneToolStripMenuItem
             // 
             this.manyToOneToolStripMenuItem.Name = "manyToOneToolStripMenuItem";
-            this.manyToOneToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.manyToOneToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.manyToOneToolStripMenuItem.Text = "Many to one";
             this.manyToOneToolStripMenuItem.Click += new System.EventHandler(this.manyToOneToolStripMenuItem_Click);
             // 
             // manyToManyToolStripMenuItem
             // 
             this.manyToManyToolStripMenuItem.Name = "manyToManyToolStripMenuItem";
-            this.manyToManyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.manyToManyToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.manyToManyToolStripMenuItem.Text = "Many to many";
             this.manyToManyToolStripMenuItem.Click += new System.EventHandler(this.manyToManyToolStripMenuItem_Click);
             // 
@@ -386,20 +392,20 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
-            // toolStrip1
+            // toolStrip
             // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsbNewEntity,
             this.toolStripButton2,
             this.toolStripButton1,
             this.tsbCopy,
             this.tsbCut,
             this.tsbPaste});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(688, 25);
-            this.toolStrip1.TabIndex = 2;
-            this.toolStrip1.Text = "toolStrip1";
+            this.toolStrip.Location = new System.Drawing.Point(0, 24);
+            this.toolStrip.Name = "toolStrip";
+            this.toolStrip.Size = new System.Drawing.Size(688, 25);
+            this.toolStrip.TabIndex = 2;
+            this.toolStrip.Text = "toolStrip1";
             // 
             // tsbNewEntity
             // 
@@ -408,7 +414,6 @@
             this.tsbNewEntity.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbNewEntity.Name = "tsbNewEntity";
             this.tsbNewEntity.Size = new System.Drawing.Size(23, 22);
-            this.tsbNewEntity.Text = "toolStripButton1";
             this.tsbNewEntity.ToolTipText = "New Entity";
             this.tsbNewEntity.Click += new System.EventHandler(this.tsbNewEntity_Click);
             // 
@@ -419,7 +424,6 @@
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton2.Text = "toolStripButton2";
             this.toolStripButton2.ToolTipText = "New attribute";
             this.toolStripButton2.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
             // 
@@ -430,7 +434,6 @@
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
             this.toolStripButton1.ToolTipText = "New link";
             // 
             // tsbCopy
@@ -472,13 +475,19 @@
             this.notifyIcon.Text = "Charter";
             this.notifyIcon.Visible = true;
             // 
+            // stblblEntityMsg
+            // 
+            this.stblblEntityMsg.AutoSize = false;
+            this.stblblEntityMsg.Name = "stblblEntityMsg";
+            this.stblblEntityMsg.Size = new System.Drawing.Size(200, 17);
+            // 
             // frmMain
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(688, 448);
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
             this.DoubleBuffered = true;
@@ -492,6 +501,7 @@
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.frmMain_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.frmMain_DragEnter);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyDown);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
@@ -501,8 +511,8 @@
             this.statusStrip.PerformLayout();
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.toolStrip.ResumeLayout(false);
+            this.toolStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -517,7 +527,7 @@
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem entityToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem1;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.ToolStripButton tsbNewEntity;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
@@ -556,6 +566,8 @@
         private System.Windows.Forms.ToolStripMenuItem oneToManyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem manyToOneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem manyToManyToolStripMenuItem;
+        private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.ToolStripStatusLabel stblblEntityMsg;
     }
 }
 

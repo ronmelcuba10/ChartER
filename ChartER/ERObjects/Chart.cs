@@ -82,6 +82,15 @@ namespace ERObjects
             return foundAttribute;
         }
 
+
+        public void RemoveElement( Element element )
+        {
+            if (element?.GetType() == typeof(Entity)) Entities.Remove((Entity) element);
+            else if (element?.GetType() == typeof(Link)) Links.Remove((Link)element);
+            
+            DestroyLinks();
+        }
+
         /* Checks for missing attributes/entities
          * and destroys links between them
          */

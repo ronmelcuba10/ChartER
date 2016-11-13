@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmNewEntity));
             this.lblEntityName = new System.Windows.Forms.Label();
             this.tbxEntityName = new System.Windows.Forms.TextBox();
@@ -39,6 +40,7 @@
             this.lblAttributeName = new System.Windows.Forms.Label();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,6 +61,7 @@
             this.tbxEntityName.Name = "tbxEntityName";
             this.tbxEntityName.Size = new System.Drawing.Size(300, 20);
             this.tbxEntityName.TabIndex = 2;
+            this.toolTip.SetToolTip(this.tbxEntityName, "Name of the new entity");
             // 
             // groupBox1
             // 
@@ -85,6 +88,7 @@
             this.cbxKey.Size = new System.Drawing.Size(44, 17);
             this.cbxKey.TabIndex = 6;
             this.cbxKey.Text = "Key";
+            this.toolTip.SetToolTip(this.cbxKey, "Is it a key?");
             this.cbxKey.UseVisualStyleBackColor = true;
             // 
             // lbxAttributes
@@ -94,6 +98,7 @@
             this.lbxAttributes.Name = "lbxAttributes";
             this.lbxAttributes.Size = new System.Drawing.Size(300, 108);
             this.lbxAttributes.TabIndex = 5;
+            this.toolTip.SetToolTip(this.lbxAttributes, "Attribute list");
             // 
             // btnAddAttribute
             // 
@@ -102,6 +107,7 @@
             this.btnAddAttribute.Size = new System.Drawing.Size(23, 23);
             this.btnAddAttribute.TabIndex = 4;
             this.btnAddAttribute.Text = "+";
+            this.toolTip.SetToolTip(this.btnAddAttribute, "Add the new attribute");
             this.btnAddAttribute.UseVisualStyleBackColor = true;
             this.btnAddAttribute.Click += new System.EventHandler(this.btnAddAttribute_Click);
             // 
@@ -113,6 +119,7 @@
             this.tbxAttributeName.Name = "tbxAttributeName";
             this.tbxAttributeName.Size = new System.Drawing.Size(163, 20);
             this.tbxAttributeName.TabIndex = 3;
+            this.toolTip.SetToolTip(this.tbxAttributeName, "Name of the new attribute to be added to the list");
             // 
             // lblAttributeName
             // 
@@ -132,6 +139,7 @@
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 4;
             this.btnOk.Text = "Add";
+            this.toolTip.SetToolTip(this.btnOk, "Adds theis entity to your chart");
             this.btnOk.UseVisualStyleBackColor = true;
             // 
             // btnCancel
@@ -178,5 +186,6 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.ListBox lbxAttributes;
         private System.Windows.Forms.CheckBox cbxKey;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }
