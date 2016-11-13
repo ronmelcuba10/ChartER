@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using ChartPrint;
 using ERObjects;
 using Attribute = ERObjects.Attribute;
-
+using ChartViews;
 
 namespace ChartER
 {
@@ -64,6 +64,7 @@ namespace ChartER
 
             bs = new BindingSource();
             bs.DataSource = myChart.Entities;
+
         }
 
         /* Paint the current chart and selected Entity (if any)
@@ -342,6 +343,11 @@ namespace ChartER
             Invalidate(true);
         }
 
+        private void HandleGridViewClose(object sender, EventArgs e)
+        {
+            eRGridToolStripMenuItem.Enabled = true;
+        }
+
         private void UpdateStatusBar()
         {
             stbEntityName.Text = ((Entity)bs.Current).Name;
@@ -530,24 +536,35 @@ namespace ChartER
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            copyEntity = new Entity(selectedEntity);
+            if (selectedEntity != null)
+            {
+                copyEntity = new Entity(selectedEntity);
+            }
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            copyEntity.IsSelected = false;
-            myChart.AddEntity(copyEntity);
-            copyEntity = null;
+           if (copyEntity != null)
+            {
+                copyEntity.IsSelected = false;
+                myChart.AddEntity(copyEntity);
+                copyEntity = null;
+            }
         }
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            copyEntity = new Entity(selectedEntity);
-            copyLink = selectedLink;
-            bs.Remove(selectedEntity);
+            if(selectedEntity != null)
+            {
+                copyEntity = new Entity(selectedEntity);
+                copyLink = selectedLink;
+                bs.Remove(selectedEntity);
 
-            //removes the links to the imaginary
-            myChart.DestroyLinks();
+                //removes the links to the imaginary
+                myChart.DestroyLinks();
+            }
+
+            
         }
 
 
@@ -558,18 +575,27 @@ namespace ChartER
             myChart.DestroyLinks();
         }
 
+        /* Handle E-R Grid View */
+        private void eRGridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GridViewer gv = new GridViewer(bs);
+
+            /* Keep track of changes */
+            myChart.EntityChanged += EntityChangedByEditor;
+            bs.PositionChanged += Bs_PositionChanged;
+            gv.FormClosed += EntityChangedByEditor;
+            gv.FormClosed += HandleGridViewClose;
+
+            gv.Show(this);
+
+            eRGridToolStripMenuItem.Enabled = false;
 
 
-
+        }
 
         #endregion
 
-       /*
-        Check the LinkS the stubs se borran
 
-            the frmOath hay QueryAccessibilityHelpEventArgs ponerle el oath
-
-    */
 
     }
 }

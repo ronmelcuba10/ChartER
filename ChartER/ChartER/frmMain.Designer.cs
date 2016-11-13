@@ -69,6 +69,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testGridViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.tsbNewEntity = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
@@ -78,7 +79,9 @@
             this.tsbPaste = new System.Windows.Forms.ToolStripButton();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.eRGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cleanUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
@@ -198,8 +201,10 @@
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
+            this.viewToolStripMenuItem,
             this.entityToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.helpToolStripMenuItem,
+            this.testGridViewToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(688, 24);
@@ -399,13 +404,17 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
+            // testGridViewToolStripMenuItem
+            // 
+            this.testGridViewToolStripMenuItem.Name = "testGridViewToolStripMenuItem";
+            this.testGridViewToolStripMenuItem.Size = new System.Drawing.Size(12, 20);
+            // 
             // toolStrip
             // 
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsbNewEntity,
             this.toolStripButton2,
             this.toolStripButton1,
-            this.toolStripButton3,
             this.tsbCopy,
             this.tsbCut,
             this.tsbPaste});
@@ -483,15 +492,27 @@
             this.notifyIcon.Text = "Charter";
             this.notifyIcon.Visible = true;
             // 
-            // toolStripButton3
+            // viewToolStripMenuItem
             // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton3.Text = "toolStripButton3";
-            this.toolStripButton3.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.eRGridToolStripMenuItem,
+            this.cleanUpToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // eRGridToolStripMenuItem
+            // 
+            this.eRGridToolStripMenuItem.Name = "eRGridToolStripMenuItem";
+            this.eRGridToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.eRGridToolStripMenuItem.Text = "E-R Grid";
+            this.eRGridToolStripMenuItem.Click += new System.EventHandler(this.eRGridToolStripMenuItem_Click);
+            // 
+            // cleanUpToolStripMenuItem
+            // 
+            this.cleanUpToolStripMenuItem.Name = "cleanUpToolStripMenuItem";
+            this.cleanUpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cleanUpToolStripMenuItem.Text = "Clean-Up";
             // 
             // frmMain
             // 
@@ -580,7 +601,10 @@
         private System.Windows.Forms.ToolStripMenuItem manyToManyToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.ToolStripStatusLabel stblblEntityMsg;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripMenuItem testGridViewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem eRGridToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cleanUpToolStripMenuItem;
     }
 }
 

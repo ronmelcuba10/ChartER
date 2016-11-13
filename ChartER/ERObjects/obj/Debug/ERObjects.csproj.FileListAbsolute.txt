@@ -7,4 +7,8 @@ C:\Users\Ronny\OneDrive\Visual Studio 2015\Projects\Homework 9\ChartER\ChartER\E
 C:\Users\Ronny\OneDrive\Visual Studio 2015\Projects\Homework 9\ChartER\ChartER\ERObjects\bin\Debug\ERObjects.pdb
 C:\Users\Ronny\OneDrive\Visual Studio 2015\Projects\Homework 9\ChartER\ChartER\ERObjects\obj\Debug\ERObjects.dll
 C:\Users\Ronny\OneDrive\Visual Studio 2015\Projects\Homework 9\ChartER\ChartER\ERObjects\obj\Debug\ERObjects.pdb
-C:\Users\Ronny\OneDrive\Visual Studio 2015\Projects\Homework 9\ChartER\ChartER\ERObjects\obj\Debug\ERObjects.csprojResolveAssemblyReference.cache
+C:\Users\joeca\Source\Repos\ChartER\ChartER\ERObjects\bin\Debug\ERObjects.dll
+C:\Users\joeca\Source\Repos\ChartER\ChartER\ERObjects\bin\Debug\ERObjects.pdb
+C:\Users\joeca\Source\Repos\ChartER\ChartER\ERObjects\obj\Debug\ERObjects.csprojResolveAssemblyReference.cache
+C:\Users\joeca\Source\Repos\ChartER\ChartER\ERObjects\obj\Debug\ERObjects.dll
+C:\Users\joeca\Source\Repos\ChartER\ChartER\ERObjects\obj\Debug\ERObjects.pdb
