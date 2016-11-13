@@ -533,24 +533,35 @@ namespace ChartER
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            copyEntity = new Entity(selectedEntity);
+            if (selectedEntity != null)
+            {
+                copyEntity = new Entity(selectedEntity);
+            }
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            copyEntity.IsSelected = false;
-            myChart.AddEntity(copyEntity);
-            copyEntity = null;
+           if (copyEntity != null)
+            {
+                copyEntity.IsSelected = false;
+                myChart.AddEntity(copyEntity);
+                copyEntity = null;
+            }
         }
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            copyEntity = new Entity(selectedEntity);
-            copyLink = selectedLink;
-            bs.Remove(selectedEntity);
+            if(selectedEntity != null)
+            {
+                copyEntity = new Entity(selectedEntity);
+                copyLink = selectedLink;
+                bs.Remove(selectedEntity);
 
-            //removes the links to the imaginary
-            myChart.DestroyLinks();
+                //removes the links to the imaginary
+                myChart.DestroyLinks();
+            }
+
+            
         }
 
 
