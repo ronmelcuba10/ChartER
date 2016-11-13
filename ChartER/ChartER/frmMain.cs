@@ -81,6 +81,7 @@ namespace ChartER
             var bg = Graphics.FromImage(CurrentBitmap);
             bg.Clear(Color.Transparent);
             myChart.Draw(bg);
+            UpdateStatusBar();
         }
     
 
@@ -350,10 +351,11 @@ namespace ChartER
 
         private void UpdateStatusBar()
         {
-            stbEntityName.Text = ((Entity)bs.Current).Name;
-            stbAtts.Text = ((Entity)bs.Current).Attributes.Count.ToString();
-            stblblEntityMsg.Text = ((Entity) bs.Current).Message;
-            stblblEntityMsg.BackColor = ((Entity) bs.Current).BackColor;
+            var tempEntity = ((Entity) bs.Current);
+            stbEntityName.Text = tempEntity?.Name;
+            stbAtts.Text = tempEntity?.Attributes.Count.ToString();
+            stblblEntityMsg.Text = tempEntity?.Message;
+            if (tempEntity != null ) stblblEntityMsg.BackColor = tempEntity.BackColor;
         }
 
         // this method is key to avoid iterations in the collections to highlight/select
@@ -501,12 +503,6 @@ namespace ChartER
             Text = Path.GetFileName(myChart.FileName) + " - " + Application.ProductName;
             myChart.Save(fileName);
             myChart.Changed = false;
-        }
-
-        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            myChart.Clear();
-            Invalidate(true);
         }
 
         private void oathToolStripMenuItem_Click(object sender, EventArgs e)

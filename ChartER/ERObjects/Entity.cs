@@ -150,7 +150,7 @@ namespace ERObjects
 
                         /* Draw Frame */
                         g.DrawRectangle(framePen, new Rectangle(Location, Size));
-
+                        CheckValidity(); 
                         if (IsSelected) DrawSelected(g);
                     }
                 }

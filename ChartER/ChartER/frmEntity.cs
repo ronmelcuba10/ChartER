@@ -36,10 +36,9 @@ namespace ChartER
             
             dgvAttribs.DataMember = "Attributes";
             dgvAttribs.AutoGenerateColumns = false;
-            dgvAttribs.ColumnCount = 2;
+            dgvAttribs.ColumnCount = 1;
 
             var checkcell = new DataGridViewCheckBoxColumn();
-            checkcell.HeaderText = "Include Dog";
             checkcell.FalseValue = false;
             checkcell.TrueValue = true;
             dgvAttribs.Columns.Insert(1, checkcell);
