@@ -29,7 +29,22 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmOath));
+            this.oathControl1 = new TextDesigner.OathControl();
+            this.pnlContent.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // pnlContent
+            // 
+            this.pnlContent.Controls.Add(this.oathControl1);
+            // 
+            // oathControl1
+            // 
+            this.oathControl1.BackColor = System.Drawing.Color.Transparent;
+            this.oathControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.oathControl1.Location = new System.Drawing.Point(0, 0);
+            this.oathControl1.Name = "oathControl1";
+            this.oathControl1.Size = new System.Drawing.Size(334, 197);
+            this.oathControl1.TabIndex = 1;
             // 
             // frmOath
             // 
@@ -38,12 +53,15 @@
             this.ClientSize = new System.Drawing.Size(334, 305);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmOath";
-            this.Text = "frmOath";
+            this.Text = "Oath";
+            this.pnlContent.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
+
+        private TextDesigner.OathControl oathControl1;
     }
 }
