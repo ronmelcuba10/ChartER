@@ -63,5 +63,10 @@ namespace ERObjects
                 new RectangleF(Location, Size), format);
             if(IsSelected) DrawSelected(g);
         }
+
+        public void ToggleKey()
+        {
+            Key = !Key;
+        }
     }
 }

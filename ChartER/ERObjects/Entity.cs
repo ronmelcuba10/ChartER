@@ -124,7 +124,7 @@ namespace ERObjects
                     {
                         /* Background */
                         //g.FillRectangle(backBrush, new Rectangle(this.Location, this.Size));
-
+                        
                         /* Draw Title */
                         DrawName(g, textBrush, framePen, backBrush);
 
@@ -150,7 +150,7 @@ namespace ERObjects
 
                         /* Draw Frame */
                         g.DrawRectangle(framePen, new Rectangle(Location, Size));
-                        CheckValidity(); 
+                        CheckValidity();
                         if (IsSelected) DrawSelected(g);
                     }
                 }
