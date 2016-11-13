@@ -4,7 +4,7 @@ Create an application that implements the following features:
  * ✔ Toolbar
  * ✔ Status bar
  * ✔ Tooltips
- * Help information
+ * ✔ Help information
  * ✔ Data binding
  * ✔ Save and open (Serialize)
  * Threading
