@@ -43,5 +43,10 @@ namespace ChartER
                 }
             }
         }
+
+        private void frmOath_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
