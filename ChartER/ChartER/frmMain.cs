@@ -145,6 +145,26 @@ namespace ChartER
             currentBitmap = null; // create a new one with new dimensions
         }
 
+        private void oneToOneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            selectedLink.SetRelationship(Relationship.One2One); 
+        }
+
+        private void oneToManyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            selectedLink.SetRelationship(Relationship.One2Many);
+        }
+
+        private void manyToOneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            selectedLink.SetRelationship(Relationship.Many2One);
+        }
+
+        private void manyToManyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            selectedLink.SetRelationship(Relationship.Many2Many);
+        }
+
         #endregion
 
         #region Mouse events
@@ -169,6 +189,8 @@ namespace ChartER
                 // clicked on a link
                 var tempLink = myChart.FindLink(e.Location);
                 selectedLink = (Link) ProcessSelection(tempLink, selectedLink);
+                stbLink.Enabled = ( selectedLink != null );
+                
                 
                 // clicked on an attribute
                 var tempAttribute = selectedEntity?.FindAttribute(e.Location);
@@ -212,35 +234,6 @@ namespace ChartER
             Invalidate(true);
         }
 
-        // this method is key to avoid iterations in the collections to highlight/select
-        // it reduces the highlight/select process from O(n) to O(1)
-        private Element ProcessHighLighting(Element tempElement, Element highlightedElement)
-        {
-            highlightedElement?.ClearHighLight();      // clear the last selection/highlight if any
-            tempElement?.Highlight();                  // highlight this element if any
-            return tempElement ?? null;                // return this element
-        }
-
-        // this method is key to avoid iterations in the collections to highlight/select
-        // it reduces the highlight/select process from O(n) to O(1)
-        private Element ProcessSelection(Element tempElement, Element selectedElement)
-        {
-            selectedElement?.ClearSelection();      // clear the last selection/highlight if any
-            tempElement?.Select();                  // select this element if any
-            return tempElement ?? null;                // return this element
-        }
-
-
-        /*
-        private Element ProcessActions(Element temElement, Element currentElement, 
-                                Action<Element> clearAction, Action<Element> setAction)
-        {
-            currentElement?.
-        }
-        */
-
-
-
         /* Move the selected object */
         private void MouseMoveObject(Entity ent, Point loc)
         {
@@ -279,6 +272,9 @@ namespace ChartER
                 e.Effect = DragDropEffects.None;
         }
 
+        // if the attribute is dropped in the backgorund then is removed
+        // if dropped on an entity that does not have it then 
+        // is added in the position of the mouse 
         private void frmMain_DragDrop(object sender, DragEventArgs e)
         {
             var draggedAttribute = (Attribute)e.Data.GetData(typeof(Attribute));
@@ -287,12 +283,15 @@ namespace ChartER
             if (tempEntity == null)
             {
                 selectedEntity.DeleteAttribute(draggedAttribute);
+                myChart.DestroyLinks();
                 return;
             }
             var tempAttribute = tempEntity.FindAttribute(dropPoint);
             tempEntity.AddAttributeAfter( new Attribute(draggedAttribute),tempAttribute);
+
+            myChart.AddLink(new Link(draggedAttribute, tempAttribute, Relationship.One2One));
+
             Invalidate(true);
-            
         }
 
         public DataObject DragDropObject
@@ -317,8 +316,10 @@ namespace ChartER
         private void Bs_PositionChanged(object sender, EventArgs e)
         {
             if (myChart.HasEntities())
-                //selectedEntity = this.myChart.FindEntity(bs.Position);
-                selectedEntity = (Entity) bs.Current;
+            {
+                var tempEntity = (Entity)bs.Current;
+                selectedEntity = (Entity) ProcessSelection(tempEntity, selectedEntity);
+            }
             else
                 selectedEntity = null;
 
@@ -341,6 +342,33 @@ namespace ChartER
             stbEntityName.Text = ((Entity)bs.Current).Name;
             stbAtts.Text = ((Entity)bs.Current).Attributes.Count.ToString();
         }
+
+        // this method is key to avoid iterations in the collections to highlight/select
+        // it reduces the highlight/select process from O(n) to O(1)
+        private Element ProcessHighLighting(Element tempElement, Element highlightedElement)
+        {
+            highlightedElement?.ClearHighLight();      // clear the last selection/highlight if any
+            tempElement?.Highlight();                  // highlight this element if any
+            return tempElement;                // return this element
+        }
+
+        // this method is key to avoid iterations in the collections to highlight/select
+        // it reduces the highlight/select process from O(n) to O(1)
+        private Element ProcessSelection(Element tempElement, Element selectedElement)
+        {
+            selectedElement?.ClearSelection();      // clear the last selection/highlight if any
+            tempElement?.Select();                  // select this element if any
+            return tempElement ?? null;                // return this element
+        }
+
+
+        /*
+        private Element ProcessActions(Element temElement, Element currentElement, 
+                                Action<Element> clearAction, Action<Element> setAction)
+        {
+            currentElement?.
+        }
+        */
 
         #endregion
 
@@ -488,6 +516,7 @@ namespace ChartER
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             myChart.AddEntity(copyEntity);
+            copyEntity = null;
         }
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -510,9 +539,11 @@ namespace ChartER
 
 
 
-    #endregion
 
-}
+        #endregion
+
+        
+    }
 }
 
 

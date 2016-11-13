@@ -39,11 +39,10 @@ namespace ERObjects
             this.Location = a.Location;
             this.Size = a.Size;
             this.Font = a.Font;
-            this.BackColor = a.BackColor;
+            this.BackColor = Color.White;
             this.NameColor = a.NameColor;
             this.FrameColor = a.FrameColor;
             this.SelectedColor = a.SelectedColor;
-            this.IsHighlighted = a.IsHighlighted;
 
             foreach (Attribute attribute in a.Attributes)
             {
@@ -86,7 +85,7 @@ namespace ERObjects
         {
         }
 
-
+        
         public override bool Inside(Point location)
         {
             var r = new Rectangle(Location, Size);
@@ -128,6 +127,7 @@ namespace ERObjects
                         Attributes.ToList().ForEach(attribute => //DrawAttrib(g,factor)
                         {
                             DrawAttrib(g, attribute, factor, backBrush);
+                            if (attribute.Key) KeysCount++;
                             factor++;
                         });
 
@@ -146,10 +146,8 @@ namespace ERObjects
         }
 
         /* Draws the entity's name */
-
         private void DrawName(Graphics g, Brush textBrush, Pen framePen, Brush backBrush)
         {
-
             Size = new Size(Size.Width, (int) Font.GetHeight());
             _nameRect = new Rectangle(Location, Size);
             var titleStringFormat = new StringFormat(StringFormatFlags.NoWrap);
@@ -175,13 +173,14 @@ namespace ERObjects
             attribute.Draw(g);
         }
 
-        // Adds an atttribute
+        // Adds an atttribute at the end of the list and updates the keys count
         public void AddAttribute(Attribute attribute)
         {
             if (attribute.Key) KeysCount++;
             Attributes.Add(attribute);
         }
 
+        // Removes the attribute with that name and updates the keys count
         public void DeleteAttribute(Attribute attribute)
         {
             if (attribute.Key) KeysCount--;
@@ -189,23 +188,32 @@ namespace ERObjects
             Attributes.Remove(att);
         }
         
-
         // Finds the attribute located under the specified location
         public Attribute FindAttribute(Point loc) => (Attribute) FindElement(Attributes, loc);
 
+        // return the index of the attribute with the name passed as parameter
+        public int FindAttribute(string name)
+        {
+            var att = Attributes.FirstOrDefault(attribute => attribute.Name.Equals(name));
+            return Attributes.IndexOf(att);
+        }
+
+        // Adds the attribute if there is no attribute with the same name  is already in the list
         public void AddAttributeAfter(Attribute attribute, Attribute indexAttribute)
         {
             if (HasAttribute(attribute.Name)) ReorderAttribute(attribute, indexAttribute);
             else InsertAttribute(attribute,indexAttribute);
-            
         }
 
+        // Reorder only if the attribute(with the specific name) is present
         private void ReorderAttribute(Attribute attribute, Attribute indexAttribute)
         {
+            if(FindAttribute(attribute.Name) == FindAttribute(indexAttribute.Name) ) return;
             DeleteAttribute(attribute);
             InsertAttribute(attribute,indexAttribute);
         }
 
+        // Inserts the attibute in the specified position in the list
         private void InsertAttribute(Attribute attribute, Attribute indexAttribute)
         {
             if (attribute.Key) KeysCount++;

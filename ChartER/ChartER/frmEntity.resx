@@ -53,6 +53,7 @@
     value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
+
     mimetype: application/x-microsoft.net.object.bytearray.base64
     value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
@@ -68,16 +69,16 @@
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attributeName name="name" use="required" type="xsd:string" />
-              <xsd:attributeName name="type" type="xsd:string" />
-              <xsd:attributeName name="mimetype" type="xsd:string" />
-              <xsd:attributeName ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attributeName name="alias" type="xsd:string" />
-              <xsd:attributeName name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
@@ -86,10 +87,10 @@
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attributeName name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attributeName name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attributeName name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attributeName ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -97,7 +98,7 @@
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attributeName name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -116,4 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>172, 17</value>
+  </metadata>
+  <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="contextMenuStrip2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>262, 17</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AACkpKQkpKSkTqSkpGCkpKRupKSkeKSkpH6kpKR+pKSkfqSkpH6kpKR+pKSkfqSkpHSkpKRspKSkXKSk
+        pEakpKQUpKSkHqSkpEKkpKRWpKSkYqSkpG6kpKRwpKSkdKSkpH6kpKR+opiBnqKWfKKelHygiYNxkqKU
+        dIahkWtwoY5kJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAApH8tGKN/Lf+jfy3/mXgs/2RP
+        Ff+jfy3/o38t/6N/LZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALSNPBy0jTz/tI08/6qG
+        OP95YBr/tI08/7SNPP+0jTyaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGnEwcxpxM/8ac
+        TP+8lkb/j3If/8acTP/GnEz/xpxMmgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA07F0Gtqy
+        a//bs2z/0q1k/6yPOv/bs2z/27Ns/9mvZI6feykin3spVJ97KVRcSRRUlHUqVJ97KVSfeylMtKeKBMjI
+        yKLTz8lG3bBhCNOpVwisiSYI3bBhCN2wYQjdsGECpYAumqWALv+lgC7/aFIW/5t7L/+lgC7/pYAu/7mz
+        pK7JyclSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALaPPpq2jz7/to8+/31kHP+siTv/to8+/7aP
+        Pv+9sptwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADInk6ayJ5O/8ieTv+TdSH/vphI/8ie
+        Tv/Ink7/vrepvL29vQoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA2rFmfN21b+bdtW/msJI+5tOv
+        Z+bdtW/m3LRs4MzBrUrGxsaqyMjIBgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAzdDOSIG+mKo1sWNcNKVeXBttOVw1sWNcNbFjXDWxYyoAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAC+4axwvuGv/L7hr/zCtZf8adz7/L7hr/y+4a/8vuGuaAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlyH0cJch9/yXIff8ovHX/GYdG/yXIff8lyH3/Jch9mgAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHtSLHB7Ui/8e1Iv/IsiB/xiVTv8e1Iv/HtSL/x7U
+        i5oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABrZkhAw3Z3WNN6f3jnVld4zrGbeNN6f3jTe
+        n94q3Jp4//8AAP+DAAD/gAAA/4AAAP+AAAD/gAAA/38AAAD/AAAB/wAAAP8AAIF/AAD/vwAA/4AAAP+A
+        AAD/gAAA/4EAAA==
+</value>
+  </data>
 </root>

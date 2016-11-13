@@ -61,16 +61,10 @@ namespace ERObjects
             Destination = b;
             LinkColor = linkColor;
             PenStyle = penStyle;
-            Relationship = aRel;
             Font = font;
             SelectedColor = Color.Red;
-
-
-            SourceStub = new Stub(Source, ( aRel.GetHashCode() > 1 ? StubType.Many : StubType.One ) , 
-                                    LinkLocation.Right, LinkColor, font);
-
-            DestStub = new Stub(Destination, ( aRel.GetHashCode()%2 == 0 ? StubType.One : StubType.Many) , 
-                                    LinkLocation.Left, LinkColor, font);
+            SetRelationship(aRel);
+           
         }
 
 
@@ -80,19 +74,14 @@ namespace ERObjects
             this(a, b, c, Color.BlueViolet , LinkPen.Dashed, new Font("Arial",12)) // using default a font may be changed later
         {
         }
-
+     
         /* Draws the link on the passed graphics context */
-
-        
         public override void Draw(Graphics g)
         {
             if ((Source == null) || (Destination == null)) return;
-
-            using (var linkPen = new Pen(LinkColor))
-            {
-                DrawLink(g,linkPen);
-                DrawStubs(g, linkPen);
-            }
+            var linkPen = (IsHighlighted ? new Pen(LinkColor, 5F) : new Pen(LinkColor));
+            DrawLink(g, linkPen);
+            DrawStubs(g, linkPen);
         }
 
         private void DrawStubs(Graphics g, Pen linkPen)
@@ -114,6 +103,9 @@ namespace ERObjects
                 SourceStub.LinkLoc = LinkLocation.Left;
                 DestStub.LinkLoc = LinkLocation.Right;
             }
+
+            SourceStub.Pen = linkPen;
+            DestStub.Pen = linkPen;
             SourceStub.Draw(g);
             DestStub.Draw(g);
         }
@@ -136,6 +128,7 @@ namespace ERObjects
                     break;
             }
             g.DrawLine(linkPen, SourceStub.EndPoint, DestStub.EndPoint);
+            if(IsSelected) DrawSelected(g);
         }
 
         // needs to override to select both stubs
@@ -156,17 +149,50 @@ namespace ERObjects
 
         public override void DrawSelected(Graphics g)
         {
-            using (var selectionPen = new Pen(SelectedColor, 5f))
+            using (var selectionPen = new Pen(SelectedColor, 7f))
             {
-                DrawLink(g, selectionPen);
+                g.DrawLine(selectionPen, SourceStub.EndPoint, DestStub.EndPoint); ;
                 DrawStubs(g, selectionPen);
             }
         }
 
         // returns if the location is inside the link coordinates
-        public override bool Inside(Point loc) => GetRectangle(SourceStub.EndPoint,DestStub.EndPoint).Contains(loc);
+        public override bool Inside(Point loc)
+        {
+            // distance to the line
+            var x0 = loc.X;
+            var y0 = loc.Y;
+            var x1 = SourceStub.EndPoint.X;
+            var y1 = SourceStub.EndPoint.Y;
+            var x2 = DestStub.EndPoint.X;
+            var y2 = DestStub.EndPoint.Y;
 
-        // returns the rectangle formed by a widen line
-        private Rectangle GetRectangle(PointF point1, PointF point2) => new Rectangle(Point.Empty, Size.Empty);
+            var above = Math.Abs((y2 - y1) * x0 - (x2 - x1) * y0 + x2 * y1 - y2 * x1);
+            var below = Math.Sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
+            var distanceToLine = above / below;
+
+            // but the line is infinitive
+            var distanceToSource = Math.Sqrt((x0 - x1) * (x0 - x1) + (y0 - y1) * (y0 - y1));
+            var distanceToDest = Math.Sqrt((x0 - x2) * (x0 - x2) + (y0 - y2) * (y0 - y2));
+
+            // if the addition of these distances are close to the length of the segment
+            // then we are close to the line
+            var length = Math.Sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+
+
+            return distanceToLine < 10 && (distanceToSource + distanceToDest - length) < 20;
+        }
+
+        public void SetRelationship(Relationship relationship)
+        {
+            Relationship = relationship;
+            SourceStub = new Stub(Source, (relationship.GetHashCode() > 1 ? StubType.Many : StubType.One),
+                                    LinkLocation.Right, LinkColor, Font);
+
+            DestStub = new Stub(Destination, (relationship.GetHashCode() % 2 == 0 ? StubType.One : StubType.Many),
+                                    LinkLocation.Left, LinkColor, Font);
+        }
+
+
     }
 }

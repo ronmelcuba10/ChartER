@@ -14,6 +14,7 @@ namespace ERObjects
         public Color StubColor { get; set; }
         public StubType StubType { get; set; }
         public Font Font { get; set; }
+        public Pen Pen { get; set; }
         
         private PointF startPoint;
         private readonly Attribute Attribute;
@@ -41,32 +42,29 @@ namespace ERObjects
         {
             startPoint = new PointF(
                 LinkLoc == LinkLocation.Right ? Attribute.Rect.Right : Attribute.Rect.Left,
-                Attribute.Rect.Top + Attribute.Rect.Height / 2);
+                Attribute.Rect.Top + Attribute.Rect.Height/2);
             EndPoint = new PointF(
                 LinkLoc == LinkLocation.Left ? Attribute.Rect.Left - StubLen : Attribute.Rect.Right + StubLen,
-                Attribute.Rect.Top + Attribute.Rect.Height / 2);
+                Attribute.Rect.Top + Attribute.Rect.Height/2);
 
-            using (var stubPen = new Pen(StubColor))
-            {
-                if (StubType == StubType.One) g.DrawLine(stubPen, startPoint, EndPoint);
-                else DrawTriangle(g, stubPen);
-            }
+            if (StubType == StubType.One) g.DrawLine( Pen, startPoint, EndPoint);
+            else DrawTriangle(g);
         }
 
-        private void DrawTriangle(Graphics g, Pen p)
+        private void DrawTriangle(Graphics g)
         {
             var size = new Size(0, 5);
             var point1 = PointF.Add(startPoint, size);
             var point2 = PointF.Subtract(startPoint, size);
-            g.DrawLine(p, EndPoint, point1);
-            g.DrawLine(p, point1, point2);
-            g.DrawLine(p, EndPoint, point2);
+            var tempPen = (IsSelected ? new Pen(SelectedColor, 7f) : Pen);
+            g.DrawLine(tempPen, EndPoint, point1);
+            g.DrawLine(tempPen, point1, point2);
+            g.DrawLine(tempPen, EndPoint, point2);
         }
 
         public override void DrawSelected(Graphics g)
         {
-            using (var selectionPen = new Pen(SelectedColor, 5f))
-                DrawTriangle(g, selectionPen);
+            DrawTriangle( g );
         }
 
         public override bool Inside(Point loc)

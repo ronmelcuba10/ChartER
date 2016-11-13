@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ERObjects;
+using Attribute = ERObjects.Attribute; // Alias
 
 namespace ChartER
 {
@@ -17,21 +11,22 @@ namespace ChartER
 
         public BindingManagerBase BindingManager
         {
-            get { return this.BindingContext[entityBS]; }
+            get { return BindingContext[entityBS]; }
         }
+
         public frmEntity()
         {
             InitializeComponent();
         }
 
-        public frmEntity(BindingSource entBS):this()
+        public frmEntity(BindingSource entBS) : this()
         {
-            this.SetBindingSource(entBS);
+            SetBindingSource(entBS);
         }
 
         public void SetBindingSource(BindingSource bs)
         {
-            this.entityBS = bs;
+            entityBS = bs;
 
             txtName.DataBindings.Add("Text", entityBS, "Name");
 
@@ -41,26 +36,25 @@ namespace ChartER
             dgvAttribs.DataSource = entityBS;
             dgvAttribs.DataMember = "Attributes";
 
+            /*
             for (int i = 0; i < BindingManager.Count; i++)
                 Console.WriteLine(BindingManager.Current);
-
-
-
+                */
         }
 
         private void btnForward_Click(object sender, EventArgs e)
         {
-            ++this.BindingManager.Position;
+            ++BindingManager.Position;
         }
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-            --this.BindingManager.Position;
+            --BindingManager.Position;
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
@@ -70,9 +64,32 @@ namespace ChartER
             entityBS.Remove(BindingManager.Current);
 
             if (entityBS.Count == 0)
-                this.Close();
+                Close();
 
             BindingManager.Position++;
+        }
+
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dgvAttribs.Rows.Remove(dgvAttribs.SelectedRows[0]);
+        }
+
+        private void frmEntity_Load(object sender, EventArgs e)
+        {
+            toolTip.SetToolTip(dgvAttribs, "Right click to remove attributes");
+        }
+
+        private void btnAddAtt_Click(object sender, EventArgs e)
+        {
+            var entity = (Entity) BindingManager.Current;
+            if (entity.HasAttribute(txtName.Text))
+            {
+                MessageBox.Show(this, "That attribute is alrteady present", "Exisiting attribute", MessageBoxButtons.OK);
+                return;
+            }
+            entity.AddAttribute(new Attribute(tbxAttName.Text, cbxKey.Checked));
+            txtName.Clear();
+            cbxKey.Checked = false;
         }
     }
 }

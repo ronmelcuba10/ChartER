@@ -29,16 +29,25 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEntity));
             this.txtName = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.lblName = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnForward = new System.Windows.Forms.Button();
+            this.btnBack = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvAttribs = new System.Windows.Forms.DataGridView();
-            this.btnBack = new System.Windows.Forms.Button();
-            this.btnForward = new System.Windows.Forms.Button();
+            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tbxAttName = new System.Windows.Forms.TextBox();
+            this.lblAttName = new System.Windows.Forms.Label();
+            this.cbxKey = new System.Windows.Forms.CheckBox();
+            this.btnAddAtt = new System.Windows.Forms.Button();
+            this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttribs)).BeginInit();
@@ -51,11 +60,14 @@
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(197, 20);
             this.txtName.TabIndex = 0;
+            this.toolTip.SetToolTip(this.txtName, "Change name");
             // 
             // contextMenuStrip1
             // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(118, 26);
             // 
             // lblName
             // 
@@ -68,7 +80,7 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(275, 286);
+            this.btnAdd.Location = new System.Drawing.Point(275, 314);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 4;
@@ -100,24 +112,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Entity";
             // 
-            // groupBox2
+            // btnForward
             // 
-            this.groupBox2.Controls.Add(this.dgvAttribs);
-            this.groupBox2.Location = new System.Drawing.Point(12, 124);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(341, 156);
-            this.groupBox2.TabIndex = 7;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Attributes";
-            // 
-            // dgvAttribs
-            // 
-            this.dgvAttribs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAttribs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvAttribs.Location = new System.Drawing.Point(3, 16);
-            this.dgvAttribs.Name = "dgvAttribs";
-            this.dgvAttribs.Size = new System.Drawing.Size(335, 137);
-            this.dgvAttribs.TabIndex = 6;
+            this.btnForward.Location = new System.Drawing.Point(296, 37);
+            this.btnForward.Name = "btnForward";
+            this.btnForward.Size = new System.Drawing.Size(27, 23);
+            this.btnForward.TabIndex = 9;
+            this.btnForward.Text = ">";
+            this.toolTip.SetToolTip(this.btnForward, "Next Entity");
+            this.btnForward.UseVisualStyleBackColor = true;
+            this.btnForward.Click += new System.EventHandler(this.btnForward_Click);
             // 
             // btnBack
             // 
@@ -126,34 +130,103 @@
             this.btnBack.Size = new System.Drawing.Size(27, 23);
             this.btnBack.TabIndex = 8;
             this.btnBack.Text = "<";
+            this.toolTip.SetToolTip(this.btnBack, "Previous entity");
             this.btnBack.UseVisualStyleBackColor = true;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
-            // btnForward
+            // groupBox2
             // 
-            this.btnForward.Location = new System.Drawing.Point(296, 37);
-            this.btnForward.Name = "btnForward";
-            this.btnForward.Size = new System.Drawing.Size(27, 23);
-            this.btnForward.TabIndex = 9;
-            this.btnForward.Text = ">";
-            this.btnForward.UseVisualStyleBackColor = true;
-            this.btnForward.Click += new System.EventHandler(this.btnForward_Click);
+            this.groupBox2.Controls.Add(this.btnAddAtt);
+            this.groupBox2.Controls.Add(this.cbxKey);
+            this.groupBox2.Controls.Add(this.lblAttName);
+            this.groupBox2.Controls.Add(this.tbxAttName);
+            this.groupBox2.Controls.Add(this.dgvAttribs);
+            this.groupBox2.Location = new System.Drawing.Point(12, 124);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(341, 184);
+            this.groupBox2.TabIndex = 7;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Attributes";
+            // 
+            // dgvAttribs
+            // 
+            this.dgvAttribs.AllowUserToAddRows = false;
+            this.dgvAttribs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAttribs.ContextMenuStrip = this.contextMenuStrip1;
+            this.dgvAttribs.Location = new System.Drawing.Point(24, 63);
+            this.dgvAttribs.MultiSelect = false;
+            this.dgvAttribs.Name = "dgvAttribs";
+            this.dgvAttribs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvAttribs.Size = new System.Drawing.Size(299, 106);
+            this.dgvAttribs.TabIndex = 6;
+            // 
+            // removeToolStripMenuItem
+            // 
+            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.removeToolStripMenuItem.Text = "Remove";
+            this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(61, 4);
+            // 
+            // tbxAttName
+            // 
+            this.tbxAttName.Location = new System.Drawing.Point(61, 30);
+            this.tbxAttName.Name = "tbxAttName";
+            this.tbxAttName.Size = new System.Drawing.Size(135, 20);
+            this.tbxAttName.TabIndex = 7;
+            // 
+            // lblAttName
+            // 
+            this.lblAttName.AutoSize = true;
+            this.lblAttName.Location = new System.Drawing.Point(21, 33);
+            this.lblAttName.Name = "lblAttName";
+            this.lblAttName.Size = new System.Drawing.Size(35, 13);
+            this.lblAttName.TabIndex = 8;
+            this.lblAttName.Text = "Name";
+            // 
+            // cbxKey
+            // 
+            this.cbxKey.AutoSize = true;
+            this.cbxKey.Location = new System.Drawing.Point(210, 32);
+            this.cbxKey.Name = "cbxKey";
+            this.cbxKey.Size = new System.Drawing.Size(44, 17);
+            this.cbxKey.TabIndex = 9;
+            this.cbxKey.Text = "Key";
+            this.cbxKey.UseVisualStyleBackColor = true;
+            // 
+            // btnAddAtt
+            // 
+            this.btnAddAtt.Location = new System.Drawing.Point(260, 28);
+            this.btnAddAtt.Name = "btnAddAtt";
+            this.btnAddAtt.Size = new System.Drawing.Size(63, 23);
+            this.btnAddAtt.TabIndex = 11;
+            this.btnAddAtt.Text = "Add";
+            this.btnAddAtt.UseVisualStyleBackColor = true;
+            this.btnAddAtt.Click += new System.EventHandler(this.btnAddAtt_Click);
             // 
             // frmEntity
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(369, 327);
+            this.ClientSize = new System.Drawing.Size(367, 349);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.groupBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmEntity";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Entity";
+            this.Load += new System.EventHandler(this.frmEntity_Load);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttribs)).EndInit();
             this.ResumeLayout(false);
 
@@ -171,5 +244,12 @@
         private System.Windows.Forms.DataGridView dgvAttribs;
         private System.Windows.Forms.Button btnForward;
         private System.Windows.Forms.Button btnBack;
+        private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
+        private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.Button btnAddAtt;
+        private System.Windows.Forms.CheckBox cbxKey;
+        private System.Windows.Forms.Label lblAttName;
+        private System.Windows.Forms.TextBox tbxAttName;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
     }
 }

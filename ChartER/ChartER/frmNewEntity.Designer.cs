@@ -28,16 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmNewEntity));
             this.lblEntityName = new System.Windows.Forms.Label();
             this.tbxEntityName = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbxKey = new System.Windows.Forms.CheckBox();
             this.lbxAttributes = new System.Windows.Forms.ListBox();
             this.btnAddAttribute = new System.Windows.Forms.Button();
             this.tbxAttributeName = new System.Windows.Forms.TextBox();
             this.lblAttributeName = new System.Windows.Forms.Label();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.cbxKey = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -75,6 +76,16 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Attributes";
+            // 
+            // cbxKey
+            // 
+            this.cbxKey.AutoSize = true;
+            this.cbxKey.Location = new System.Drawing.Point(234, 26);
+            this.cbxKey.Name = "cbxKey";
+            this.cbxKey.Size = new System.Drawing.Size(44, 17);
+            this.cbxKey.TabIndex = 6;
+            this.cbxKey.Text = "Key";
+            this.cbxKey.UseVisualStyleBackColor = true;
             // 
             // lbxAttributes
             // 
@@ -134,16 +145,6 @@
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // cbxKey
-            // 
-            this.cbxKey.AutoSize = true;
-            this.cbxKey.Location = new System.Drawing.Point(234, 26);
-            this.cbxKey.Name = "cbxKey";
-            this.cbxKey.Size = new System.Drawing.Size(44, 17);
-            this.cbxKey.TabIndex = 6;
-            this.cbxKey.Text = "Key";
-            this.cbxKey.UseVisualStyleBackColor = true;
-            // 
             // frmNewEntity
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -155,6 +156,7 @@
             this.Controls.Add(this.tbxEntityName);
             this.Controls.Add(this.lblEntityName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmNewEntity";
             this.Text = "New Entity";
             this.groupBox1.ResumeLayout(false);
