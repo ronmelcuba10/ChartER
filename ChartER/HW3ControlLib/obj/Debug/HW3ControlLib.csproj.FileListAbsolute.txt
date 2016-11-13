@@ -31,3 +31,14 @@ C:\Users\Ronny\OneDrive\Visual Studio 2015\Projects\Homework 9\ChartER\ChartER\H
 C:\Users\Ronny\OneDrive\Visual Studio 2015\Projects\Homework 9\ChartER\ChartER\HW3ControlLib\obj\Debug\HW3ControlLib.csproj.GenerateResource.Cache
 C:\Users\Ronny\OneDrive\Visual Studio 2015\Projects\Homework 9\ChartER\ChartER\HW3ControlLib\obj\Debug\HW3ControlLib.dll
 C:\Users\Ronny\OneDrive\Visual Studio 2015\Projects\Homework 9\ChartER\ChartER\HW3ControlLib\obj\Debug\HW3ControlLib.pdb
+C:\Users\joeca\Source\Repos\ChartER\ChartER\HW3ControlLib\bin\Debug\HW3ControlLib.dll
+C:\Users\joeca\Source\Repos\ChartER\ChartER\HW3ControlLib\bin\Debug\HW3ControlLib.pdb
+C:\Users\joeca\Source\Repos\ChartER\ChartER\HW3ControlLib\obj\Debug\HW3ControlLib.csprojResolveAssemblyReference.cache
+C:\Users\joeca\Source\Repos\ChartER\ChartER\HW3ControlLib\obj\Debug\TextDesigner.BaseDialogForm.resources
+C:\Users\joeca\Source\Repos\ChartER\ChartER\HW3ControlLib\obj\Debug\TextDesigner.BaseForm.resources
+C:\Users\joeca\Source\Repos\ChartER\ChartER\HW3ControlLib\obj\Debug\TextDesigner.ClassInfoControl.resources
+C:\Users\joeca\Source\Repos\ChartER\ChartER\HW3ControlLib\obj\Debug\TextDesigner.GroupInfoControl.resources
+C:\Users\joeca\Source\Repos\ChartER\ChartER\HW3ControlLib\obj\Debug\TextDesigner.OathControl.resources
+C:\Users\joeca\Source\Repos\ChartER\ChartER\HW3ControlLib\obj\Debug\HW3ControlLib.csproj.GenerateResource.Cache
+C:\Users\joeca\Source\Repos\ChartER\ChartER\HW3ControlLib\obj\Debug\HW3ControlLib.dll
+C:\Users\joeca\Source\Repos\ChartER\ChartER\HW3ControlLib\obj\Debug\HW3ControlLib.pdb

@@ -124,6 +124,10 @@
       <Project>{491DB68D-EE6D-48DB-AE62-16DED4ED335A}</Project>
       <Name>ChartPrint</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ChartViews\ChartViews.csproj">
+      <Project>{1cc9265a-b9b9-4977-a38b-cd468197623b}</Project>
+      <Name>ChartViews</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ERObjects\ERObjects.csproj">
       <Project>{e91daee4-9d21-4c23-a33d-bfb5b625d3e3}</Project>
       <Name>ERObjects</Name>

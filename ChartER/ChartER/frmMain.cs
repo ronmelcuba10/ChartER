@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using ChartPrint;
 using ERObjects;
 using Attribute = ERObjects.Attribute;
-
+using ChartViews;
 
 namespace ChartER
 {
@@ -64,6 +64,7 @@ namespace ChartER
 
             bs = new BindingSource();
             bs.DataSource = myChart.Entities;
+
         }
 
         /* Paint the current chart and selected Entity (if any)
@@ -342,6 +343,11 @@ namespace ChartER
             Invalidate(true);
         }
 
+        private void HandleGridViewClose(object sender, EventArgs e)
+        {
+            eRGridToolStripMenuItem.Enabled = true;
+        }
+
         private void UpdateStatusBar()
         {
             stbEntityName.Text = ((Entity)bs.Current).Name;
@@ -555,13 +561,28 @@ namespace ChartER
             myChart.DestroyLinks();
         }
 
+        /* Handle E-R Grid View */
+        private void eRGridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GridViewer gv = new GridViewer(bs);
+
+            /* Keep track of changes */
+            myChart.EntityChanged += EntityChangedByEditor;
+            bs.PositionChanged += Bs_PositionChanged;
+            gv.FormClosed += EntityChangedByEditor;
+            gv.FormClosed += HandleGridViewClose;
+
+            gv.Show(this);
+
+            eRGridToolStripMenuItem.Enabled = false;
 
 
-
+        }
 
         #endregion
 
-       
+
+
     }
 }
 

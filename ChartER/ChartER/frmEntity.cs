@@ -35,7 +35,7 @@ namespace ChartER
              */
             dgvAttribs.DataSource = entityBS;
             dgvAttribs.DataMember = "Attributes";
-
+ 
             /*
             for (int i = 0; i < BindingManager.Count; i++)
                 Console.WriteLine(BindingManager.Current);
