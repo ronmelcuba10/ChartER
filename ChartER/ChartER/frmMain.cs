@@ -40,6 +40,7 @@ namespace ChartER
         /* Form Stuff */
         private Rectangle selectedRect = Rectangle.Empty; // A rect for the selected Entity
         private Color selectedColor = Color.Red;
+        private bool isCleaningUp; // inhibit painting while cleaning up
 
         /* Bitmap of chart */
         private Image currentBitmap;
@@ -73,14 +74,17 @@ namespace ChartER
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            var g = e.Graphics;
-            myChart.Draw(g);
-            //selectedEntity?.Select(g);
+            if (!isCleaningUp) // inhibit if we're cleaning up chart via threading
+            {
+                var g = e.Graphics;
+                myChart.Draw(g);
+                //selectedEntity?.Select(g);
 
-            /* Update bitmap for drag-drop */
-            var bg = Graphics.FromImage(CurrentBitmap);
-            bg.Clear(Color.Transparent);
-            myChart.Draw(bg);
+                /* Update bitmap for drag-drop */
+                var bg = Graphics.FromImage(CurrentBitmap);
+                bg.Clear(Color.Transparent);
+                myChart.Draw(bg);
+            }
         }
     
 
@@ -579,8 +583,23 @@ namespace ChartER
 
         }
 
-        #endregion
+        private void cleanUpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            isCleaningUp = true;
+            CleanUpView cleanUpView = new CleanUpView(this.myChart);
+            cleanUpView.CleanUpStoped += CleanUpView_CleanUpStoped;
+            cleanUpToolStripMenuItem.Enabled = false;
+            cleanUpView.StartCleanUp();
+        }
 
+        private void CleanUpView_CleanUpStoped(object sender, EventArgs e)
+        {
+            isCleaningUp = false;
+            cleanUpToolStripMenuItem.Enabled = true;
+
+        }
+
+        #endregion
 
 
     }
