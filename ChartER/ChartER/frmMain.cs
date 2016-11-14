@@ -623,6 +623,11 @@ namespace ChartER
         }
 
         #endregion
+
+        private void cleanUpToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 
