@@ -47,6 +47,7 @@
             this.dgvAttribs = new System.Windows.Forms.DataGridView();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.btnCenter = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -58,7 +59,7 @@
             this.txtName.Location = new System.Drawing.Point(65, 50);
             this.txtName.Margin = new System.Windows.Forms.Padding(2);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(262, 20);
+            this.txtName.Size = new System.Drawing.Size(163, 20);
             this.txtName.TabIndex = 0;
             this.toolTip.SetToolTip(this.txtName, "Change name");
             // 
@@ -87,9 +88,9 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(278, 292);
+            this.btnAdd.Location = new System.Drawing.Point(184, 292);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.Size = new System.Drawing.Size(105, 23);
             this.btnAdd.TabIndex = 4;
             this.btnAdd.Text = "OK";
             this.btnAdd.UseVisualStyleBackColor = true;
@@ -97,16 +98,18 @@
             // 
             // btnRemove
             // 
-            this.btnRemove.Location = new System.Drawing.Point(135, 292);
+            this.btnRemove.Location = new System.Drawing.Point(73, 292);
             this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(131, 23);
+            this.btnRemove.Size = new System.Drawing.Size(105, 23);
             this.btnRemove.TabIndex = 5;
             this.btnRemove.Text = "Remove";
+            this.toolTip.SetToolTip(this.btnRemove, "Removes the entity");
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnCenter);
             this.groupBox1.Controls.Add(this.btnForward);
             this.groupBox1.Controls.Add(this.btnBack);
             this.groupBox1.Controls.Add(this.lblName);
@@ -158,9 +161,10 @@
             // 
             this.btnAddAtt.Location = new System.Drawing.Point(260, 28);
             this.btnAddAtt.Name = "btnAddAtt";
-            this.btnAddAtt.Size = new System.Drawing.Size(63, 23);
+            this.btnAddAtt.Size = new System.Drawing.Size(67, 23);
             this.btnAddAtt.TabIndex = 11;
             this.btnAddAtt.Text = "Add";
+            this.toolTip.SetToolTip(this.btnAddAtt, "Adds  the new attribute");
             this.btnAddAtt.UseVisualStyleBackColor = true;
             this.btnAddAtt.Click += new System.EventHandler(this.btnAddAtt_Click);
             // 
@@ -172,6 +176,7 @@
             this.cbxKey.Size = new System.Drawing.Size(44, 17);
             this.cbxKey.TabIndex = 9;
             this.cbxKey.Text = "Key";
+            this.toolTip.SetToolTip(this.cbxKey, "Is a key?");
             this.cbxKey.UseVisualStyleBackColor = true;
             // 
             // lblAttName
@@ -189,6 +194,7 @@
             this.tbxAttName.Name = "tbxAttName";
             this.tbxAttName.Size = new System.Drawing.Size(135, 20);
             this.tbxAttName.TabIndex = 7;
+            this.toolTip.SetToolTip(this.tbxAttName, "Attribute name");
             // 
             // dgvAttribs
             // 
@@ -199,13 +205,24 @@
             this.dgvAttribs.MultiSelect = false;
             this.dgvAttribs.Name = "dgvAttribs";
             this.dgvAttribs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAttribs.Size = new System.Drawing.Size(299, 106);
+            this.dgvAttribs.Size = new System.Drawing.Size(303, 106);
             this.dgvAttribs.TabIndex = 6;
             // 
             // contextMenuStrip2
             // 
             this.contextMenuStrip2.Name = "contextMenuStrip2";
             this.contextMenuStrip2.Size = new System.Drawing.Size(61, 4);
+            // 
+            // btnCenter
+            // 
+            this.btnCenter.Location = new System.Drawing.Point(233, 48);
+            this.btnCenter.Name = "btnCenter";
+            this.btnCenter.Size = new System.Drawing.Size(93, 23);
+            this.btnCenter.TabIndex = 8;
+            this.btnCenter.Text = "Center";
+            this.toolTip.SetToolTip(this.btnCenter, "Brings the current entity back to the visual area");
+            this.btnCenter.UseVisualStyleBackColor = true;
+            this.btnCenter.Click += new System.EventHandler(this.btnCenter_Click);
             // 
             // frmEntity
             // 
@@ -252,5 +269,6 @@
         private System.Windows.Forms.Label lblAttName;
         private System.Windows.Forms.TextBox tbxAttName;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.Button btnCenter;
     }
 }

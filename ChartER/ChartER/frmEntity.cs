@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using ERObjects;
 using Attribute = ERObjects.Attribute; // Alias
@@ -49,6 +50,7 @@ namespace ChartER
             dgvAttribs.Columns[1].Name = "IsKey";
             dgvAttribs.Columns[1].HeaderText = "IsKey";
             dgvAttribs.Columns[1].DataPropertyName = "Key";
+            
             dgvAttribs.DataSource = entityBS;
 
         }
@@ -102,6 +104,12 @@ namespace ChartER
             tbxAttName.Clear();
             cbxKey.Checked = false;
 
+        }
+
+        private void btnCenter_Click(object sender, EventArgs e)
+        {
+            var entity = (Entity)BindingManager.Current;
+            entity.Location = new Point(200, 200);
         }
     }
 }
