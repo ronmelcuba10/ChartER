@@ -93,14 +93,15 @@ namespace ChartER
         private void btnAddAtt_Click(object sender, EventArgs e)
         {
             var entity = (Entity) BindingManager.Current;
-            if (entity.HasAttribute(txtName.Text))
+            if (entity.HasAttribute(tbxAttName.Text))
             {
-                MessageBox.Show(this, "That attribute is alrteady present", "Exisiting attribute", MessageBoxButtons.OK);
+                MessageBox.Show(this, "That attribute is already present", "Exisiting attribute", MessageBoxButtons.OK);
                 return;
             }
             entity.AddAttribute(new Attribute(tbxAttName.Text, cbxKey.Checked));
-            txtName.Clear();
+            tbxAttName.Clear();
             cbxKey.Checked = false;
+
         }
     }
 }

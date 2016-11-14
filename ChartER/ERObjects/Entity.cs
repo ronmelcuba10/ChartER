@@ -88,7 +88,7 @@ namespace ERObjects
 
         public Entity(string name) :
             this(name,
-                new Point(10, 10),
+                new Point(125, 150),
                 new Size(200, 200),
                 new Font("Arial", 12),
                 Color.White,
@@ -193,7 +193,7 @@ namespace ERObjects
             Attributes.Add(attribute);
         }
 
-        private void CheckValidity()
+        public void CheckValidity()
         {
             IsValid = KeysCount > 0;
             Message = (IsValid ? "" : "Missing key");
@@ -226,7 +226,7 @@ namespace ERObjects
         }
 
         // Reorder only if the attribute(with the specific name) is present
-        private void ReorderAttribute(Attribute attribute, Attribute indexAttribute)
+        public void ReorderAttribute(Attribute attribute, Attribute indexAttribute)
         {
             if(FindAttribute(attribute.Name) == FindAttribute(indexAttribute.Name) ) return;
             RemoveAttribute(attribute);
@@ -240,6 +240,12 @@ namespace ERObjects
             CheckValidity();
             if (Attributes.Count > 0) Attributes.Insert(Attributes.IndexOf(indexAttribute), attribute);
             else Attributes.Add(attribute);
+        }
+
+        public void ResetKeysCount()
+        {
+            KeysCount = 0;
+            Attributes.ToList().ForEach(attribute => KeysCount = attribute.Key ? ++KeysCount : KeysCount);
         }
     }
 }

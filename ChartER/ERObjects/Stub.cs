@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Net.Configuration;
 
 namespace ERObjects
 {
@@ -13,7 +14,6 @@ namespace ERObjects
         public LinkLocation LinkLoc { get; set; }
         public Color StubColor { get; set; }
         public StubType StubType { get; set; }
-        public Font Font { get; set; }
         public Pen Pen { get; set; }
         
         private PointF startPoint;
@@ -23,14 +23,13 @@ namespace ERObjects
         {
         }
 
-        public Stub(Attribute attrib, StubType stubtype, LinkLocation linkLoc, Color col, Font font) : this()
+        public Stub(Attribute attrib, StubType stubtype, LinkLocation linkLoc, Color col) : this()
         {
             StubLen = 5f;
             StubColor = col;
             StubType = stubtype;
             Attribute = attrib;
             LinkLoc = linkLoc;
-            Font = font;
         }
 
         /* Draw the stub to the passed graphics context
@@ -48,25 +47,17 @@ namespace ERObjects
                 Attribute.Rect.Top + Attribute.Rect.Height/2);
 
             if (StubType == StubType.One) g.DrawLine( Pen, startPoint, EndPoint);
-            else DrawTriangle(g);
-            if(IsSelected)DrawSelected(g);
+            else DrawTriangle(g, Pen);
         }
 
-        private void DrawTriangle(Graphics g)
+        private void DrawTriangle(Graphics g, Pen linkPen)
         {
             var size = new Size(0, 5);
             var point1 = PointF.Add(startPoint, size);
             var point2 = PointF.Subtract(startPoint, size);
-            var tempPen = (IsSelected ? new Pen(SelectedColor, 3f) : Pen );
-            g.DrawLine(tempPen, EndPoint, point1);
-            g.DrawLine(tempPen, point1, point2);
-            g.DrawLine(tempPen, EndPoint, point2);
-        }
-
-        public override void DrawSelected(Graphics g)
-        {
-            if (StubType == StubType.One) g.DrawLine(Pen, startPoint, EndPoint);
-            else DrawTriangle(g);
+            g.DrawLine(linkPen, EndPoint, point1);
+            g.DrawLine(linkPen, point1, point2);
+            g.DrawLine(linkPen, EndPoint, point2);
         }
 
         public override bool Inside(Point loc)

@@ -86,7 +86,7 @@ namespace ERObjects
         public void RemoveElement( Element element )
         {
             if (element?.GetType() == typeof(Entity)) Entities.Remove((Entity) element);
-            else if (element?.GetType() == typeof(Link)) Links.Remove((Link)element);
+            else if (element?.GetType() == typeof(Link)) { Links.Remove((Link)element);}
             
             DestroyLinks();
         }
@@ -98,7 +98,6 @@ namespace ERObjects
         public void DestroyLinks()
         {
             var deadLinks = new List<Link>();
-
             foreach (Link link in Links)
             {
                 Console.WriteLine(
@@ -109,9 +108,10 @@ namespace ERObjects
                     deadLinks.Add(link);
             }
 
+            
             foreach (var link in deadLinks)
                 Links.Remove(link);
-
+                
             deadLinks.Clear();
             Changed = true;
         }

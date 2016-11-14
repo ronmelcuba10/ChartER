@@ -33,6 +33,7 @@
             this.lblEntityName = new System.Windows.Forms.Label();
             this.tbxEntityName = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.clbAttributes = new System.Windows.Forms.CheckedListBox();
             this.cbxKey = new System.Windows.Forms.CheckBox();
             this.btnAddAttribute = new System.Windows.Forms.Button();
             this.tbxAttributeName = new System.Windows.Forms.TextBox();
@@ -40,7 +41,6 @@
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.clbAttributes = new System.Windows.Forms.CheckedListBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,6 +80,14 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Attributes";
+            // 
+            // clbAttributes
+            // 
+            this.clbAttributes.FormattingEnabled = true;
+            this.clbAttributes.Location = new System.Drawing.Point(22, 67);
+            this.clbAttributes.Name = "clbAttributes";
+            this.clbAttributes.Size = new System.Drawing.Size(297, 94);
+            this.clbAttributes.TabIndex = 7;
             // 
             // cbxKey
             // 
@@ -133,7 +141,7 @@
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 4;
             this.btnOk.Text = "Add";
-            this.toolTip.SetToolTip(this.btnOk, "Adds theis entity to your chart");
+            this.toolTip.SetToolTip(this.btnOk, "Adds this entity to your chart");
             this.btnOk.UseVisualStyleBackColor = true;
             // 
             // btnCancel
@@ -146,14 +154,6 @@
             this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
-            // 
-            // clbAttributes
-            // 
-            this.clbAttributes.FormattingEnabled = true;
-            this.clbAttributes.Location = new System.Drawing.Point(22, 67);
-            this.clbAttributes.Name = "clbAttributes";
-            this.clbAttributes.Size = new System.Drawing.Size(297, 94);
-            this.clbAttributes.TabIndex = 7;
             // 
             // frmNewEntity
             // 

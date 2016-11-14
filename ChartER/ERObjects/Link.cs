@@ -79,7 +79,8 @@ namespace ERObjects
         public override void Draw(Graphics g)
         {
             if ((Source == null) || (Destination == null)) return;
-            var linkPen = (IsHighlighted ? new Pen(LinkColor, 3F) : new Pen(LinkColor));
+            var linkPen = IsHighlighted ? new Pen(LinkColor, 3F) : new Pen(LinkColor);
+            linkPen = IsSelected ? new Pen(SelectedColor, 3F) : linkPen; 
             DrawLink(g, linkPen);
             DrawStubs(g, linkPen);
         }
@@ -104,8 +105,8 @@ namespace ERObjects
                 DestStub.LinkLoc = LinkLocation.Right;
             }
 
-            SourceStub.Pen = linkPen;
-            DestStub.Pen = linkPen;
+            SourceStub.Pen = new Pen(linkPen.Color, linkPen.Width);
+            DestStub.Pen = new Pen(linkPen.Color, linkPen.Width);
             SourceStub.Draw(g);
             DestStub.Draw(g);
         }
@@ -128,7 +129,6 @@ namespace ERObjects
                     break;
             }
             g.DrawLine(linkPen, SourceStub.EndPoint, DestStub.EndPoint);
-            if(IsSelected) DrawSelected(g);
         }
 
         // needs to override to select both stubs
@@ -145,15 +145,6 @@ namespace ERObjects
             base.ClearSelection();
             SourceStub.Select();
             DestStub.Select();
-        }
-
-        public override void DrawSelected(Graphics g)
-        {
-            using (var selectionPen = new Pen(SelectedColor, 3f))
-            {
-                g.DrawLine(selectionPen, SourceStub.EndPoint, DestStub.EndPoint); ;
-                DrawStubs(g, selectionPen);
-            }
         }
 
         // returns if the location is inside the link coordinates
@@ -187,10 +178,10 @@ namespace ERObjects
         {
             Relationship = relationship;
             SourceStub = new Stub(Source, (relationship.GetHashCode() > 1 ? StubType.Many : StubType.One),
-                                    LinkLocation.Right, LinkColor, Font);
+                                    LinkLocation.Right, LinkColor);
 
             DestStub = new Stub(Destination, (relationship.GetHashCode() % 2 == 0 ? StubType.One : StubType.Many),
-                                    LinkLocation.Left, LinkColor, Font);
+                                    LinkLocation.Left, LinkColor);
         }
 
 

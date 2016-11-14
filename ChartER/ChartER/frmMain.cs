@@ -3,15 +3,14 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using ChartPrint;
+using ChartViews;
 using ERObjects;
 using Attribute = ERObjects.Attribute;
-using ChartViews;
 
 namespace ChartER
 {
     public partial class frmMain : Form
     {
-
         #region Properties and Constructor
 
         /* Mouse Stuff */
@@ -19,19 +18,19 @@ namespace ChartER
         private Point mouseSelected = Point.Empty; // This is used for selecting via left mouse button
 
         /* Data Stuff */
-        private Chart myChart = new Chart();   // The chart "document"
-        private BindingSource bs;              // For sending to the Entity Editor
+        private Chart myChart = new Chart(); // The chart "document"
+        private BindingSource bs; // For sending to the Entity Editor
 
         // these members are useful to avoid checking the entire list for the selected/highlighted one
-        private Entity selectedEntity;            // Represents the entity selected with the left mouse button
-        private Entity highlightedEntity;         // Represents the highlighted entity 
-        private Link selectedLink;                // Represents the link selected with the left mouse button
-        private Link highlightedLink;             // Represents the highlighted link
-        private Attribute selectedAttribute;      // Represents the attribute selected with the left mouse button
-        private Attribute highlightedAttribute;   // Represents the highlighted attribute
+        private Entity selectedEntity; // Represents the entity selected with the left mouse button
+        private Entity highlightedEntity; // Represents the highlighted entity 
+        private Link selectedLink; // Represents the link selected with the left mouse button
+        private Link highlightedLink; // Represents the highlighted link
+        private Attribute selectedAttribute; // Represents the attribute selected with the left mouse button
+        private Attribute highlightedAttribute; // Represents the highlighted attribute
 
 
-        private Entity movedEntity;            // Represents the entity being moved
+        private Entity movedEntity; // Represents the entity being moved
 
 
         private Entity copyEntity;
@@ -45,7 +44,7 @@ namespace ChartER
         /* Bitmap of chart */
         private Image currentBitmap;
         private DataObject dataObject;
-        public Image CurrentBitmap => currentBitmap ?? (currentBitmap = new Bitmap(this.Width, this.Height));
+        public Image CurrentBitmap => currentBitmap ?? (currentBitmap = new Bitmap(Width, Height));
 
 
         public frmMain()
@@ -65,7 +64,6 @@ namespace ChartER
 
             bs = new BindingSource();
             bs.DataSource = myChart.Entities;
-
         }
 
         /* Paint the current chart and selected Entity (if any)
@@ -87,7 +85,7 @@ namespace ChartER
                 UpdateStatusBar();
             }
         }
-    
+
 
         /* Handle mouse down
          * If right button held down, we are going to move an entity around
@@ -104,7 +102,7 @@ namespace ChartER
          * If we were moving an Entity around, stop and reset the selected Entity
          */
 
-        
+
         private void Form1_Shown(object sender, EventArgs e)
         {
             /* Create sample entities
@@ -112,24 +110,24 @@ namespace ChartER
              * attributes to the Link's constructor
              */
 
-            myChart.Size = this.Size;
+            myChart.Size = Size;
 
-            var ent1 = new Entity("Vehicle", new Point(10, 10), new Size(200, 200), new Font("Arial", 12),
+            var ent1 = new Entity("Vehicle", new Point(100, 100), new Size(200, 200), new Font("Arial", 12),
                 Color.White, Color.Black, Color.Blue);
-            ent1.AddAttribute(new Attribute("VehicleID", true ,new Font("Arial", 10)));
+            ent1.AddAttribute(new Attribute("VehicleID", true, new Font("Arial", 10)));
             ent1.AddAttribute(new Attribute("VehicleType", false, new Font("Arial", 10)));
             ent1.AddAttribute(new Attribute("LicensePlate", false, new Font("Arial", 10)));
             ent1.AddAttribute(new Attribute("DriverID", false, new Font("Arial", 10)));
             myChart.AddEntity(ent1);
 
-            var ent2 = new Entity("Driver", new Point(50, 50), new Size(200, 200), new Font("Arial", 12), Color.White,
+            var ent2 = new Entity("Driver", new Point(200, 200), new Size(200, 200), new Font("Arial", 12), Color.White,
                 Color.Black, Color.Blue);
             ent2.AddAttribute(new Attribute("DriverID", true, new Font("Arial", 10)));
             ent2.AddAttribute(new Attribute("Age", false, new Font("Arial", 10)));
             ent2.AddAttribute(new Attribute("Gender", false, new Font("Arial", 10)));
             myChart.AddEntity(ent2);
 
-            var ent3 = new Entity("VehicleType", new Point(100, 100), new Size(200, 200), new Font("Arial", 12),
+            var ent3 = new Entity("VehicleType", new Point(300, 300), new Size(200, 200), new Font("Arial", 12),
                 Color.White, Color.Black, Color.Blue);
             ent3.AddAttribute(new Attribute("Make", false, new Font("Arial", 10)));
             ent3.AddAttribute(new Attribute("Model", false, new Font("Arial", 10)));
@@ -147,28 +145,32 @@ namespace ChartER
 
         private void frmMain_ResizeEnd(object sender, EventArgs e)
         {
-            myChart.Size = this.Size;
+            myChart.Size = Size;
             currentBitmap = null; // create a new one with new dimensions
         }
 
         private void oneToOneToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            selectedLink.SetRelationship(Relationship.One2One); 
+            selectedLink.SetRelationship(Relationship.One2One);
+            Invalidate(true);
         }
 
         private void oneToManyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             selectedLink.SetRelationship(Relationship.One2Many);
+            Invalidate(true);
         }
 
         private void manyToOneToolStripMenuItem_Click(object sender, EventArgs e)
         {
             selectedLink.SetRelationship(Relationship.Many2One);
+            Invalidate(true);
         }
 
         private void manyToManyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             selectedLink.SetRelationship(Relationship.Many2Many);
+            Invalidate(true);
         }
 
         private void frmMain_KeyDown(object sender, KeyEventArgs e)
@@ -186,7 +188,7 @@ namespace ChartER
             {
                 // clicked on an entity
                 movedEntity = myChart.FindEntity(e.Location);
-                mousePoint = (movedEntity != null ? e.Location : Point.Empty);
+                mousePoint = movedEntity != null ? e.Location : Point.Empty;
             }
             else if (e.Button == MouseButtons.Left)
             {
@@ -200,9 +202,9 @@ namespace ChartER
                 // clicked on a link
                 var tempLink = myChart.FindLink(e.Location);
                 selectedLink = (Link) ProcessSelection(tempLink, selectedLink);
-                stbLink.Enabled = ( selectedLink != null );
-                
-                
+                stbLink.Enabled = selectedLink != null;
+
+
                 // clicked on an attribute
                 var tempAttribute = selectedEntity?.FindAttribute(e.Location);
                 selectedAttribute = (Attribute) ProcessSelection(tempAttribute, selectedAttribute);
@@ -210,7 +212,7 @@ namespace ChartER
                     DoDragDrop(selectedAttribute, DragDropEffects.Copy | DragDropEffects.Move);
 
                 // clicked on an empty space = background
-                if (tempLink == null && tempAttribute == null && selectedEntity == null)
+                if ((tempLink == null) && (tempAttribute == null) && (selectedEntity == null))
                     DoDragDrop(DragDropObject, DragDropEffects.Copy);
 
                 UpdateStatusBar();
@@ -219,17 +221,16 @@ namespace ChartER
         }
 
 
-
-        /* Handle mouse move moving an Entity around with the right button.
-         * and the highlighting process
-         */
+/* Handle mouse move moving an Entity around with the right button.
+                         * and the highlighting process
+                         */
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
             // if it is over an entity
             var tempEnt = myChart.FindEntity(e.Location);
             highlightedEntity = (Entity) ProcessHighLighting(tempEnt, highlightedEntity);
-            
+
             // if it is over an attribute
             var tempAttribute = tempEnt?.FindAttribute(e.Location);
             highlightedAttribute = (Attribute) ProcessHighLighting(tempAttribute, highlightedAttribute);
@@ -246,6 +247,7 @@ namespace ChartER
         }
 
         /* Move the selected object */
+
         private void MouseMoveObject(Entity ent, Point loc)
         {
             int dx;
@@ -288,7 +290,7 @@ namespace ChartER
         // is added in the position of the mouse 
         private void frmMain_DragDrop(object sender, DragEventArgs e)
         {
-            var draggedAttribute = (Attribute)e.Data.GetData(typeof(Attribute));
+            var draggedAttribute = (Attribute) e.Data.GetData(typeof(Attribute));
             var dropPoint = PointToClient(new Point(e.X, e.Y));
             var tempEntity = myChart.FindEntity(dropPoint);
             if (tempEntity == null)
@@ -297,11 +299,16 @@ namespace ChartER
                 myChart.DestroyLinks();
                 return;
             }
+            // if in the same entity the reorder both attributes
             var tempAttribute = tempEntity.FindAttribute(dropPoint);
-            tempEntity.AddAttributeAfter( new Attribute(draggedAttribute),tempAttribute);
-
-            myChart.AddLink(new Link(draggedAttribute, tempAttribute, Relationship.One2One));
-
+            if (selectedEntity == tempEntity) selectedEntity.ReorderAttribute(draggedAttribute, tempAttribute);
+            else
+            {   // if different entities inset att and create a new default link (OnetoOne)
+                var copiedAttrributed = new Attribute(draggedAttribute);
+                tempEntity.AddAttributeAfter(copiedAttrributed, tempAttribute);
+                myChart.AddLink(new Link(draggedAttribute, copiedAttrributed, Relationship.One2One));
+            }
+            
             Invalidate(true);
         }
 
@@ -310,9 +317,7 @@ namespace ChartER
             get
             {
                 if (dataObject == null)
-                {
                     dataObject = new DataObject();
-                }
                 dataObject.SetImage(CurrentBitmap);
                 return dataObject;
             }
@@ -328,7 +333,7 @@ namespace ChartER
         {
             if (myChart.HasEntities())
             {
-                var tempEntity = (Entity)bs.Current;
+                var tempEntity = (Entity) bs.Current;
                 selectedEntity = (Entity) ProcessSelection(tempEntity, selectedEntity);
             }
             else
@@ -344,6 +349,9 @@ namespace ChartER
             /* Traverse the Links and destroy any that may now be
             * invalid due to an entity or attribute being deleted!
             */
+
+            var tempEntity = (Entity)bs.Current;
+            tempEntity.ResetKeysCount();
             myChart.DestroyLinks();
             Invalidate(true);
         }
@@ -355,7 +363,7 @@ namespace ChartER
 
         private void UpdateStatusBar()
         {
-            var tempEntity = ((Entity)bs.Current);
+            var tempEntity = (Entity) bs.Current;
             stbEntityName.Text = tempEntity?.Name;
             stbAtts.Text = tempEntity?.Attributes.Count.ToString();
             stblblEntityMsg.Text = tempEntity?.Message;
@@ -366,18 +374,18 @@ namespace ChartER
         // it reduces the highlight/select process from O(n) to O(1)
         private Element ProcessHighLighting(Element tempElement, Element highlightedElement)
         {
-            highlightedElement?.ClearHighLight();      // clear the last selection/highlight if any
-            tempElement?.Highlight();                  // highlight this element if any
-            return tempElement;                // return this element
+            highlightedElement?.ClearHighLight(); // clear the last selection/highlight if any
+            tempElement?.Highlight(); // highlight this element if any
+            return tempElement; // return this element
         }
 
         // this method is key to avoid iterations in the collections to highlight/select
         // it reduces the highlight/select process from O(n) to O(1)
         private Element ProcessSelection(Element tempElement, Element selectedElement)
         {
-            selectedElement?.ClearSelection();      // clear the last selection/highlight if any
-            tempElement?.Select();                  // select this element if any
-            return tempElement ?? null;                // return this element
+            selectedElement?.ClearSelection(); // clear the last selection/highlight if any
+            tempElement?.Select(); // select this element if any
+            return tempElement ?? null; // return this element
         }
 
 
@@ -388,11 +396,12 @@ namespace ChartER
             currentElement?.
         }
         */
-        
+
         private void RemoveElement()
         {
+            if ((selectedEntity == null) && (selectedLink == null)) return;
             var result = MessageBox.Show("Are you sure you want to remove this element",
-                                            "Remove element", MessageBoxButtons.OKCancel);
+                "Remove element", MessageBoxButtons.OKCancel);
             if (result == DialogResult.Cancel) return;
             myChart.RemoveElement(selectedEntity);
             myChart.RemoveElement(selectedLink);
@@ -404,6 +413,7 @@ namespace ChartER
         #region Menu options click
 
         /* Handler for Entity Editing */
+
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bs.Position = selectedEntity == null ? -1 : myChart.FindEntityPosition(selectedEntity);
@@ -454,7 +464,7 @@ namespace ChartER
         {
             if (!confirmUnsavedWork())
                 return;
-            OpenFileDialog ofd = new OpenFileDialog();
+            var ofd = new OpenFileDialog();
             ofd.AddExtension = true; // add our file extension if user doesn't
             ofd.DefaultExt = "ctr";
             ofd.Filter = "ChartER File|*.ctr";
@@ -517,7 +527,7 @@ namespace ChartER
 
         private void oathToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (frmOath oath = new frmOath())
+            using (var oath = new frmOath())
             {
                 oath.ShowDialog();
             }
@@ -525,7 +535,7 @@ namespace ChartER
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (frmAbout about = new frmAbout())
+            using (var about = new frmAbout())
             {
                 about.ShowDialog();
             }
@@ -537,20 +547,20 @@ namespace ChartER
             selectedEntity?.ClearHighLight();
 
             using (var headerFont = new Font("Arial", 12))
+            {
                 chartPrinter.PrintChart(myChart, headerFont);
+            }
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (selectedEntity != null)
-            {
                 copyEntity = new Entity(selectedEntity);
-            }
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           if (copyEntity != null)
+            if (copyEntity != null)
             {
                 copyEntity.IsSelected = false;
                 myChart.AddEntity(copyEntity);
@@ -560,7 +570,7 @@ namespace ChartER
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(selectedEntity != null)
+            if (selectedEntity != null)
             {
                 copyEntity = new Entity(selectedEntity);
                 copyLink = selectedLink;
@@ -569,22 +579,22 @@ namespace ChartER
                 //removes the links to the imaginary
                 myChart.DestroyLinks();
             }
-
-            
         }
 
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (selectedEntity == null) return;
             selectedEntity.ClearHighLight();
             bs.Remove(selectedEntity);
             myChart.DestroyLinks();
         }
 
         /* Handle E-R Grid View */
+
         private void eRGridToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GridViewer gv = new GridViewer(bs);
+            var gv = new GridViewer(bs);
 
             /* Keep track of changes */
             myChart.EntityChanged += EntityChangedByEditor;
@@ -595,14 +605,12 @@ namespace ChartER
             gv.Show(this);
 
             eRGridToolStripMenuItem.Enabled = false;
-
-
         }
 
         private void cleanUpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             isCleaningUp = true;
-            CleanUpView cleanUpView = new CleanUpView(this.myChart);
+            var cleanUpView = new CleanUpView(myChart);
             cleanUpView.CleanUpStoped += CleanUpView_CleanUpStoped;
             cleanUpToolStripMenuItem.Enabled = false;
             cleanUpView.StartCleanUp();
@@ -612,15 +620,9 @@ namespace ChartER
         {
             isCleaningUp = false;
             cleanUpToolStripMenuItem.Enabled = true;
-
         }
 
-
-
-
         #endregion
-
-        
     }
 }
 

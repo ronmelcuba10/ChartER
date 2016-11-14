@@ -119,6 +119,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "GridViewer";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "E-R Data";
             ((System.ComponentModel.ISupportInitialize)(this.dgvEntities)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttribs)).EndInit();
