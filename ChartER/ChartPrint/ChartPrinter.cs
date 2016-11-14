@@ -17,10 +17,12 @@ namespace ChartPrint
         private PrintDialog printDialog;
         private Chart printChart;
         private Font headerFont;
+        public NotifyIcon NotifyIcon;
 
         public ChartPrinter()
         {
             this.printDocument = new PrintDocument();
+
 
             /* Print Dialog Setup */
             this.printDialog = new PrintDialog();
@@ -63,12 +65,12 @@ namespace ChartPrint
 
         private void PrintDocument_EndPrint(object sender, PrintEventArgs e)
         {
-            
+            NotifyIcon.ShowBalloonTip(1000, "Printer", "Document ready", ToolTipIcon.None);
         }
 
         private void PrintDocument_BeginPrint(object sender, PrintEventArgs e)
         {
-            
+            NotifyIcon.ShowBalloonTip(1000, "Printer", "Printing document", ToolTipIcon.None);
         }
 
         private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)

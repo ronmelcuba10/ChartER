@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.IO;
 using System.Windows.Forms;
 using ChartPrint;
@@ -541,16 +542,25 @@ namespace ChartER
             }
         }
 
+
+        public PrintEventHandler ShowBallon;
+        public PrintEventHandler HideBallon;
+
+
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var chartPrinter = new ChartPrinter();
             selectedEntity?.ClearHighLight();
-
+            var chartPrinter = new ChartPrinter();
+            chartPrinter.NotifyIcon = notifyIcon;
             using (var headerFont = new Font("Arial", 12))
             {
                 chartPrinter.PrintChart(myChart, headerFont);
             }
         }
+
+        
+
+
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {

@@ -47,7 +47,10 @@
             this.dgvAttribs = new System.Windows.Forms.DataGridView();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.btnCenter = new System.Windows.Forms.Button();
+            this.lblNameColor = new System.Windows.Forms.Label();
+            this.lblFrameColor = new System.Windows.Forms.Label();
+            this.btnNameColor = new System.Windows.Forms.Button();
+            this.btnBackColor = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -56,10 +59,10 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(65, 50);
+            this.txtName.Location = new System.Drawing.Point(59, 50);
             this.txtName.Margin = new System.Windows.Forms.Padding(2);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(163, 20);
+            this.txtName.Size = new System.Drawing.Size(262, 20);
             this.txtName.TabIndex = 0;
             this.toolTip.SetToolTip(this.txtName, "Change name");
             // 
@@ -80,7 +83,7 @@
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(25, 53);
+            this.lblName.Location = new System.Drawing.Point(19, 53);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(35, 13);
             this.lblName.TabIndex = 1;
@@ -88,9 +91,9 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(184, 292);
+            this.btnAdd.Location = new System.Drawing.Point(276, 327);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(105, 23);
+            this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 4;
             this.btnAdd.Text = "OK";
             this.btnAdd.UseVisualStyleBackColor = true;
@@ -98,32 +101,35 @@
             // 
             // btnRemove
             // 
-            this.btnRemove.Location = new System.Drawing.Point(73, 292);
+            this.btnRemove.Location = new System.Drawing.Point(175, 327);
             this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(105, 23);
+            this.btnRemove.Size = new System.Drawing.Size(89, 23);
             this.btnRemove.TabIndex = 5;
             this.btnRemove.Text = "Remove";
-            this.toolTip.SetToolTip(this.btnRemove, "Removes the entity");
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnCenter);
+            this.groupBox1.Controls.Add(this.btnBackColor);
+            this.groupBox1.Controls.Add(this.btnNameColor);
+            this.groupBox1.Controls.Add(this.lblFrameColor);
+            this.groupBox1.Controls.Add(this.lblNameColor);
             this.groupBox1.Controls.Add(this.btnForward);
             this.groupBox1.Controls.Add(this.btnBack);
             this.groupBox1.Controls.Add(this.lblName);
             this.groupBox1.Controls.Add(this.txtName);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(341, 84);
+            this.groupBox1.Size = new System.Drawing.Size(341, 108);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Entity";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // btnForward
             // 
-            this.btnForward.Location = new System.Drawing.Point(180, 22);
+            this.btnForward.Location = new System.Drawing.Point(174, 22);
             this.btnForward.Name = "btnForward";
             this.btnForward.Size = new System.Drawing.Size(147, 23);
             this.btnForward.TabIndex = 9;
@@ -134,7 +140,7 @@
             // 
             // btnBack
             // 
-            this.btnBack.Location = new System.Drawing.Point(24, 22);
+            this.btnBack.Location = new System.Drawing.Point(18, 22);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(147, 23);
             this.btnBack.TabIndex = 8;
@@ -150,7 +156,7 @@
             this.groupBox2.Controls.Add(this.lblAttName);
             this.groupBox2.Controls.Add(this.tbxAttName);
             this.groupBox2.Controls.Add(this.dgvAttribs);
-            this.groupBox2.Location = new System.Drawing.Point(12, 102);
+            this.groupBox2.Location = new System.Drawing.Point(12, 126);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(341, 184);
             this.groupBox2.TabIndex = 7;
@@ -161,10 +167,9 @@
             // 
             this.btnAddAtt.Location = new System.Drawing.Point(260, 28);
             this.btnAddAtt.Name = "btnAddAtt";
-            this.btnAddAtt.Size = new System.Drawing.Size(67, 23);
+            this.btnAddAtt.Size = new System.Drawing.Size(63, 23);
             this.btnAddAtt.TabIndex = 11;
             this.btnAddAtt.Text = "Add";
-            this.toolTip.SetToolTip(this.btnAddAtt, "Adds  the new attribute");
             this.btnAddAtt.UseVisualStyleBackColor = true;
             this.btnAddAtt.Click += new System.EventHandler(this.btnAddAtt_Click);
             // 
@@ -176,7 +181,6 @@
             this.cbxKey.Size = new System.Drawing.Size(44, 17);
             this.cbxKey.TabIndex = 9;
             this.cbxKey.Text = "Key";
-            this.toolTip.SetToolTip(this.cbxKey, "Is a key?");
             this.cbxKey.UseVisualStyleBackColor = true;
             // 
             // lblAttName
@@ -194,18 +198,18 @@
             this.tbxAttName.Name = "tbxAttName";
             this.tbxAttName.Size = new System.Drawing.Size(135, 20);
             this.tbxAttName.TabIndex = 7;
-            this.toolTip.SetToolTip(this.tbxAttName, "Attribute name");
             // 
             // dgvAttribs
             // 
             this.dgvAttribs.AllowUserToAddRows = false;
+            this.dgvAttribs.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvAttribs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAttribs.ContextMenuStrip = this.contextMenuStrip1;
             this.dgvAttribs.Location = new System.Drawing.Point(24, 63);
             this.dgvAttribs.MultiSelect = false;
             this.dgvAttribs.Name = "dgvAttribs";
             this.dgvAttribs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAttribs.Size = new System.Drawing.Size(303, 106);
+            this.dgvAttribs.Size = new System.Drawing.Size(299, 106);
             this.dgvAttribs.TabIndex = 6;
             // 
             // contextMenuStrip2
@@ -213,22 +217,47 @@
             this.contextMenuStrip2.Name = "contextMenuStrip2";
             this.contextMenuStrip2.Size = new System.Drawing.Size(61, 4);
             // 
-            // btnCenter
+            // lblNameColor
             // 
-            this.btnCenter.Location = new System.Drawing.Point(233, 48);
-            this.btnCenter.Name = "btnCenter";
-            this.btnCenter.Size = new System.Drawing.Size(93, 23);
-            this.btnCenter.TabIndex = 8;
-            this.btnCenter.Text = "Center";
-            this.toolTip.SetToolTip(this.btnCenter, "Brings the current entity back to the visual area");
-            this.btnCenter.UseVisualStyleBackColor = true;
-            this.btnCenter.Click += new System.EventHandler(this.btnCenter_Click);
+            this.lblNameColor.AutoSize = true;
+            this.lblNameColor.Location = new System.Drawing.Point(15, 80);
+            this.lblNameColor.Name = "lblNameColor";
+            this.lblNameColor.Size = new System.Drawing.Size(62, 13);
+            this.lblNameColor.TabIndex = 10;
+            this.lblNameColor.Text = "Name Color";
+            // 
+            // lblFrameColor
+            // 
+            this.lblFrameColor.AutoSize = true;
+            this.lblFrameColor.Location = new System.Drawing.Point(212, 80);
+            this.lblFrameColor.Name = "lblFrameColor";
+            this.lblFrameColor.Size = new System.Drawing.Size(63, 13);
+            this.lblFrameColor.TabIndex = 11;
+            this.lblFrameColor.Text = "Frame Color";
+            // 
+            // btnNameColor
+            // 
+            this.btnNameColor.Location = new System.Drawing.Point(83, 75);
+            this.btnNameColor.Name = "btnNameColor";
+            this.btnNameColor.Size = new System.Drawing.Size(41, 23);
+            this.btnNameColor.TabIndex = 12;
+            this.btnNameColor.UseVisualStyleBackColor = true;
+            this.btnNameColor.Click += new System.EventHandler(this.btnNameColor_Click);
+            // 
+            // btnBackColor
+            // 
+            this.btnBackColor.Location = new System.Drawing.Point(281, 75);
+            this.btnBackColor.Name = "btnBackColor";
+            this.btnBackColor.Size = new System.Drawing.Size(41, 23);
+            this.btnBackColor.TabIndex = 13;
+            this.btnBackColor.UseVisualStyleBackColor = true;
+            this.btnBackColor.Click += new System.EventHandler(this.btnBackColor_Click);
             // 
             // frmEntity
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(363, 326);
+            this.ClientSize = new System.Drawing.Size(363, 362);
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnAdd);
@@ -269,6 +298,9 @@
         private System.Windows.Forms.Label lblAttName;
         private System.Windows.Forms.TextBox tbxAttName;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
-        private System.Windows.Forms.Button btnCenter;
+        private System.Windows.Forms.Button btnBackColor;
+        private System.Windows.Forms.Button btnNameColor;
+        private System.Windows.Forms.Label lblFrameColor;
+        private System.Windows.Forms.Label lblNameColor;
     }
 }
