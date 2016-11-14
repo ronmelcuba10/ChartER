@@ -162,6 +162,7 @@
             this.oneToManyToolStripMenuItem,
             this.manyToOneToolStripMenuItem,
             this.manyToManyToolStripMenuItem});
+            this.stbLink.Enabled = false;
             this.stbLink.Image = ((System.Drawing.Image)(resources.GetObject("stbLink.Image")));
             this.stbLink.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.stbLink.Name = "stbLink";
@@ -172,28 +173,28 @@
             // oneToOneToolStripMenuItem
             // 
             this.oneToOneToolStripMenuItem.Name = "oneToOneToolStripMenuItem";
-            this.oneToOneToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.oneToOneToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.oneToOneToolStripMenuItem.Text = "One to one";
             this.oneToOneToolStripMenuItem.Click += new System.EventHandler(this.oneToOneToolStripMenuItem_Click);
             // 
             // oneToManyToolStripMenuItem
             // 
             this.oneToManyToolStripMenuItem.Name = "oneToManyToolStripMenuItem";
-            this.oneToManyToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.oneToManyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.oneToManyToolStripMenuItem.Text = "One to many";
             this.oneToManyToolStripMenuItem.Click += new System.EventHandler(this.oneToManyToolStripMenuItem_Click);
             // 
             // manyToOneToolStripMenuItem
             // 
             this.manyToOneToolStripMenuItem.Name = "manyToOneToolStripMenuItem";
-            this.manyToOneToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.manyToOneToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.manyToOneToolStripMenuItem.Text = "Many to one";
             this.manyToOneToolStripMenuItem.Click += new System.EventHandler(this.manyToOneToolStripMenuItem_Click);
             // 
             // manyToManyToolStripMenuItem
             // 
             this.manyToManyToolStripMenuItem.Name = "manyToManyToolStripMenuItem";
-            this.manyToManyToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.manyToManyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.manyToManyToolStripMenuItem.Text = "Many to many";
             this.manyToManyToolStripMenuItem.Click += new System.EventHandler(this.manyToManyToolStripMenuItem_Click);
             // 
