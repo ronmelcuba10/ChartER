@@ -106,42 +106,7 @@ namespace ChartER
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            /* Create sample entities
-             * Notice how we link attributes in entites: create a Link object, passing the source and destination
-             * attributes to the Link's constructor
-             */
-
-            myChart.Size = Size;
-
-            var ent1 = new Entity("Vehicle", new Point(100, 100), new Size(200, 200), new Font("Arial", 12),
-                Color.White, Color.Black, Color.Blue);
-            ent1.AddAttribute(new Attribute("VehicleID", true, new Font("Arial", 10)));
-            ent1.AddAttribute(new Attribute("VehicleType", false, new Font("Arial", 10)));
-            ent1.AddAttribute(new Attribute("LicensePlate", false, new Font("Arial", 10)));
-            ent1.AddAttribute(new Attribute("DriverID", false, new Font("Arial", 10)));
-            myChart.AddEntity(ent1);
-
-            var ent2 = new Entity("Driver", new Point(200, 200), new Size(200, 200), new Font("Arial", 12), Color.White,
-                Color.Black, Color.Blue);
-            ent2.AddAttribute(new Attribute("DriverID", true, new Font("Arial", 10)));
-            ent2.AddAttribute(new Attribute("Age", false, new Font("Arial", 10)));
-            ent2.AddAttribute(new Attribute("Gender", false, new Font("Arial", 10)));
-            myChart.AddEntity(ent2);
-
-            var ent3 = new Entity("VehicleType", new Point(300, 300), new Size(200, 200), new Font("Arial", 12),
-                Color.White, Color.Black, Color.Blue);
-            ent3.AddAttribute(new Attribute("Make", false, new Font("Arial", 10)));
-            ent3.AddAttribute(new Attribute("Model", false, new Font("Arial", 10)));
-            ent3.AddAttribute(new Attribute("Year", false, new Font("Arial", 10)));
-            myChart.AddEntity(ent3);
-
-            var l = new Link(ent1.Attributes[3], ent2.Attributes[0], Relationship.Many2One);
-            myChart.AddLink(l);
-
-            l = new Link(ent1.Attributes[1], ent3.Attributes[0], Relationship.One2One);
-
-            myChart.AddLink(l);
-            Invalidate(true);
+           
         }
 
         private void frmMain_ResizeEnd(object sender, EventArgs e)
