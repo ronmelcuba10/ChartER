@@ -424,7 +424,7 @@ namespace ChartER
             /* Keep track of changes */
             myChart.EntityChanged += EntityChangedByEditor;
             bs.PositionChanged += Bs_PositionChanged;
-            entityEdit.FormClosed += EntityChangedByEditor;
+            entityEdit.FormClosed += EntityEdit_FormClosed;
 
             var iEntForm = entityEdit as IformEntity;
             iEntForm.SetBindingSource(bs);
@@ -438,6 +438,16 @@ namespace ChartER
             entityEdit.Top = Top;
 
             entityEdit.Show(this);
+        }
+
+        private void EntityEdit_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            EntityChangedByEditor(sender, null);
+
+            /* Unregister Handlers */
+            myChart.EntityChanged -= EntityChangedByEditor;
+            bs.PositionChanged -= Bs_PositionChanged;
+         
         }
 
         private void tsbNewEntity_Click(object sender, EventArgs e)
@@ -489,6 +499,7 @@ namespace ChartER
         {
             if (!confirmUnsavedWork())
                 return;
+
             myChart.Clear();
             myChart.Changed = false;
         }
@@ -558,10 +569,6 @@ namespace ChartER
             }
         }
 
-        
-
-
-
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (selectedEntity != null)
@@ -584,7 +591,7 @@ namespace ChartER
             {
                 copyEntity = new Entity(selectedEntity);
                 copyLink = selectedLink;
-                bs.Remove(selectedEntity);
+                myChart.RemoveElement(selectedEntity);
 
                 //removes the links to the imaginary
                 myChart.DestroyLinks();
@@ -596,7 +603,7 @@ namespace ChartER
         {
             if (selectedEntity == null) return;
             selectedEntity.ClearHighLight();
-            bs.Remove(selectedEntity);
+            myChart.RemoveElement(selectedEntity);
             myChart.DestroyLinks();
         }
 
@@ -634,9 +641,8 @@ namespace ChartER
             cleanUpView.StartCleanUp();
         }
 
+
         #endregion
-
-
     }
 }
 

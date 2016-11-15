@@ -14,7 +14,7 @@ namespace ChartER
 
         public Entity Entity()
         {
-            var ent = new Entity(tbxAttributeName.Text);
+            var ent = new Entity(tbxEntityName.Text);
             for (int i = 0; i < clbAttributes.Items.Count; i++)
             {
                 var name = clbAttributes.Items[i].ToString();
@@ -47,6 +47,9 @@ namespace ChartER
             if (e.KeyData == Keys.Enter) tbxAttributeName.Focus();
         }
 
+        private void btnOk_Click(object sender, EventArgs e)
+        {
 
+        }
     }
 }

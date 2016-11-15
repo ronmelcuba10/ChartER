@@ -143,6 +143,7 @@
             this.btnOk.Text = "Add";
             this.toolTip.SetToolTip(this.btnOk, "Adds this entity to your chart");
             this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // btnCancel
             // 
