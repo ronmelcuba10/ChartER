@@ -14,7 +14,9 @@ namespace ERObjects
         public LinkLocation LinkLoc { get; set; }
         public Color StubColor { get; set; }
         public StubType StubType { get; set; }
-        public Pen Pen { get; set; }
+
+        [NonSerialized]
+        public Pen Pen;
         
         private PointF startPoint;
         private readonly Attribute Attribute;

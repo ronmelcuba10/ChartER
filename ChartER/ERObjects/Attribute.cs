@@ -10,7 +10,8 @@ namespace ERObjects
         public string Name { get; set; }
         public Font Font { get; set; }
         public Color TextColor { get; set; }
-        public Brush BackBrush { get; set; }
+        [NonSerialized]
+        public Brush BackBrush;
         public Rectangle Rect => new Rectangle(Location, Size);
 
 

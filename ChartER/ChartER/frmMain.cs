@@ -617,7 +617,15 @@ namespace ChartER
             eRGridToolStripMenuItem.Enabled = false;
         }
 
-        private void cleanUpToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CleanUpView_CleanUpStoped(object sender, EventArgs e)
+        {
+            isCleaningUp = false;
+            cleanUpToolStripMenuItem.Enabled = true;
+        }
+
+      
+
+        private void cleanUpToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             isCleaningUp = true;
             var cleanUpView = new CleanUpView(myChart);
@@ -626,18 +634,9 @@ namespace ChartER
             cleanUpView.StartCleanUp();
         }
 
-        private void CleanUpView_CleanUpStoped(object sender, EventArgs e)
-        {
-            isCleaningUp = false;
-            cleanUpToolStripMenuItem.Enabled = true;
-        }
-
         #endregion
 
-        private void cleanUpToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
 
-        }
     }
 }
 
